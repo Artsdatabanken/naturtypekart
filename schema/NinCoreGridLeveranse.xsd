@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:nin="http://pavlov.itea.ntnu.no/NbicFiles" elementFormDefault="qualified" targetNamespace="http://pavlov.itea.ntnu.no/NbicFiles" version="1.0">
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
+  <!--XML Schema document created by ShapeChange - http://shapechange.net/-->
+  <simpleType name="AdministrativtOmraadeType">
+    <union memberTypes="nin:AdministrativtOmraadeEnumerationType nin:AdministrativtOmraadeOtherType"/>
+  </simpleType>
+  <simpleType name="AdministrativtOmraadeEnumerationType">
+    <restriction base="string">
+      <enumeration value="1"/>
+      <enumeration value="2"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="AdministrativtOmraadeOtherType">
+    <restriction base="string">
+      <pattern value="other: \w{2,}"/>
+    </restriction>
+  </simpleType>
+  <element name="AdministrativtOmraadeKart" substitutionGroup="nin:VariabelKart" type="nin:AdministrativtOmraadeKartType"/>
+  <complexType name="AdministrativtOmraadeKartType">
+    <complexContent>
+      <extension base="nin:VariabelKartType">
+        <sequence>
+          <element name="administrativtOmraade" type="nin:AdministrativtOmraadeType"/>
+          <element maxOccurs="unbounded" name="kartElementer">
+            <complexType>
+              <complexContent>
+                <extension base="gml:AbstractMemberType">
+                  <sequence minOccurs="0">
+                    <element ref="nin:AdministrativtOmraadeKartElement"/>
+                  </sequence>
+                  <attributeGroup ref="gml:AssociationAttributeGroup"/>
+                </extension>
+              </complexContent>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="AdministrativtOmraadeKartPropertyType">
+    <sequence>
+      <element ref="nin:AdministrativtOmraadeKart"/>
+    </sequence>
+  </complexType>
+  <element name="AdministrativtOmraadeKartElement" substitutionGroup="gml:AbstractFeature" type="nin:AdministrativtOmraadeKartElementType"/>
+  <complexType name="AdministrativtOmraadeKartElementType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="nr" type="integer"/>
+          <element name="trinnVerdi" type="string"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="AdministrativtOmraadeKartElementPropertyType">
+    <sequence minOccurs="0">
+      <element ref="nin:AdministrativtOmraadeKartElement"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <element name="Dokument" substitutionGroup="gml:AbstractObject" type="nin:DokumentType"/>
+  <complexType name="DokumentType">
+    <sequence>
+      <element minOccurs="0" name="tittel" type="string"/>
+      <element minOccurs="0" name="beskrivelse" type="string"/>
+      <element minOccurs="0" name="forfatter">
+        <complexType>
+          <sequence minOccurs="0">
+            <element ref="nin:Kontaktinformasjon"/>
+          </sequence>
+          <attributeGroup ref="gml:AssociationAttributeGroup"/>
+        </complexType>
+      </element>
+      <element name="fil" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="DokumentPropertyType">
+    <sequence>
+      <element ref="nin:Dokument"/>
+    </sequence>
+  </complexType>
+  <element name="Kode" substitutionGroup="gml:AbstractObject" type="nin:KodeType"/>
+  <complexType name="KodeType">
+    <sequence>
+      <element name="koderegister" type="string"/>
+      <element name="kodeversjon" type="string"/>
+      <element name="kode" type="string"/>
+    </sequence>
+  </complexType>
+  <element name="Kontaktinformasjon" substitutionGroup="gml:AbstractObject" type="nin:KontaktinformasjonType"/>
+  <complexType name="KontaktinformasjonType">
+    <sequence>
+      <element name="firmaNavn" type="string"/>
+      <element minOccurs="0" name="kontaktPerson" type="string"/>
+      <element minOccurs="0" name="email" type="string"/>
+      <element minOccurs="0" name="telefon" type="string"/>
+      <element minOccurs="0" name="hjemmeside" type="string"/>
+    </sequence>
+  </complexType>
+  <element name="OmraadeKart" substitutionGroup="nin:VariabelKart" type="nin:OmraadeKartType"/>
+  <complexType name="OmraadeKartType">
+    <complexContent>
+      <extension base="nin:VariabelKartType">
+        <sequence>
+          <element maxOccurs="unbounded" name="kartElementer">
+            <complexType>
+              <complexContent>
+                <extension base="gml:AbstractMemberType">
+                  <sequence minOccurs="0">
+                    <element ref="nin:OmraadeKartElement"/>
+                  </sequence>
+                  <attributeGroup ref="gml:AssociationAttributeGroup"/>
+                </extension>
+              </complexContent>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="OmraadeKartPropertyType">
+    <sequence>
+      <element ref="nin:OmraadeKart"/>
+    </sequence>
+  </complexType>
+  <element name="OmraadeKartElement" substitutionGroup="gml:AbstractFeature" type="nin:OmraadeKartElementType"/>
+  <complexType name="OmraadeKartElementType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="id" type="string"/>
+          <element name="geometri" type="gml:SurfacePropertyType"/>
+          <element name="trinnVerdi" type="string"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="OmraadeKartElementPropertyType">
+    <sequence minOccurs="0">
+      <element ref="nin:OmraadeKartElement"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <simpleType name="RuteNettType">
+    <union memberTypes="nin:RuteNettEnumerationType nin:RuteNettOtherType"/>
+  </simpleType>
+  <simpleType name="RuteNettEnumerationType">
+    <restriction base="string">
+      <enumeration value="1"/>
+      <enumeration value="2"/>
+      <enumeration value="3"/>
+      <enumeration value="4"/>
+      <enumeration value="5"/>
+      <enumeration value="6"/>
+      <enumeration value="7"/>
+      <enumeration value="8"/>
+      <enumeration value="9"/>
+      <enumeration value="10"/>
+      <enumeration value="11"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="RuteNettOtherType">
+    <restriction base="string">
+      <pattern value="other: \w{2,}"/>
+    </restriction>
+  </simpleType>
+  <element name="RuteNettKart" substitutionGroup="nin:VariabelKart" type="nin:RuteNettKartType"/>
+  <complexType name="RuteNettKartType">
+    <complexContent>
+      <extension base="nin:VariabelKartType">
+        <sequence>
+          <element name="ruteNett" type="nin:RuteNettType"/>
+          <element maxOccurs="unbounded" name="kartElementer">
+            <complexType>
+              <complexContent>
+                <extension base="gml:AbstractMemberType">
+                  <sequence minOccurs="0">
+                    <element ref="nin:RuteNettKartElement"/>
+                  </sequence>
+                  <attributeGroup ref="gml:AssociationAttributeGroup"/>
+                </extension>
+              </complexContent>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="RuteNettKartPropertyType">
+    <sequence>
+      <element ref="nin:RuteNettKart"/>
+    </sequence>
+  </complexType>
+  <element name="RuteNettKartElement" substitutionGroup="gml:AbstractFeature" type="nin:RuteNettKartElementType"/>
+  <complexType name="RuteNettKartElementType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="id" type="string"/>
+          <element name="trinnVerdi" type="string"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="RuteNettKartElementPropertyType">
+    <sequence minOccurs="0">
+      <element ref="nin:RuteNettKartElement"/>
+    </sequence>
+    <attributeGroup ref="gml:AssociationAttributeGroup"/>
+    <attributeGroup ref="gml:OwnershipAttributeGroup"/>
+  </complexType>
+  <element abstract="true" name="VariabelKart" substitutionGroup="gml:AbstractObject" type="nin:VariabelKartType"/>
+  <complexType abstract="true" name="VariabelKartType">
+    <sequence>
+      <element name="navn" type="string"/>
+      <element minOccurs="0" name="beskrivelse" type="string"/>
+      <element name="kode">
+        <complexType>
+          <sequence minOccurs="0">
+            <element ref="nin:Kode"/>
+          </sequence>
+          <attributeGroup ref="gml:AssociationAttributeGroup"/>
+        </complexType>
+      </element>
+      <element name="eier">
+        <complexType>
+          <sequence minOccurs="0">
+            <element ref="nin:Kontaktinformasjon"/>
+          </sequence>
+          <attributeGroup ref="gml:AssociationAttributeGroup"/>
+        </complexType>
+      </element>
+      <element name="etablertDato" type="dateTime"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="dokumenter" type="nin:DokumentPropertyType"/>
+    </sequence>
+  </complexType>
+  <complexType name="VariabelKartPropertyType">
+    <sequence>
+      <element ref="nin:VariabelKart"/>
+    </sequence>
+  </complexType>
+</schema>

@@ -1,0 +1,407 @@
+﻿@font-size-base:          14px;
+@grid-gutter-width:         30px;
+@gray-light: #ddd;
+@line-height-base:        1.428571429; // 20/14
+@line-height-computed:    floor(@font-size-base * @line-height-base); // ~20px
+@border-radius-base:             4px;
+
+
+@navbar-height:                    50px;
+@navbar-margin-bottom:             @line-height-computed;
+@navbar-border-radius:             @border-radius-base;
+@navbar-padding-horizontal:        floor(@grid-gutter-width / 2);
+@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+
+@navbar-default-color:             #777;
+@navbar-default-bg:                #f8f8f8;
+@navbar-default-border:            darken(@navbar-default-bg, 6.5%);
+
+// Navbar links
+@navbar-default-link-color:                #777;
+@navbar-default-link-hover-color:          #333;
+@navbar-default-link-hover-bg:             transparent;
+@navbar-default-link-active-color:         #555;
+@navbar-default-link-active-bg:            darken(@navbar-default-bg, 6.5%);
+@navbar-default-link-disabled-color:       #ccc;
+@navbar-default-link-disabled-bg:          transparent;
+
+// Navbar brand label
+@navbar-default-brand-color:               @navbar-default-link-color;
+@navbar-default-brand-hover-color:         darken(@navbar-default-brand-color, 10%);
+@navbar-default-brand-hover-bg:            transparent;
+
+// Navbar toggle
+@navbar-default-toggle-hover-bg:           #ddd;
+@navbar-default-toggle-icon-bar-bg:        #ccc;
+@navbar-default-toggle-border-color:       #ddd;
+
+
+
+//
+// Menubars
+// --------------------------------------------------
+
+@menu_____bar-collapse-breakpoint: 300px; //todo: move to stylinfo.less
+
+
+// Wrapper and base class
+//
+// Provide a static menubar from which we expand to create full-width, fixed, and
+// other menubar variations.
+
+.menubar {
+  position: relative;
+  min-height: @navbar-height; // Ensure a menubar always shows (e.g., without a .menubar-brand in collapsed mode)
+  margin-bottom: @navbar-margin-bottom;
+  border: 1px solid transparent;
+
+  // Prevent floats from breaking the menubar
+  &:extend(.clearfix all);
+
+    border-radius: @navbar-border-radius;
+
+
+    // ***************************************************************
+    // enable inline (and non collapsing) form elements in the menubar 
+    // ***************************************************************
+
+    /*
+        For these see below
+      .form-group {
+      display: inline-block;
+      margin-bottom: 0;
+      vertical-align: middle;
+    }*/
+
+    // In navbar-form, allow folks to *not* use `.form-group`
+    
+    /*
+        For these see below
+      .form-control { 
+      display: inline-block;
+      width: auto; // Prevent labels from stacking above inputs in `.form-group`
+      vertical-align: middle;
+    }*/
+
+    // Make static controls behave like regular ones
+    .form-control-static {
+      display: inline-block;
+    }
+
+    .input-group {
+      display: inline-table;
+      vertical-align: middle;
+
+      .input-group-addon,
+      .input-group-btn,
+      .form-control {
+        width: auto;
+      }
+    }
+
+    // Input groups need that 100% width though
+    .input-group > .form-control {
+      width: 100%;
+    }
+
+    .control-label {
+      margin-bottom: 0;
+      vertical-align: middle;
+    }
+
+    // Remove default margin on radios/checkboxes that were used for stacking, and
+    // then undo the floating of radios and checkboxes to match (which also avoids
+    // a bug in WebKit: https://github.com/twbs/bootstrap/issues/1969).
+    .radio,
+    .checkbox {
+      display: inline-block;
+      margin-top: 0;
+      margin-bottom: 0;
+      vertical-align: middle;
+
+      label {
+        padding-left: 0;
+      }
+    }
+    .radio input[type="radio"],
+    .checkbox input[type="checkbox"] {
+      position: relative;
+      margin-left: 0;
+    }
+
+    // Re-override the feedback icon.
+    .has-feedback .form-control-feedback {
+      top: 0;
+    }
+}
+
+//moved out of .menubar section to preserve comment placement
+/* uncss:ignore */
+.menubar .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+// In navbar-form, allow folks to *not* use `.form-group`
+/* uncss:ignore */ 
+.menubar .form-control { 
+    display: inline-block;
+    width: auto; // Prevent labels from stacking above inputs in `.form-group`
+    vertical-align: middle;
+}
+
+
+// Menubar heading
+//
+// Groups `.menubar-brand` and `.menubar-toggle` into a single component for easy
+// styling of responsive aspects.
+
+.menubar-header {
+  &:extend(.clearfix all);
+
+    float: left;
+}
+
+
+// Menubar collapse (body)
+//
+// Group your menubar content into this for easy collapsing and expanding across
+// various device sizes. By default, this content is collapsed when <768px, but
+// will expand past that for a horizontal display.
+//
+// To start (on mobile devices) the menubar links, forms, and buttons are stacked
+// vertically and include a `max-height` to overflow in case you have too much
+// content for the user's viewport.
+
+.menubar-collapse {
+  overflow-x: visible;
+  padding-right: @navbar-padding-horizontal;
+  padding-left:  @navbar-padding-horizontal;
+  border-top: 1px solid transparent;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+  &:extend(.clearfix all);
+  -webkit-overflow-scrolling: touch;
+
+  &.in {
+    overflow-y: auto;
+  }
+
+    width: auto;
+    border-top: 0;
+    box-shadow: none;
+
+    &.collapse {
+      display: block !important;
+      height: auto !important;
+      padding-bottom: 0; // Override default setting
+      overflow: visible !important;
+    }
+
+    &.in {
+      overflow-y: visible;
+    }
+
+    // Undo the collapse side padding for menubars with containers to ensure
+    // alignment of right-aligned contents.
+    .menubar-fixed-top &,
+    .menubar-static-top &,
+    .menubar-fixed-bottom & {
+      padding-left: 0;
+      padding-right: 0;
+    }
+}
+
+.menubar-fixed-top,
+.menubar-fixed-bottom {
+  .menubar-collapse {
+    max-height: @navbar-collapse-max-height;
+
+    @media (max-device-width: @screen-xs-min) and (orientation: landscape) {
+      max-height: 200px;
+    }
+  }
+}
+
+
+// Both menubar header and collapse
+//
+// When a container is present, change the behavior of the header and collapse.
+
+.container,
+.container-fluid {
+  > .menubar-header,
+  > .menubar-collapse {
+    margin-right: -@navbar-padding-horizontal;
+    margin-left:  -@navbar-padding-horizontal;
+
+    @media (min-width: @menu_____bar-collapse-breakpoint) {
+      margin-right: 0;
+      margin-left:  0;
+    }
+  }
+}
+
+
+//
+// Menubar alignment options
+//
+// Display the menubar across the entirety of the page or fixed it to the top or
+// bottom of the page.
+
+// Static top (unfixed, but 100% wide) menubar
+.menubar-static-top {
+  z-index: @zindex-navbar;
+  border-width: 0 0 1px;
+
+    border-radius: 0;
+}
+// Dropdown menus
+
+.menubar > .dropdown > a {
+    display: block;
+    position: relative;
+    padding: @nav-link-padding;
+}
+
+
+// Menu position and menu carets
+.menubar > .dropdown > .dropdown-menu,
+.menubar-nav > li > .dropdown-menu {
+  margin-top: 0;
+  .border-top-radius(0);
+}
+// Menu position and menu caret support for dropups via extra dropup class
+.menubar-fixed-bottom .menubar-nav > li > .dropdown-menu {
+  margin-bottom: 0;
+  .border-top-radius(@navbar-border-radius);
+  .border-bottom-radius(0);
+}
+
+
+
+// Component alignment
+//
+// Repurpose the pull utilities as their own menubar utilities to avoid specificity
+// issues with parents and chaining. Only do this when the menubar is uncollapsed
+// though so that menubar contents properly stack and align in mobile.
+//
+// Declared after the menubar components to ensure more specificity on the margins.
+
+  .menubar-left  { .pull-left(); }
+  .menubar-right {
+    .pull-right();
+    margin-right: -@navbar-padding-horizontal;
+
+    ~ .menubar-right {
+      margin-right: 0;
+    }
+  }
+
+
+// Alternate menubars
+// --------------------------------------------------
+
+// Default menubar
+.menubar-default {
+  background-color: @navbar-default-bg;
+  border-color: @navbar-default-border;
+
+  .menubar-brand {
+    color: @navbar-default-brand-color;
+    &:hover,
+    &:focus {
+      color: @navbar-default-brand-hover-color;
+      background-color: @navbar-default-brand-hover-bg;
+    }
+  }
+
+  .menubar-text {
+    color: @navbar-default-color;
+  }
+
+  .menubar-nav {
+    > li > a {
+      color: @navbar-default-link-color;
+
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-hover-color;
+        background-color: @navbar-default-link-hover-bg;
+      }
+    }
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-active-color;
+        background-color: @navbar-default-link-active-bg;
+      }
+    }
+    > .disabled > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-disabled-color;
+        background-color: @navbar-default-link-disabled-bg;
+      }
+    }
+  }
+
+  .menubar-toggle {
+    border-color: @navbar-default-toggle-border-color;
+    &:hover,
+    &:focus {
+      background-color: @navbar-default-toggle-hover-bg;
+    }
+    .icon-bar {
+      background-color: @navbar-default-toggle-icon-bar-bg;
+    }
+  }
+
+  .menubar-collapse,
+  .menubar-form {
+    border-color: @navbar-default-border;
+  }
+
+  // Dropdown menu items
+  .menubar-nav {
+    // Remove background color from open dropdown
+    > .open > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: @navbar-default-link-active-bg;
+        color: @navbar-default-link-active-color;
+      }
+    }
+
+  }
+
+
+  // Links in menubars
+  //
+  // Add a class to ensure links outside the menubar nav are colored correctly.
+
+  .menubar-link {
+    color: @navbar-default-link-color;
+    &:hover {
+      color: @navbar-default-link-hover-color;
+    }
+  }
+
+  .btn-link {
+    color: @navbar-default-link-color;
+    &:hover,
+    &:focus {
+      color: @navbar-default-link-hover-color;
+    }
+    &[disabled],
+    fieldset[disabled] & {
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-disabled-color;
+      }
+    }
+  }
+}
+

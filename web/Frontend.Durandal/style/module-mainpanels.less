@@ -1,0 +1,173 @@
+﻿//todo: constants to config.less file
+@screen-width-medium: 800px;
+@screen-width-large: 1280px;
+@header-height: 50px;
+@header-height-medium: 50px;
+@header-height-large: 100px;
+@footer-height: 0px;
+@footer-height-medium: 15px;
+@footer-height-large: 15px;
+@leftpanel-width: 320px;
+
+/*#header { background: #FAA }
+#footer { background: #FFA }
+#content { background: yellow }
+#leftpanel { background: orange }
+#main { background: green }*/
+
+html, body {
+    /** set up for fullscreen application **/
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /*height: 100%;*/
+    overflow: hidden;
+}
+
+/*** basic application panel layout ***/
+#header, #content, #footer {
+    position: absolute;
+    display: block;
+    left: 0;
+    width: 100%
+}
+#header {
+    top: 0;
+    height: @header-height;
+}
+
+
+#contentWrapper {
+  position:absolute;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  overflow: hidden;
+
+  width: 100%;
+  top: @header-height;
+  bottom: @footer-height;
+
+	left: -@leftpanel-width;
+  padding-left: @leftpanel-width;
+  /*padding-left: 0;*/
+
+}
+
+#content {
+  position: absolute;
+  width: 100%;
+  left: 0;
+	height: 100%;
+  top:0;
+  bottom:0;
+  display: block;
+  
+  transition-duration: 0.6s;
+  transition-timing-function: ease;
+  transition-property: left;
+}
+
+
+#content.showleftMenu {
+  left: @leftpanel-width;
+}
+
+
+
+#footer {
+    bottom: 0;
+    height: @footer-height;
+}
+#leftpanel, #main {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+#leftpanel {
+  left: 0;
+  width: @leftpanel-width;
+}
+#main {
+  left: (@leftpanel-width);
+  right: 0;
+}
+
+
+@media screen and (min-width: @screen-width-medium) {
+    #header {
+      height: @header-height-medium;
+    }
+
+    #footer {
+      height: @footer-height-medium;
+    }
+
+
+    #contentWrapper {
+	    left: 0;
+      padding-left: 0;
+      padding-right: 0;
+      top: @header-height-medium;
+      bottom: @footer-height-medium;
+    }
+
+    #content.showleftMenu {
+      left: 0;
+    }
+
+    .small-screen-only {
+        display: none;
+    }
+}
+
+
+@media screen and (min-width: @screen-width-large) {
+    #header {
+      height: @header-height-large;
+    }
+
+    #footer {
+      height: @footer-height-large;
+    }
+
+    #contentWrapper {
+	  left: 0;
+      padding-left: 0;
+      padding-right: 0;
+      top: @header-height-large;
+      bottom: @footer-height-large;
+    }
+
+    #content.showleftMenu {
+      left: 0;
+    }
+
+    .rightmenutoggler {
+      display: none;
+    }
+}
+
+
+/*****************************/
+/*** fullscreen map layout ***/
+.l-mainfullscreen > #header,
+.l-mainfullscreen > #footer,
+.l-mainfullscreen > #contentWrapper > #content >#leftpanel {
+  display: none;
+}
+.l-mainfullscreen > #contentWrapper > #content > #main {
+  left: 0 !important;
+  right: 0 !important;
+}
+.l-mainfullscreen > #contentWrapper > #content  {
+  top: 0 !important;
+  bottom: 0 !important;
+}
+.l-mainfullscreen > #contentWrapper  {
+  top: 0 !important;
+  bottom: 0 !important;
+}
+
+/*****************************/
+

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Console</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Console</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" />
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System.Transactions" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nin\Nin.csproj" />
+  </ItemGroup>
+
+</Project>

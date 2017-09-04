@@ -1,0 +1,33 @@
+{
+  "name": "Portal.SPA",
+  "version": "1.0.0",
+  "authors": [
+    "Helge Sandmark <helgesandmark@hotmail.com>",
+    "Amund Nedland <amund.nedland@norconsult.com>"
+  ],
+  "main": "main.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "1.9.1",
+    "knockout": "~3.4.0",
+    "jquery-ui": "1.11.4",
+    "jquery-validation": "^1.15.0",
+    "lodash": "~4.0.0",
+    "bootstrap": "~3.3.6",
+    "durandal": "~2.1.0",
+    "requirejs-text": "~2.0.14",
+    "bootstrap-treeview": "~1.2.0",
+    "bootstrap-multiselect": "^0.9.13"
+  },
+  "devDependencies": {},
+  "resolutions": {
+    "jquery": ">= 1.9.1",
+    "requirejs-text": "~2.0.14"
+  }
+}

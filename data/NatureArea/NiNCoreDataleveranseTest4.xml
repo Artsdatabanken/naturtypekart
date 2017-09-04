@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nin:DataLeveranse xmlns:nin='http://pavlov.itea.ntnu.no/NbicFiles' xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>DataleveranseTest4</nin:navn>
+  <nin:leveranseDato>2015-11-09T12:00:00</nin:leveranseDato>
+  <nin:operatoer>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+      <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+      <nin:email>maton@norconsult.com</nin:email>
+      <nin:telefon>+4748164614</nin:telefon>
+      <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+    </nin:Kontaktinformasjon>
+  </nin:operatoer>
+  <nin:beskrivelse>NiN Core testdata fil</nin:beskrivelse>
+  <nin:metadata>
+    <nin:Metadata gml:id='METADATA_aaaaaaad-bbbb-cccc-dddd-000000000001'>
+      <nin:unikId>
+        <nin:Identifikasjon>
+          <nin:lokalId>aaaaaaad-bbbb-cccc-dddd-000000000001</nin:lokalId>
+          <nin:navnerom>NOIS</nin:navnerom>
+          <nin:versjonId>1.0</nin:versjonId>
+        </nin:Identifikasjon>
+      </nin:unikId>
+      <nin:program>Test</nin:program>
+      <nin:prosjektnavn>Naturtyper i Norge</nin:prosjektnavn>
+      <nin:prosjektbeskrivelse>Kartlegging av naturtyper i Norge</nin:prosjektbeskrivelse>
+      <nin:formaal>Kartlegging og dokumentasjon</nin:formaal>
+      <nin:oppdragsgiver>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+          <nin:kontaktPerson>Helge Sandmark</nin:kontaktPerson>
+          <nin:email>helge.sandmark@artsdatabanken.no</nin:email>
+          <nin:telefon>+4790694852</nin:telefon>
+          <nin:hjemmeside>http://www.artsdatabanken.no</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:oppdragsgiver>
+      <nin:eier>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+          <nin:kontaktPerson>Steinar Høseggen</nin:kontaktPerson>
+          <nin:email>steinar.hoseggen@geomatikk-ikt.no</nin:email>
+          <nin:telefon>+4790088007 </nin:telefon>
+          <nin:hjemmeside>http://www.geomatikk-ikt.no</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:eier>
+      <nin:kartlagtFraDato>2015-11-07T08:00:00</nin:kartlagtFraDato>
+      <nin:kartlagtTilDato>2015-11-08T16:00:00</nin:kartlagtTilDato>
+      <nin:kartleggingsMaalestokk>1:5000</nin:kartleggingsMaalestokk>
+      <nin:dekningsOmraade>
+        <gml:Polygon gml:id="GEOMETRY_aaaaaaad-bbbb-cccc-dddd-000000000001" srsName="EPSG::25832" srsDimension="3">
+          <gml:exterior>
+            <gml:LinearRing>
+              <gml:posList>250200 6735080 0 250310 6735210 0 250710 6735220 0 250200 6735080 0</gml:posList>
+            </gml:LinearRing>
+          </gml:exterior>
+        </gml:Polygon>
+      </nin:dekningsOmraade>
+      <nin:kvalitet>
+        <nin:Posisjonskvalitet>
+          <nin:maalemetode>10</nin:maalemetode>
+          <nin:noeyaktighet>5</nin:noeyaktighet>
+          <nin:synbarhet>0</nin:synbarhet>
+          <nin:maalemetodeHoeyde>10</nin:maalemetodeHoeyde>
+          <nin:noeyaktighetHoeyde>6</nin:noeyaktighetHoeyde>
+          <nin:maksimaltAvvik>7</nin:maksimaltAvvik>
+        </nin:Posisjonskvalitet>
+      </nin:kvalitet>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_aaaaaaad-bbbb-cccc-dddd-100000000001'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>aaaaaaad-bbbb-cccc-dddd-100000000001</nin:lokalId>
+              <nin:navnerom>NOIS</nin:navnerom>
+              <nin:versjonId>1.0</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>Test versjon</nin:versjon>
+          <nin:nivaa>3</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_aaaaaaad-bbbb-cccc-dddd-100000000001" srsName="EPSG::25832" srsDimension="3">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:pos>250200 6735080 0</gml:pos> 
+                  <gml:pos>250310 6735210 0</gml:pos> 
+                  <gml:pos>250710 6735220 0</gml:pos> 
+                  <gml:pos>250200 6735080 0</gml:pos>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+              <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+              <nin:email>maton@norconsult.com</nin:email>
+              <nin:telefon>+4748164614</nin:telefon>
+              <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+          <nin:beskrivelse>Test naturområde 4.1</nin:beskrivelse>
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>LD11</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>1</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre>       
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>LD11</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>  
+    </nin:Metadata> 
+  </nin:metadata>
+</nin:DataLeveranse>

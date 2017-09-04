@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Geolocation</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Geolocation</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" />
+
+  <ItemGroup>
+    <PackageReference Include="ProjNet" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNet.IISPlatformHandler" Version="1.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNet.Server.Kestrel" Version="1.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="EntityFramework.MicrosoftSqlServer" Version="7.0.0-rc1-final" />
+    <PackageReference Include="EntityFramework.Commands" Version="7.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.Framework.ConfigurationModel.Json" Version="1.0.0-beta4" />
+    <PackageReference Include="Microsoft.AspNet.Diagnostics" Version="1.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="3.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNet.Authentication.Cookies" Version="1.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nin\Nin.csproj" />
+  </ItemGroup>
+
+</Project>

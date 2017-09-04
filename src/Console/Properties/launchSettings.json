@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Nin.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "idd \"..\\Nin.Dashboard\\MGK_ar5_nin (0-2499)_0_2500.xml\""
+    }
+  }
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nin:AdministrativtOmraadeKart xmlns:nin='http://pavlov.itea.ntnu.no/NbicFiles' xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>Befolkning</nin:navn>
+  <nin:beskrivelse>Befolkning per fylke</nin:beskrivelse>
+  <nin:kode>
+    <nin:Kode>
+      <nin:koderegister>NiN</nin:koderegister>
+      <nin:kodeversjon>2.0</nin:kodeversjon>
+      <nin:kode>KA</nin:kode>
+    </nin:Kode>
+  </nin:kode>
+  <nin:eier>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+      <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+      <nin:email>maton@norconsult.com</nin:email>
+      <nin:telefon>+4748164614</nin:telefon>
+      <nin:hjemmeside>http://www.NOIS.com</nin:hjemmeside>
+    </nin:Kontaktinformasjon>
+  </nin:eier>
+  <nin:etablertDato>2016-03-15T12:00:00</nin:etablertDato>
+  <nin:administrativtOmraade>2</nin:administrativtOmraade>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_1">
+      <nin:nr>1</nin:nr>
+      <nin:trinnVerdi>281729</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_2">
+      <nin:nr>2</nin:nr>
+      <nin:trinnVerdi>566510</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_3">
+      <nin:nr>3</nin:nr>
+      <nin:trinnVerdi>645508</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_4">
+      <nin:nr>4</nin:nr>
+      <nin:trinnVerdi>192693</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_5">
+      <nin:nr>5</nin:nr>
+      <nin:trinnVerdi>187128</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_6">
+      <nin:nr>6</nin:nr>
+      <nin:trinnVerdi>268646</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_7">
+      <nin:nr>7</nin:nr>
+      <nin:trinnVerdi>237710</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_8">
+      <nin:nr>8</nin:nr>
+      <nin:trinnVerdi>169937</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_9">
+      <nin:nr>9</nin:nr>
+      <nin:trinnVerdi>112544</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_10">
+      <nin:nr>10</nin:nr>
+      <nin:trinnVerdi>178226</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_11">
+      <nin:nr>11</nin:nr>
+      <nin:trinnVerdi>454827</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_12">
+      <nin:nr>12</nin:nr>
+      <nin:trinnVerdi>509785</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_14">
+      <nin:nr>14</nin:nr>
+      <nin:trinnVerdi>107615</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_15">
+      <nin:nr>15</nin:nr>
+      <nin:trinnVerdi>258495</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_16">
+      <nin:nr>16</nin:nr>
+      <nin:trinnVerdi>317205</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_17">
+      <nin:nr>17</nin:nr>
+      <nin:trinnVerdi>133647</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_18">
+      <nin:nr>18</nin:nr>
+      <nin:trinnVerdi>238680</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_19">
+      <nin:nr>19</nin:nr>
+      <nin:trinnVerdi>163449</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:AdministrativtOmraadeKartElement gml:id="KA_20">
+      <nin:nr>20</nin:nr>
+      <nin:trinnVerdi>74215</nin:trinnVerdi>
+    </nin:AdministrativtOmraadeKartElement>
+  </nin:kartElementer>
+</nin:AdministrativtOmraadeKart>

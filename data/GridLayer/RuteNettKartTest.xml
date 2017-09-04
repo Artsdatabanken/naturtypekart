@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nin:RuteNettKart xmlns:nin='http://pavlov.itea.ntnu.no/NbicFiles' xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>Rute nett kart</nin:navn>
+  <nin:beskrivelse>Rute nett kart test beskrivelse</nin:beskrivelse>
+  <nin:kode>
+    <nin:Kode>
+      <nin:koderegister>NiN</nin:koderegister>
+      <nin:kodeversjon>2.0</nin:kodeversjon>
+      <nin:kode>KA</nin:kode>
+    </nin:Kode>
+  </nin:kode>
+  <nin:eier>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+      <nin:kontaktPerson>Magne T�ndel</nin:kontaktPerson>
+      <nin:email>maton@norconsult.com</nin:email>
+      <nin:telefon>+4748164614</nin:telefon>
+      <nin:hjemmeside>http://www.NOIS.com</nin:hjemmeside>
+    </nin:Kontaktinformasjon>
+  </nin:eier>
+  <nin:etablertDato>2016-01-28T08:00:00</nin:etablertDato>
+  <nin:ruteNett>11</nin:ruteNett>
+  <nin:kartElementer>
+    <nin:RuteNettKartElement gml:id="KA_25000006000000">
+      <nin:id>25000006000000</nin:id>
+      <nin:trinnVerdi>2.5</nin:trinnVerdi>
+    </nin:RuteNettKartElement>
+  </nin:kartElementer>
+  <nin:kartElementer>
+    <nin:RuteNettKartElement gml:id="KA_30000006000000">
+      <nin:id>30000006000000</nin:id>
+      <nin:trinnVerdi>10.6</nin:trinnVerdi>
+    </nin:RuteNettKartElement>
+  </nin:kartElementer>
+</nin:RuteNettKart>

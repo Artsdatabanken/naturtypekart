@@ -1,0 +1,3 @@
+-- Tilpasninger for import av Miljødirektoratets eksport
+update naturegeometri set geometri.STSrid=32633;
+

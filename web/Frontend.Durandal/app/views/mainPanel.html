@@ -1,0 +1,25 @@
+﻿<div class="l-fillparent">
+    <nav class="menubar menubar-default  menubar-static-top" role="navigation">
+
+        <button title="Veksle meny" type="button" data-bind="click: toggleleftmenu" class="pull-left glyphicon glyphicon-tasks small-screen-only" style="padding: 0; height: 36px; margin-right: 5px"></button>
+
+        <div class="dropdown pull-left" title="Velg innhold i hovedvindu">
+            <a href="#" class="btn btn-default icon-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                <div data-bind="attr: { 'class': (activeNavTab().classname + ' btn-icon') }"></div>
+                <span class="btn-icon-label" data-bind="text: activeNavTab().name"></span><span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-left" data-bind='foreach: navTabs'>
+                <li data-bind="click: $parent.gotoTab, visible: visible, css: { active: (id == $parent.activeView()) }, attr: {title: title}">
+                    <a class="btn btn-default icon-btn"><div data-bind="attr: { 'class': (classname + ' btn-icon')}"></div><span data-bind="text: name"></span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="menubar-left">&nbsp;&nbsp;&nbsp;</div>
+        <div data-bind="compose: toolbar"></div>
+
+    </nav>
+    <div id="mainview" class="l-panelcontent">
+        <div data-bind="router: { transition: 'entrance', cacheViews: true }"></div>
+    </div>
+
+</div>

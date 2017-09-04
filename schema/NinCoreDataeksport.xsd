@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:nin="http://pavlov.itea.ntnu.no/NbicFiles" xmlns:sc="http://www.interactive-instruments.de/ShapeChange/AppInfo" elementFormDefault="qualified" targetNamespace="http://pavlov.itea.ntnu.no/NbicFiles" version="1.0">
+  <import namespace="http://www.interactive-instruments.de/ShapeChange/AppInfo" schemaLocation="http://shapechange.net/resources/schema/ShapeChangeAppinfo.xsd"/>
+  <import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
+  <!--XML Schema document created by ShapeChange - http://shapechange.net/-->
+  <element name="Beskrivelsesvariabel" substitutionGroup="nin:Parameter" type="nin:BeskrivelsesvariabelType"/>
+  <complexType name="BeskrivelsesvariabelType">
+    <complexContent>
+      <extension base="nin:ParameterType">
+        <sequence>
+          <element name="verdi" type="string"/>
+          <element minOccurs="0" name="beskrivelse" type="string"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="BeskrivelsesvariabelPropertyType">
+    <sequence>
+      <element ref="nin:Beskrivelsesvariabel"/>
+    </sequence>
+  </complexType>
+  <element name="DataEksport" substitutionGroup="gml:AbstractObject" type="nin:DataEksportType"/>
+  <complexType name="DataEksportType">
+    <sequence>
+      <element name="eksportDato" type="dateTime"/>
+      <element maxOccurs="unbounded" name="metadata">
+        <complexType>
+          <complexContent>
+            <extension base="gml:AbstractMemberType">
+              <sequence>
+                <element ref="nin:Metadata"/>
+              </sequence>
+            </extension>
+          </complexContent>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="DataEksportPropertyType">
+    <sequence>
+      <element ref="nin:DataEksport"/>
+    </sequence>
+  </complexType>
+  <element name="Dokument" substitutionGroup="gml:AbstractObject" type="nin:DokumentType"/>
+  <complexType name="DokumentType">
+    <sequence>
+      <element minOccurs="0" name="tittel" type="string"/>
+      <element minOccurs="0" name="beskrivelse" type="string"/>
+      <element minOccurs="0" name="forfatter">
+        <complexType>
+          <sequence minOccurs="0">
+            <element ref="nin:Kontaktinformasjon"/>
+          </sequence>
+          <attributeGroup ref="gml:AssociationAttributeGroup"/>
+        </complexType>
+      </element>
+      <element name="fil" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="DokumentPropertyType">
+    <sequence>
+      <element ref="nin:Dokument"/>
+    </sequence>
+  </complexType>
+  <element name="EgendefinertVariabel" substitutionGroup="gml:AbstractObject" type="nin:EgendefinertVariabelType"/>
+  <complexType name="EgendefinertVariabelType">
+    <sequence>
+      <element name="betegnelse" type="string"/>
+      <element name="verdi" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="EgendefinertVariabelPropertyType">
+    <sequence>
+      <element ref="nin:EgendefinertVariabel"/>
+    </sequence>
+  </complexType>
+  <element name="EgendefinertVariabelDefinisjon" substitutionGroup="nin:VariabelDefinisjon" type="nin:EgendefinertVariabelDefinisjonType"/>
+  <complexType name="EgendefinertVariabelDefinisjonType">
+    <complexContent>
+      <extension base="nin:VariabelDefinisjonType">
+        <sequence>
+          <element name="betegnelse" type="string"/>
+          <element name="beskrivelse" type="string"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="EgendefinertVariabelDefinisjonPropertyType">
+    <sequence>
+      <element ref="nin:EgendefinertVariabelDefinisjon"/>
+    </sequence>
+  </complexType>
+  <element name="Identifikasjon" substitutionGroup="gml:AbstractObject" type="nin:IdentifikasjonType">
+    <annotation>
+      <documentation>Unik identifikasjon av et objekt, ivaretatt av den ansvarlige produsent/forvalter, som kan benyttes av eksterne applikasjoner som referanse til objektet. 
+
+NOTE1 Denne eksterne objektidentifikasjonen må ikke forveksles med en tematisk objektidentifikasjon, slik som f.eks bygningsnummer. 
+
+NOTE 2 Denne unike identifikatoren vil ikke endres i løpet av objektets levetid.</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">IDENT</taggedValue>
+      </appinfo>
+    </annotation>
+  </element>
+  <complexType name="IdentifikasjonType">
+    <sequence>
+      <element name="lokalId" type="string">
+        <annotation>
+          <documentation>lokal identifikator, tildelt av dataleverendør/dataforvalter. Den lokale identifikatoren er unik innenfor navnerommet, ingen andre objekter har samme identifikator.
+
+NOTE: Det er data leverendørens ansvar å sørge for at denne lokale identifikatoren er unik innenfor navnerommet.</documentation>
+          <appinfo>
+            <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">LOKALID</taggedValue>
+          </appinfo>
+        </annotation>
+      </element>
+      <element name="navnerom" type="string">
+        <annotation>
+          <documentation>navnerom som unikt identifiserer datakilden til objektet, starter med to bokstavs kode jfr ISO 3166. Benytter understreking  ("_") dersom data produsenten ikke er assosiert med bare et land.
+
+NOTE 1 : Verdien for nanverom vil eies av den dataprodusent som har ansvar for de unike identifikatorene og vil registreres i "INSPIRE external  Object Identifier Namespaces Register"
+
+Eksempel: NO for Norge.</documentation>
+          <appinfo>
+            <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">NAVNEROM</taggedValue>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="versjonId" type="string">
+        <annotation>
+          <documentation>identifikasjon av en spesiell versjon av et geografisk objekt (instans), maksimum lengde på 25 karakterers. Dersom spesifikasjonen av et geografisk objekt med en identifikasjon inkludererer livsløpssyklusinformasjon, benyttes denne versjonId for å skille mellom ulike versjoner av samme objekt. versjonId er en unik  identifikasjon av versjonen. 
+
+NOTE Maksimum lengde er valgt for å tillate tidsregistrering i henhold til  ISO 8601, slik som  "2007-02-12T12:12:12+05:30" som versjonId.</documentation>
+          <appinfo>
+            <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">VERSJONID</taggedValue>
+          </appinfo>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="IdentifikasjonPropertyType">
+    <sequence>
+      <element ref="nin:Identifikasjon"/>
+    </sequence>
+  </complexType>
+  <element name="Kode" substitutionGroup="gml:AbstractObject" type="nin:KodeType"/>
+  <complexType name="KodeType">
+    <sequence>
+      <element name="koderegister" type="string"/>
+      <element name="kodeversjon" type="string"/>
+      <element name="kode" type="string"/>
+    </sequence>
+  </complexType>
+  <element name="Kontaktinformasjon" substitutionGroup="gml:AbstractObject" type="nin:KontaktinformasjonType"/>
+  <complexType name="KontaktinformasjonType">
+    <sequence>
+      <element name="firmaNavn" type="string"/>
+      <element minOccurs="0" name="kontaktPerson" type="string"/>
+      <element minOccurs="0" name="email" type="string"/>
+      <element minOccurs="0" name="telefon" type="string"/>
+      <element minOccurs="0" name="hjemmeside" type="string"/>
+    </sequence>
+  </complexType>
+  <simpleType name="MaalemetodeType">
+    <annotation>
+      <documentation>metode som ligger til grunn for registrering av posisjon
+
+
+-- Definition - - 
+method on which registration of position is based</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">MÅLEMETODE</taggedValue>
+      </appinfo>
+    </annotation>
+    <union memberTypes="nin:MaalemetodeEnumerationType nin:MaalemetodeOtherType"/>
+  </simpleType>
+  <simpleType name="MaalemetodeEnumerationType">
+    <annotation>
+      <documentation>metode som ligger til grunn for registrering av posisjon
+
+
+-- Definition - - 
+method on which registration of position is based</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">MÅLEMETODE</taggedValue>
+      </appinfo>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="10">
+        <annotation>
+          <documentation>Målt i terrenget , uspesifisert metode/måleinstrument</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="11">
+        <annotation>
+          <documentation>Målt i terrenget med totalstasjon</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="12">
+        <annotation>
+          <documentation>Målt i terrenget med teodolitt og elektronisk avstandsmåler</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="13">
+        <annotation>
+          <documentation>Målt i terrenget med teodolitt og målebånd</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="14">
+        <annotation>
+          <documentation>Målt i terrenget, ortogonalmetoden</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="15">
+        <annotation>
+          <documentation>Punkt beregnet på bakgrunn av måling mot andre punkter, slik som to avstander eller avstand og retning
+
+-- Definition -- 
+Point calculated on the basis of other items, such as two distances or distance + direction.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="18">
+        <annotation>
+          <documentation>Tatt fra plan eller godkjent tiltak</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="19">
+        <annotation>
+          <documentation>Annet</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="20">
+        <annotation>
+          <documentation>Målt i stereoinstrument, uspesifisert instrument</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="21">
+        <annotation>
+          <documentation>Punkt beregnet ved aerotriangulering
+
+-- Definition -- 
+Point calculated by aerotriangulation</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="22">
+        <annotation>
+          <documentation>Målt i stereoinstrument, analytisk plotter</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="23">
+        <annotation>
+          <documentation>Målt i stereoinstrument, autograf, analogt instrument</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="24">
+        <annotation>
+          <documentation>Målt i stereoinstrument, digitalt instrument</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="30">
+        <annotation>
+          <documentation>Geometri overført fra kart maskinelt ved hjelp av skanner, uspesifisert kartmedium</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="31">
+        <annotation>
+          <documentation>Geometri overført fra kart maskinelt ved hjelp av skanner. Kartmedium er blyantoriginal</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="32">
+        <annotation>
+          <documentation>Geometri overført fra kart maskinelt ved hjelp av skanner. Kartmedium er rissefolie</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="33">
+        <annotation>
+          <documentation>Geometri overført fra kart maskinelt ved hjelp av skanner. Kartmedium er transparent folie av  god kvalitet.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="34">
+        <annotation>
+          <documentation>Geometri overført fra kart maskinelt ved hjelp av skanner. Kartmedium er transparent folie av mindre god kvalitet</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="35">
+        <annotation>
+          <documentation>Geometri overført fra kart maskinelt ved hjelp av skanner. Kartmedium er papirkopi.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="36">
+        <annotation>
+          <documentation>Målt med laserskanner fra fly</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="37">
+        <annotation>
+          <documentation>Målt med laserskanner plassert i kjøretøy</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="38">
+        <annotation>
+          <documentation>brukes for objekter som er stedfestet med lineær referanse, enten disse leveres med stedfesting kun som lineære referanser, eller med koordinatgeometri avledet fra lineære referanser</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="40">
+        <annotation>
+          <documentation>Geometri overført fra ortofoto eller flybilde ved hjelp av manuell registrering på et digitaliseringsbord, uspesifisert bildemedium</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="41">
+        <annotation>
+          <documentation>Geometri overført fra ortofoto ved hjelp av manuell registrering på et digitaliseringsbord. Bildemedium er film</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="42">
+        <annotation>
+          <documentation>Geometri overført fra ortofoto ved hjelp av manuell registrering på et digitaliseringsbord. Bildemedium er fotokopi</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="43">
+        <annotation>
+          <documentation>Geometri overført fra flybilde ved hjelp av manuell registrering på et digitaliseringsbord. Bildemedium er film</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="44">
+        <annotation>
+          <documentation>Geometri overført fra flybilde ved hjelp av manuell registrering på et digitaliseringsbord. Bildemedium er fotokopi</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="45">
+        <annotation>
+          <documentation>Geometri overført fra ortofoto ved hjelp av manuell registrering på skjerm</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="46">
+        <annotation>
+          <documentation>Geometri overført fra satellittbilde ved hjelp av manuell registrering på skjerm</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="47"/>
+      <enumeration value="48"/>
+      <enumeration value="49">
+        <annotation>
+          <documentation>Vektorisering fra laserdata, brukes også der vektoriseringen støttes av ortofoto</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="50">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på et digitaliseringsbord, medium uspesifisert</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="51">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på et digitaliseringsbord. Kartmedium er blyantoriginal</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="52">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på et digitaliseringsbord. Kartmedium er rissefolie</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="53">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på et digitaliseringsbord. Kartmedium er transparent folie av god kvalitet, samkopi</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="54">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på et digitaliseringsbord. Kartmedium er transparent folie av mindre god kvalitet, samkopi</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="55">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på et digitaliseringsbord. Kartmedium er papirkopi</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="56">
+        <annotation>
+          <documentation>Geometri overført fra kart ved hjelp av manuell registrering på skjerm, medium skannet kart (raster), samkopi</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="60">
+        <annotation>
+          <documentation>Genererte data, interpolasjonsmetode. Ikke nærmere spesifisert</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="61">
+        <annotation>
+          <documentation>Genererte data, interpolasjonsmetode, fra terrengmodell</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="62">
+        <annotation>
+          <documentation>Genererte data, interpolasjonsmetode, vektet middel</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="63">
+        <annotation>
+          <documentation>Genererte data: Sirkelgeometri, korridor eller annen geometri generert ut fra f.eks et punkt eller en linje (f.eks midtlinje veg)</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="64">
+        <annotation>
+          <documentation>Genererte data: Generalisering</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="65">
+        <annotation>
+          <documentation>Genererte data: Sentralpunkt</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="66">
+        <annotation>
+          <documentation>Genererte data: Sammenknytningspunkt (f.eks mellom ulike kartlegginger), randpunkt (f.eks mellom ulike kilder til kart)</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="67">
+        <annotation>
+          <documentation>Koordinater hentet fra GAB, forløperen til registerdelen av matrikkelen</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="68">
+        <annotation>
+          <documentation>Koordinater hentet fra JREG, jordregisteret</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="69">
+        <annotation>
+          <documentation>Beregnet, uspesifisert hvordan</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="70">
+        <annotation>
+          <documentation>Spesielle metoder, uspesifisert</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="71">
+        <annotation>
+          <documentation>Spesielle metoder: Målt med stikkstang</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="72">
+        <annotation>
+          <documentation>Spesielle metoder: Målt med waterstang</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="73">
+        <annotation>
+          <documentation>Spesielle metoder: Målt med målehjul</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="74">
+        <annotation>
+          <documentation>Spesielle metoder: Målt med stigningsmåler</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="77">
+        <annotation>
+          <documentation>Punkt fastsatt ut fra et grunnlag (kart, bilde), f.eks ved partenes enighet ved en oppmålingsforretning</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="78">
+        <annotation>
+          <documentation>Geometri fastsatt ved dom, lov, traktat eller kongelig resolusjon</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="79">
+        <annotation>
+          <documentation>Annet (spesifiseres i filhode)</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="80">
+        <annotation>
+          <documentation>Digitalisert ut fra frihåndstegning.  Frihåndstegning er basert på svært grovt grunnlag eller ikke noe grunnlag</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="81">
+        <annotation>
+          <documentation>Digitalisert fra krokering på kart, dvs grovt skissert på kart</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="82">
+        <annotation>
+          <documentation>Digitalisert ut fra frihåndstegning (direkte på skjerm). Frihåndstegning er basert på svært grovt grunnlag eller ikke noe grunnlag</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="90">
+        <annotation>
+          <documentation>Treghetsstedfesting</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="91">
+        <annotation>
+          <documentation>Innmålt med satellittbaserte systemer for navigasjon og posisjonering med global dekning (f.eks GPS, GLONASS, GALILEO): Kodemåling, relative målinger.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="92">
+        <annotation>
+          <documentation>Innmålt med satellittbaserte systemer for navigasjon og posisjonering med global dekning (f.eks GPS, GLONASS, GALILEO): Kodemåling, enkle målinger.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="93">
+        <annotation>
+          <documentation>Innmålt med satellittbaserte systemer for navigasjon og posisjonering med global dekning (f.eks GPS, GLONASS, GALILEO): Fasemåling statisk måling.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="94">
+        <annotation>
+          <documentation>Innmålt med satellittbaserte systemer for navigasjon og posisjonering med global dekning (f.eks GPS, GLONASS, GALILEO): Fasemåling andre metoder.</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="95">
+        <annotation>
+          <documentation>Kombinasjon av GPS/Treghet</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="96">
+        <annotation>
+          <documentation>Innmålt med satellittbaserte systemer for navigasjon og posisjonering med global dekning (f.eks GPS, GLONASS, GALILEO).: Fasemåling RTK (realtids kinematisk måling)</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="97">
+        <annotation>
+          <documentation>Innmålt med satellittbaserte systemer for navigasjon og posisjonering med global dekning (f.eks GPS, GLONASS, GALILEO). Fasemåling float-løsning</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="99">
+        <annotation>
+          <documentation>Målemetode er ukjent</documentation>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="MaalemetodeOtherType">
+    <restriction base="string">
+      <pattern value="other: \w{2,}"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="MaalemetodeHoeydeType">
+    <annotation>
+      <documentation>metode for å måle objekttypens høydeverdi</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">H-MÅLEMETODE</taggedValue>
+      </appinfo>
+    </annotation>
+    <union memberTypes="nin:MaalemetodeHoeydeEnumerationType nin:MaalemetodeHoeydeOtherType"/>
+  </simpleType>
+  <simpleType name="MaalemetodeHoeydeEnumerationType">
+    <annotation>
+      <documentation>metode for å måle objekttypens høydeverdi</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">H-MÅLEMETODE</taggedValue>
+      </appinfo>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="10"/>
+      <enumeration value="11"/>
+      <enumeration value="12"/>
+      <enumeration value="13"/>
+      <enumeration value="14"/>
+      <enumeration value="15"/>
+      <enumeration value="18"/>
+      <enumeration value="19"/>
+      <enumeration value="20"/>
+      <enumeration value="21"/>
+      <enumeration value="22"/>
+      <enumeration value="23"/>
+      <enumeration value="24"/>
+      <enumeration value="36"/>
+      <enumeration value="60"/>
+      <enumeration value="61"/>
+      <enumeration value="62"/>
+      <enumeration value="63"/>
+      <enumeration value="64"/>
+      <enumeration value="66"/>
+      <enumeration value="67"/>
+      <enumeration value="68"/>
+      <enumeration value="69"/>
+      <enumeration value="70"/>
+      <enumeration value="74"/>
+      <enumeration value="78"/>
+      <enumeration value="79"/>
+      <enumeration value="90"/>
+      <enumeration value="91"/>
+      <enumeration value="92"/>
+      <enumeration value="93"/>
+      <enumeration value="94"/>
+      <enumeration value="95"/>
+      <enumeration value="96"/>
+      <enumeration value="99"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="MaalemetodeHoeydeOtherType">
+    <restriction base="string">
+      <pattern value="other: \w{2,}"/>
+    </restriction>
+  </simpleType>
+  <element name="Metadata" substitutionGroup="gml:AbstractFeature" type="nin:MetadataType"/>
+  <complexType name="MetadataType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="unikId" type="nin:IdentifikasjonPropertyType"/>
+          <element name="program" type="string"/>
+          <element name="prosjektnavn" type="string"/>
+          <element minOccurs="0" name="prosjektbeskrivelse" type="string"/>
+          <element minOccurs="0" name="formaal" type="string"/>
+          <element name="oppdragsgiver">
+            <complexType>
+              <sequence minOccurs="0">
+                <element ref="nin:Kontaktinformasjon"/>
+              </sequence>
+              <attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </complexType>
+          </element>
+          <element name="eier">
+            <complexType>
+              <sequence minOccurs="0">
+                <element ref="nin:Kontaktinformasjon"/>
+              </sequence>
+              <attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </complexType>
+          </element>
+          <element name="kartlagtFraDato" type="dateTime"/>
+          <element name="kartlagtTilDato" type="dateTime"/>
+          <element name="kartleggingsMaalestokk" type="string"/>
+          <element minOccurs="0" name="opploesning" type="string"/>
+          <element name="dekningsOmraade" type="gml:SurfacePropertyType"/>
+          <element name="kvalitet" type="nin:PosisjonskvalitetPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="dokumenter" type="nin:DokumentPropertyType"/>
+          <element maxOccurs="unbounded" name="naturOmraader">
+            <complexType>
+              <complexContent>
+                <extension base="gml:AbstractMemberType">
+                  <sequence>
+                    <element ref="nin:NaturOmraade"/>
+                  </sequence>
+                </extension>
+              </complexContent>
+            </complexType>
+          </element>
+          <element maxOccurs="unbounded" name="variabelDefinisjoner" type="nin:VariabelDefinisjonPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="NaturOmraade" substitutionGroup="gml:AbstractFeature" type="nin:NaturOmraadeType"/>
+  <complexType name="NaturOmraadeType">
+    <complexContent>
+      <extension base="gml:AbstractFeatureType">
+        <sequence>
+          <element name="unikId" type="nin:IdentifikasjonPropertyType"/>
+          <element name="versjon" type="string"/>
+          <element name="nivaa" type="nin:NaturnivaaType"/>
+          <element name="omraade" type="gml:SurfacePropertyType"/>
+          <element minOccurs="0" name="kartlegger">
+            <complexType>
+              <sequence minOccurs="0">
+                <element ref="nin:Kontaktinformasjon"/>
+              </sequence>
+              <attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </complexType>
+          </element>
+          <element minOccurs="0" name="kartlagtDato" type="dateTime"/>
+          <element minOccurs="0" name="beskrivelse" type="string"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="dokumenter" type="nin:DokumentPropertyType"/>
+          <element maxOccurs="unbounded" name="parametre" type="nin:ParameterPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <simpleType name="NaturnivaaType">
+    <union memberTypes="nin:NaturnivaaEnumerationType nin:NaturnivaaOtherType"/>
+  </simpleType>
+  <simpleType name="NaturnivaaEnumerationType">
+    <restriction base="string">
+      <enumeration value="1"/>
+      <enumeration value="2"/>
+      <enumeration value="3"/>
+      <enumeration value="4"/>
+      <enumeration value="5"/>
+      <enumeration value="6"/>
+      <enumeration value="7"/>
+    </restriction>
+  </simpleType>
+  <simpleType name="NaturnivaaOtherType">
+    <restriction base="string">
+      <pattern value="other: \w{2,}"/>
+    </restriction>
+  </simpleType>
+  <element name="NaturomraadeType" substitutionGroup="nin:Parameter" type="nin:NaturomraadeTypeType"/>
+  <complexType name="NaturomraadeTypeType">
+    <complexContent>
+      <extension base="nin:ParameterType">
+        <sequence>
+          <element name="andel" type="double"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="egendefinerteVariabler" type="nin:EgendefinertVariabelPropertyType"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="tilleggsVariabler" type="nin:BeskrivelsesvariabelPropertyType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="NaturomraadeTypePropertyType">
+    <sequence>
+      <element ref="nin:NaturomraadeType"/>
+    </sequence>
+  </complexType>
+  <element abstract="true" name="Parameter" substitutionGroup="gml:AbstractObject" type="nin:ParameterType"/>
+  <complexType abstract="true" name="ParameterType">
+    <sequence>
+      <element name="kode" type="string"/>
+      <element minOccurs="0" name="kartlegger">
+        <complexType>
+          <sequence minOccurs="0">
+            <element ref="nin:Kontaktinformasjon"/>
+          </sequence>
+          <attributeGroup ref="gml:AssociationAttributeGroup"/>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="kartlagtDato" type="dateTime"/>
+    </sequence>
+  </complexType>
+  <complexType name="ParameterPropertyType">
+    <sequence>
+      <element ref="nin:Parameter"/>
+    </sequence>
+  </complexType>
+  <element name="Posisjonskvalitet" substitutionGroup="gml:AbstractObject" type="nin:PosisjonskvalitetType">
+    <annotation>
+      <documentation>beskrivelse av kvaliteten på stedfestingen</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">KVALITET</taggedValue>
+      </appinfo>
+    </annotation>
+  </element>
+  <complexType name="PosisjonskvalitetType">
+    <sequence>
+      <element name="maalemetode" type="nin:MaalemetodeType">
+        <annotation>
+          <documentation>metode for måling i grunnriss (x,y), og høyde (z) når metoden er den samme som ved måling i grunnriss</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="noeyaktighet" type="integer">
+        <annotation>
+          <documentation>punktstandardavviket i grunnriss for punkter samt tverravvik for linjer
+
+Merknad:
+Oppgitt i cm</documentation>
+          <appinfo>
+            <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">NØYAKTIGHET</taggedValue>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="synbarhet" type="nin:SynbarhetType">
+        <annotation>
+          <documentation>hvor godt den kartlagte detalj var synbar ved kartleggingen</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="maalemetodeHoeyde" type="nin:MaalemetodeHoeydeType">
+        <annotation>
+          <documentation>metode for å måle høyden</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="noeyaktighetHoeyde" type="integer">
+        <annotation>
+          <documentation>nøyaktighet for høyden i cm</documentation>
+          <appinfo>
+            <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">H-NØYAKTIGHET</taggedValue>
+          </appinfo>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="maksimaltAvvik" type="integer">
+        <annotation>
+          <documentation>absolutt toleranse for geometriske avvik</documentation>
+          <appinfo>
+            <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">MAX-AVVIK</taggedValue>
+          </appinfo>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="PosisjonskvalitetPropertyType">
+    <sequence>
+      <element ref="nin:Posisjonskvalitet"/>
+    </sequence>
+  </complexType>
+  <element name="StandardisertVariabel" substitutionGroup="nin:VariabelDefinisjon" type="nin:StandardisertVariabelType"/>
+  <complexType name="StandardisertVariabelType">
+    <complexContent>
+      <extension base="nin:VariabelDefinisjonType">
+        <sequence>
+          <element name="variabelDefinisjon">
+            <complexType>
+              <sequence minOccurs="0">
+                <element ref="nin:Kode"/>
+              </sequence>
+              <attributeGroup ref="gml:AssociationAttributeGroup"/>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="StandardisertVariabelPropertyType">
+    <sequence>
+      <element ref="nin:StandardisertVariabel"/>
+    </sequence>
+  </complexType>
+  <simpleType name="SynbarhetType">
+    <annotation>
+      <documentation>hvor godt den kartlagte detalj var synbar ved kartleggingen</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">SYNBARHET</taggedValue>
+      </appinfo>
+    </annotation>
+    <union memberTypes="nin:SynbarhetEnumerationType nin:SynbarhetOtherType"/>
+  </simpleType>
+  <simpleType name="SynbarhetEnumerationType">
+    <annotation>
+      <documentation>hvor godt den kartlagte detalj var synbar ved kartleggingen</documentation>
+      <appinfo>
+        <taggedValue xmlns="http://www.interactive-instruments.de/ShapeChange/AppInfo" tag="SOSI_navn">SYNBARHET</taggedValue>
+      </appinfo>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="0">
+        <annotation>
+          <documentation>Default</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="1">
+        <annotation>
+          <documentation>Forøvrig grei å innmåle. (Benyttes bl.a. for innmåling av ledninger på lukket grøft)</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="2">
+        <annotation>
+          <documentation>Middels synlig i flybilde/modell</documentation>
+        </annotation>
+      </enumeration>
+      <enumeration value="3">
+        <annotation>
+          <documentation>Dårlig/ikke synlig i flybilde/modell</documentation>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="SynbarhetOtherType">
+    <restriction base="string">
+      <pattern value="other: \w{2,}"/>
+    </restriction>
+  </simpleType>
+  <element abstract="true" name="VariabelDefinisjon" substitutionGroup="gml:AbstractObject" type="nin:VariabelDefinisjonType"/>
+  <complexType abstract="true" name="VariabelDefinisjonType">
+    <sequence/>
+  </complexType>
+  <complexType name="VariabelDefinisjonPropertyType">
+    <sequence>
+      <element ref="nin:VariabelDefinisjon"/>
+    </sequence>
+  </complexType>
+</schema>

@@ -1,0 +1,89 @@
+﻿<p data-bind="visible: loadingAreas" class="help-block">
+    Lager statistikk for ditt utvalg.. <span class="glyphicon glyphicon-hourglass glyphicon-spin"></span>
+</p>
+<p data-bind="visible: totalAreas() && !loadingAreas()" class="help-block" >
+    Viser statistikk for ditt utvalg på <span data-bind="text: totalAreas"></span> naturområder.
+</p>
+<p data-bind="visible: !totalAreas() && !loadingAreas()" class="help-block">
+    Utvalget inneholder ingen naturområder.
+</p>
+
+<div data-bind="visible: totalAreas" class="panel-group" id="statAccordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="statHeadingOne">
+            <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#statAccordion" href="#statOne" aria-expanded="true" aria-controls="statOne">
+                    Datakildefordeling
+                    <span class="pull-right glyphicon glyphicon-stats"></span>
+                </a>
+            </h4>
+        </div>
+        <div id="statOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="statHeadingOne">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="sourceChart"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="statHeadingTwo">
+            <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#statAccordion" href="#statTwo" aria-expanded="false" aria-controls="statTwo">
+                    Kartlagt år
+                    <span class="pull-right glyphicon glyphicon-stats"></span>
+                </a>
+            </h4>
+        </div>
+        <div id="statTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="statHeadingTwo">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="yearChart"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="statHeadingThree">
+            <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#statAccordion" href="#statThree" aria-expanded="false" aria-controls="statThree">
+                    Hovedtypegrupper per naturnivå
+                    <span class="pull-right glyphicon glyphicon-stats"></span>
+                </a>
+            </h4>
+        </div>
+        <div id="statThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="statHeadingThree">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="mainTypeChart"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="statHeadingFour">
+            <h4 class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#statAccordion" href="#statFour" aria-expanded="false" aria-controls="statFour">
+                    Grunntyper per hovedtypegruppe
+                    <span class="pull-right glyphicon glyphicon-stats"></span>
+                </a>
+            </h4>
+        </div>
+        <div id="statFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="statHeadingFour">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="typeChart"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

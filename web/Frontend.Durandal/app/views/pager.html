@@ -1,0 +1,9 @@
+﻿<div class="pull-right" data-bind="visible: availablePageIndexes().length > 1">
+    <button title="Vis forrige side" class="btn btn-default glyphicon glyphicon-backward" data-bind="click: previousPage, visible: currentPage() != 0"></button>
+    <ul class="pagerList" data-bind="foreach: availablePageIndexes">
+        <li style="display: inline-block">
+            <button class="btn btn-default" data-bind="text: $data + 1, click: $parent.goToPage, css: { active: $data == $parent.currentPage() }, attr: {title: 'Vis side ' + ($data + 1)}"></button>
+        </li>
+    </ul>
+    <button title="Vis neste side" class="btn btn-default glyphicon glyphicon-forward" data-bind="click: nextPage, visible: currentPage() != lastPageIndex()"></button>
+</div>

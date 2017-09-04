@@ -1,0 +1,304 @@
+﻿
+.artsdatabank-logo {
+    display:inline-block;
+    background-image: url('images/logoer/Artdb_logo.gif');
+    background-size:  contain;
+    width: 36px;
+    height: 36px;
+}
+
+@media screen and (min-width: @screen-width-large) {
+    .artsdatabank-logo {
+        background-image: url('images/artsdatabankenartskart.png');
+        width: 193px;
+        height: 103px;
+    }
+}
+
+.map-geosearch {
+    & > .input-group > input {
+        height: 38px; 
+    }
+    width: 140px;
+    @media screen and (min-width: 390px) {
+        width: 180px;
+    }
+    @media screen and (min-width: 440px) {
+        width: 220px;
+    }
+}
+
+.btn {
+    .mapIcon {
+        .spriteX("images/Spritelist-map.png"); 
+    }
+    .listIcon {
+        .spriteX("images/Spritelist-list.png"); 
+    }
+    .statisticsIcon {
+        .spriteX("images/Spritelist-statistics.png");
+    }
+    .tableIcon {
+        .spriteX("images/Spritelist-table.png");
+    }
+    .importIcon {
+        .spriteX("images/Spritelist-table.png");
+    }
+
+    & > span { padding-left: 0; }
+}
+
+.btn-icon-label {
+    margin-right: 8px;
+    display: none;
+}
+
+a.icon-btn {
+    padding: 8px 12px !important;
+    .btn-icon {
+        float: left;
+        top: -8px;
+        left: -12px;
+        position: relative;
+    }
+}
+
+
+@media screen and (min-width: 420px) {
+    .btn-icon-label {
+        display: inline-block;
+    }
+}
+
+// To spin glyphicons
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+#popup{
+    position: relative;
+    z-index: 100;    
+}
+
+// Show dropdown menu on the right side if screen size is small, unless explicitly left, otherwise it ends up outside the screen
+@media (max-width: 481px) {
+    .dropdown-menu {
+        .dropdown-menu-right();
+    }
+    // Necessary for overrides of the default right aligned menu.
+    // Will remove come v4 in all likelihood.
+    .dropdown-menu-left {
+      .dropdown-menu-left();
+    }
+}
+
+// override indent in treeview
+.treeview span.indent {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+
+// font size for treeview
+.treeview {
+    font-size: 12px;
+}
+
+// Append to the badge class for bootstrap-treeview. 
+.badge {
+        position: absolute;
+        top: 10px;
+        right: 5px;
+}
+
+.mapPopover{
+    height:300px; 
+}
+
+@media (min-width: 481px) {
+    .mapPopover{
+        overflow-y: auto;
+    }
+}
+
+.naturelist{
+    font-size: 11px;
+    th {
+        padding: 5px;
+    }
+}
+
+.pagerList{
+    display: inline-block; 
+    padding-left: 0;
+}
+
+.headerButton{
+    position: relative; 
+    top: -20px; 
+}
+
+.glyph-button{
+    font-size: 17px;
+}
+
+.firstPopover{
+    top: 0px !important;
+}
+
+.accordionIcon{
+    top: 4px;
+}
+.noHorizontalMargins{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+.pointerCursor{
+    cursor: pointer;
+}
+
+/* Statistics */
+.bar {
+  opacity: 1;
+}
+
+.arc:hover,
+.bar:hover {
+  opacity: 0.5;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+/* For form validation */
+.error{
+    color:crimson
+}
+
+/* Chevron toggle in in treeview*/
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* taken from bootstrap.css */
+    float: left;        
+    color: rgba(128, 128, 128, 0.27);
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* taken from bootstrap.css */
+}
+
+/* Spinners */
+.ventehjul {
+    position:fixed;
+    top:50%;
+    left: 50%;
+    z-index: 1050;
+    background-image: url('images/ventehjul.gif');
+    background-size:  contain;
+    width: 192px;
+    height: 192px;
+}
+.fuglForvirring {
+    position:fixed;
+    top:50%;
+    left: 50%;
+    z-index: 1060;
+    background-image: url('images/logo40_rotate_transparent.gif');
+    background-size:  contain;
+    width: 40px;
+    height: 40px;
+    margin-left: 76px;
+    margin-top: 76px;
+}
+
+/* Bookmarks */
+
+.bookmarks {
+    width: 330px;
+    height: 38px;
+    overflow: hidden;
+}
+.bookmarks.open {
+    height: 200px;
+    overflow: auto;
+    vertical-align: top;
+}
+.bookmarks .b-row {
+    margin-top: 2px;
+}
+.bookmarks .b-row {
+    visibility: hidden;
+}
+.bookmarks .b-row:first-child,
+.bookmarks.open .b-row{
+    visibility: visible;
+}
+.bookmarks .bookmark {
+    cursor: pointer;
+    background-size: cover;
+    opacity: .8;
+    transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    z-index: 10;
+    position: relative;
+}
+.bookmarks .bookmark .remove-bookmark {
+    top: -8px;
+    left: 13px;
+    cursor: pointer;
+}
+.bookmarks .bookmark:hover{
+    z-index: 100;
+    transform: matrix(1.5, 0, 0, 1.5, 0, 0); /* Standard syntax */
+    -webkit-transform: matrix(1.5, 0, 0, 1.5, 0, 0); /* Safari */
+    -moz-transform: matrix(1.5, 0, 0, 1.5, 0, 0); /* Firefox */
+    -ms-transform: matrix(1.5, 0, 0, 1.5, 0, 0); /* IE */
+    opacity: 1;
+}
+
+footer {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  left:0;
+  right:0;
+}
+footer div.label {
+  display: block;
+  margin: 2px;
+  white-space: normal;
+}

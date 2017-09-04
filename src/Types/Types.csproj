@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Types</AssemblyName>
+    <PackageId>Types</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SqlServer.Types" Version="12.0.4100.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1-beta1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>

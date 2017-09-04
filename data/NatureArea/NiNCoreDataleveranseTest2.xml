@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nin:DataLeveranse xmlns:nin='http://pavlov.itea.ntnu.no/NbicFiles' xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>DataleveranseTest2</nin:navn>
+  <nin:leveranseDato>2015-11-04T13:00:00</nin:leveranseDato>
+  <nin:operatoer>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+      <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+      <nin:email>maton@norconsult.com</nin:email>
+      <nin:telefon>+4748164614</nin:telefon>
+      <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+    </nin:Kontaktinformasjon>
+  </nin:operatoer>
+  <nin:beskrivelse>NiN Core testdata fil</nin:beskrivelse>
+  <nin:metadata>
+    <nin:Metadata gml:id='METADATA_aaaaaaab-bbbb-cccc-dddd-000000000001'>
+      <nin:unikId>
+        <nin:Identifikasjon>
+          <nin:lokalId>aaaaaaab-bbbb-cccc-dddd-000000000001</nin:lokalId>
+          <nin:navnerom>NOIS</nin:navnerom>
+          <nin:versjonId>1.0</nin:versjonId>
+        </nin:Identifikasjon>
+      </nin:unikId>
+      <nin:program>Test</nin:program>
+      <nin:prosjektnavn>Naturtyper i Norge</nin:prosjektnavn>
+      <nin:prosjektbeskrivelse>Kartlegging av naturtyper i Norge</nin:prosjektbeskrivelse>
+      <nin:formaal>Kartlegging og dokumentasjon</nin:formaal>
+      <nin:oppdragsgiver>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+          <nin:kontaktPerson>Helge Sandmark</nin:kontaktPerson>
+          <nin:email>helge.sandmark@artsdatabanken.no</nin:email>
+          <nin:telefon>+4790694852</nin:telefon>
+          <nin:hjemmeside>http://www.artsdatabanken.no</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:oppdragsgiver>
+      <nin:eier>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+          <nin:kontaktPerson>Steinar Høseggen</nin:kontaktPerson>
+          <nin:email>steinar.hoseggen@geomatikk-ikt.no</nin:email>
+          <nin:telefon>+4790088007 </nin:telefon>
+          <nin:hjemmeside>http://www.geomatikk-ikt.no</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:eier>
+      <nin:kartlagtFraDato>2015-11-01T08:00:00</nin:kartlagtFraDato>
+      <nin:kartlagtTilDato>2015-11-03T16:00:00</nin:kartlagtTilDato>
+      <nin:kartleggingsMaalestokk>1:5000</nin:kartleggingsMaalestokk>
+      <nin:dekningsOmraade>
+        <gml:Polygon gml:id="GEOMETRY_aaaaaaab-bbbb-cccc-dddd-000000000001" srsName="EPSG::32633">
+          <gml:exterior>
+            <gml:LinearRing>
+              <gml:posList>-41216.67659999989 6546386.1998 -41209.543700000271 6546392.5977 -41205.0223000003 6546393.1472999994 -41199.076600000262 6546393.4076 -41193.1688000001 6546393.359 -41180.984400000423 6546395.4545 -41181.703099999577 6546397.9868 -41182.230600000359 6546402.0832 -41182.356700000353 6546404.0384 -41182.273299999535 6546405.3 -41182.196100000292 6546406.3808 -41181.410299999639 6546417.9027 -41180.322900000028 6546428.2996999994 -41177.5 6546446.336 -41174.36959999986 6546459.3993 -41173.237099999562 6546466.9418 -41170.611700000241 6546481.1082 -41177.101700000465 6546472.6783 -41178.201500000432 6546463.9343 -41185.26 6546456.5728999991 -41189.850800000131 6546453.1287999991 -41193.721 6546452.6514 -41197.4729000004 6546453.8253 -41200.088999999687 6546456.6494 -41201.144399999641 6546457.7919 -41204.847000000067 6546466.3339 -41207.204800000414 6546471.9146 -41215.112099999562 6546468.326 -41220.3404000001 6546467.0846 -41222.924700000323 6546464.4469 -41228.200699999928 6546462.676 -41236.890499999747 6546458.5636 -41245.5206000004 6546459.1394 -41237.51350000035 6546448.9608 -41233.162200000137 6546433.6424 -41225.879200000316 6546418.332 -41219.2285000002 6546406.4022 -41217.67119999975 6546403.5627 -41217.634600000456 6546394.5753 -41216.67659999989 6546386.1998</gml:posList>
+            </gml:LinearRing>
+          </gml:exterior>
+        </gml:Polygon>
+      </nin:dekningsOmraade>
+      <nin:kvalitet>
+        <nin:Posisjonskvalitet>
+          <nin:maalemetode>10</nin:maalemetode>
+          <nin:noeyaktighet>5</nin:noeyaktighet>
+          <nin:synbarhet>0</nin:synbarhet>
+          <nin:maalemetodeHoeyde>10</nin:maalemetodeHoeyde>
+          <nin:noeyaktighetHoeyde>6</nin:noeyaktighetHoeyde>
+          <nin:maksimaltAvvik>7</nin:maksimaltAvvik>
+        </nin:Posisjonskvalitet>
+      </nin:kvalitet>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_aaaaaaab-bbbb-cccc-dddd-100000000001'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>aaaaaaab-bbbb-cccc-dddd-100000000001</nin:lokalId>
+              <nin:navnerom>NOIS</nin:navnerom>
+              <nin:versjonId>1.0</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>Test versjon</nin:versjon>
+          <nin:nivaa>4</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_aaaaaaab-bbbb-cccc-dddd-100000000001" srsName="EPSG::32633">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>-41203.437 6546411.98 -41198.341199999675 6546413.0923 -41194.88870000001 6546413.6274 -41192.51900000032 6546419.809599999 -41192.238599999808 6546426.5023 -41192.143400000408 6546429.9081 -41195.281600000337 6546433.6454 -41192.740699999966 6546433.9 -41189.830099999905 6546430.7674 -41189.743099999614 6546424.5754 -41190.50530000031 6546418.459899999 -41193.585599999875 6546412.664 -41196.823699999601 6546412.0491 -41198.904000000097 6546411.6523 -41203.437 6546411.98</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+              <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+              <nin:email>maton@norconsult.com</nin:email>
+              <nin:telefon>+4748164614</nin:telefon>
+              <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+          <nin:beskrivelse>Test naturområde 2.1</nin:beskrivelse>
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>NA T2-1</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>1</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre>
+          <nin:parametre>
+	    	    <nin:Beskrivelsesvariabel>
+	    	      <nin:kode>7TK</nin:kode>
+	    	      <nin:verdi>3</nin:verdi>
+	    	      <nin:beskrivelse>stort omfang av spor</nin:beskrivelse>
+	    	    </nin:Beskrivelsesvariabel>
+	    	  </nin:parametre>       
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_aaaaaaab-bbbb-cccc-dddd-100000000002'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>aaaaaaab-bbbb-cccc-dddd-100000000002</nin:lokalId>
+              <nin:navnerom>NOIS</nin:navnerom>
+              <nin:versjonId>1.0</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>Test versjon</nin:versjon>
+          <nin:nivaa>4</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_aaaaaaab-bbbb-cccc-dddd-100000000002" srsName="EPSG::32633">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>-41203.437 6546411.98 -41205.25810000021 6546412.1138 -41206.593600000255 6546413.8355 -41207.171000000089 6546415.7004 -41206.813699999824 6546418.438 -41205.865899999626 6546423.1468 -41203.343000000343 6546428.57 -41197.691700000316 6546433.389 -41195.281600000337 6546433.6454 -41200.571000000462 6546425.1275 -41202.907399999909 6546420.4329 -41204.70100000035 6546417.0693 -41203.831799999811 6546414.8659 -41203.437 6546411.98</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+              <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+              <nin:email>maton@norconsult.com</nin:email>
+              <nin:telefon>+4748164614</nin:telefon>
+              <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+          <nin:beskrivelse>Test naturområde 2.2</nin:beskrivelse>
+          <nin:parametre>
+      	    <nin:Beskrivelsesvariabel>
+      	      <nin:kode>7FA</nin:kode>
+      	      <nin:verdi>2</nin:verdi>
+      	      <nin:beskrivelse>Svak effekt</nin:beskrivelse>
+      	    </nin:Beskrivelsesvariabel>
+      	  </nin:parametre>
+      	  <nin:parametre> 
+      	    <nin:Beskrivelsesvariabel>
+      	      <nin:kode>7EU</nin:kode>
+      	      <nin:verdi>3</nin:verdi>
+      	      <nin:beskrivelse>Nokså svak eutrofieringseffekt</nin:beskrivelse>
+      	    </nin:Beskrivelsesvariabel>
+      	  </nin:parametre>
+          <nin:parametre> 
+            <nin:NaturomraadeType>
+              <nin:kode>NA T3-2</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>1</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre>      
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_aaaaaaab-bbbb-cccc-dddd-100000000003'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>aaaaaaab-bbbb-cccc-dddd-100000000003</nin:lokalId>
+              <nin:navnerom>NOIS</nin:navnerom>
+              <nin:versjonId>1.0</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>Test versjon</nin:versjon>
+          <nin:nivaa>4</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_aaaaaaab-bbbb-cccc-dddd-100000000003" srsName="EPSG::32633">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>-41200.08899999969 6546456.6494 -41208.842699999921 6546455.1816 -41216.082499999553 6546450.5056 -41218.952700000256 6546442.344 -41218.598100000061 6546432.079 -41216.997600000352 6546417.864499999 -41215.579699999653 6546411.1297 -41211.400799999945 6546405.4152 -41206.86799999978 6546398.9337 -41201.435200000182 6546398.8674 -41192.10059999954 6546399.6282 -41188.7473 6546402.5291 -41184.946399999782 6546405.5911 -41182.196100000292 6546406.3808 -41182.273299999535 6546405.3 -41182.356700000353 6546404.0384 -41182.230600000359 6546402.0832 -41181.703099999577 6546397.9868 -41180.984400000423 6546395.4545 -41193.168800000101 6546393.359 -41199.076600000262 6546393.4076 -41205.022300000302 6546393.147299999 -41209.543700000271 6546392.5977 -41216.67659999989 6546386.1998 -41217.634600000456 6546394.5753 -41217.67119999975 6546403.5627 -41219.228500000201 6546406.4022 -41225.879200000316 6546418.332 -41233.162200000137 6546433.6424 -41237.51350000035 6546448.9608 -41245.520600000396 6546459.1394 -41236.890499999747 6546458.5636 -41228.200699999928 6546462.676 -41222.924700000323 6546464.4469 -41220.340400000103 6546467.0846 -41215.112099999562 6546468.326 -41207.204800000414 6546471.9146 -41204.847000000067 6546466.3339 -41201.144399999641 6546457.7919 -41200.08899999969 6546456.6494</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+              <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+              <nin:email>maton@norconsult.com</nin:email>
+              <nin:telefon>+4748164614</nin:telefon>
+              <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+          <nin:beskrivelse>Test naturområde 2.3</nin:beskrivelse>
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>NA L1-3</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>0.4</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre> 
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>NA L1-4</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>0.6</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre>          
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_aaaaaaab-bbbb-cccc-dddd-100000000004'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>aaaaaaab-bbbb-cccc-dddd-100000000004</nin:lokalId>
+              <nin:navnerom>NOIS</nin:navnerom>
+              <nin:versjonId>1.0</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>Test versjon</nin:versjon>
+          <nin:nivaa>4</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_aaaaaaab-bbbb-cccc-dddd-100000000004" srsName="EPSG::32633">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>-41203.437 6546411.98 -41203.831799999811 6546414.8659 -41204.70100000035 6546417.0693 -41202.907399999909 6546420.4329 -41200.571000000462 6546425.1275 -41195.281600000337 6546433.6454 -41192.143400000408 6546429.9081 -41192.238599999808 6546426.5023 -41192.51900000032 6546419.809599999 -41194.88870000001 6546413.6274 -41198.341199999675 6546413.0923 -41203.437 6546411.98</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+              <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+              <nin:email>maton@norconsult.com</nin:email>
+              <nin:telefon>+4748164614</nin:telefon>
+              <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+          <nin:beskrivelse>Test naturområde 2.4</nin:beskrivelse>
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>NA L1-4</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>1</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre>      
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_aaaaaaab-bbbb-cccc-dddd-100000000005'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>aaaaaaab-bbbb-cccc-dddd-100000000005</nin:lokalId>
+              <nin:navnerom>NOIS</nin:navnerom>
+              <nin:versjonId>1.0</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>Test versjon</nin:versjon>
+          <nin:nivaa>4</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_aaaaaaab-bbbb-cccc-dddd-100000000005" srsName="EPSG::32633">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>-41182.196100000292 6546406.3808 -41184.946399999782 6546405.5911 -41188.7473 6546402.5291 -41192.10059999954 6546399.6282 -41201.435200000182 6546398.8674 -41206.86799999978 6546398.9337 -41211.400799999945 6546405.4152 -41215.579699999653 6546411.1297 -41216.997600000352 6546417.864499999 -41218.598100000061 6546432.079 -41218.952700000256 6546442.344 -41216.082499999553 6546450.5056 -41208.842699999921 6546455.1816 -41200.08899999969 6546456.6494 -41197.472900000401 6546453.8253 -41193.721 6546452.6514 -41189.850800000131 6546453.128799999 -41185.26 6546456.572899999 -41178.201500000432 6546463.9343 -41177.101700000465 6546472.6783 -41170.611700000241 6546481.1082 -41173.237099999562 6546466.9418 -41174.36959999986 6546459.3993 -41177.5 6546446.336 -41180.322900000028 6546428.299699999 -41181.410299999639 6546417.9027 -41182.196100000292 6546406.3808</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+              <gml:interior>
+                <gml:LinearRing>
+                  <gml:posList>-41195.281600000337 6546433.6454 -41197.691700000316 6546433.389 -41203.343000000343 6546428.57 -41205.865899999626 6546423.1468 -41206.813699999824 6546418.438 -41207.171000000089 6546415.7004 -41206.593600000255 6546413.8355 -41205.25810000021 6546412.1138 -41203.437 6546411.98 -41198.904000000097 6546411.6523 -41196.823699999601 6546412.0491 -41193.585599999875 6546412.664 -41190.50530000031 6546418.459899999 -41189.743099999614 6546424.5754 -41189.830099999905 6546430.7674 -41192.740699999966 6546433.9 -41195.281600000337 6546433.6454</gml:posList>
+                </gml:LinearRing>
+              </gml:interior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+              <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+              <nin:email>maton@norconsult.com</nin:email>
+              <nin:telefon>+4748164614</nin:telefon>
+              <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+          <nin:beskrivelse>Test naturområde 2.5</nin:beskrivelse>
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>NA M1-5</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+                  <nin:kontaktPerson>Magne Tøndel</nin:kontaktPerson>
+                  <nin:email>maton@norconsult.com</nin:email>
+                  <nin:telefon>+4748164614</nin:telefon>
+                  <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2015-11-01T13:00:00</nin:kartlagtDato>
+              <nin:andel>1</nin:andel>  
+            </nin:NaturomraadeType>
+          </nin:parametre>      
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>NA T2-1</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>7TK</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>7FA</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>7EU</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>NA T3-2</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>NA L1-3</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>NA L1-4</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>NA M1-5</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>     
+    </nin:Metadata> 
+  </nin:metadata>
+</nin:DataLeveranse>

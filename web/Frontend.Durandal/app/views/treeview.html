@@ -1,0 +1,143 @@
+﻿<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <div data-bind="visible: isNotHideMenuView" class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <p class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" title="Begrens utvalget ved å definere et geografisk interesseområde">
+                    Geografisk avgrensning
+                </a>
+                <span data-bind="visible: hasGeometryFilter, click: clearPolygon" class="accordionIcon pull-right glyphicon glyphicon-ok" title="Fjern valgte interesseområde" style="padding-left: 5px"></span>
+                <span data-bind="visible: hasGeometryFilter() && isMapView(), click: zoomToPolygon" class="accordionIcon pull-right glyphicon glyphicon-screenshot" title="Gå til valgte interesseområde"></span>
+
+            </p>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <span data-bind="click: toggleGeoInfo" class="accordionIcon pull-right glyphicon glyphicon-info-sign pointerCursor" title="Info" style="padding-left: 5px"></span>                
+                <p data-bind="visible: geoInfoVisible" class="help-block">Her kan du avgrense/klippe datamengden til det geografiske området du er interessert i.</p>
+
+                <div data-bind="visible: isMapView">
+                    <span data-bind="visible: hasNodesSelected() && !hasGeometryFilter()" class="pull-right glyphicon glyphicon-warning-sign" title="Du har allerede satt et filter på naturområde. Det er anbefalt å sette geografisk filter først."></span>
+                    <h5>Egendefinert område</h5>
+                    <div data-bind="visible: drawPolygonActive">
+                        <p class="bg-info">
+                            Tegn et polygon rundt ønsket område.<br/>Avslutt med dobbeltklikk!
+                        </p>
+                    </div>
+                    <button id="drawpolygon" class="btn btn-primary btn-sm" data-bind="click: togglePolygon" title="Tegn et omriss rundt ditt interesseområde for å bruke dette som geografisk filter"><span data-bind="text: buttonLabel"></span></button>
+                    <button title="Setter det nåværende kartutsnittet som et geografisk filter" id="currentview" class="btn btn-primary btn-sm" data-bind="click: setCurrentView"><span>Gjeldende visning</span></button>
+                </div>
+                <div class="input-group col-xs-12">
+                    <h5>
+                        <span title="Søk og bruk omriss av kommune/fylke som geografisk filter">Kommune/Fylke</span>
+                        <span data-bind="visible: admSpinner" class="pull-right glyphicon glyphicon-globe glyphicon-spin"></span>
+                    </h5>
+                    <label class="sr-only">Søk kommune/fylke:</label>
+                    <input id="adm-search" type="text" class="form-control" data-bind="attr: { placeholder: 'Kommune eller fylkesnavn' }, jqAuto: { autoFocus: true }, jqAutoSource: admAreas, jqAutoQuery: getAdmAreas, jqAutoValue: selectedAdmArea, jqAutoSourceLabel: 'displayName', jqAutoSourceInputValue: 'displayName'"/>
+                </div>
+                <div class="input-group col-xs-12">
+                    <h5>
+                        <span title="Søk og bruk verneområde-polygon som geografisk filter">Verneområde</span>
+                        <span data-bind="visible: conservationSpinner" class="pull-right glyphicon glyphicon-globe glyphicon-spin"></span>
+                    </h5>
+                    <label class="sr-only">Søk verneområder:</label>
+                    <input id="conservation-search" type="text" class="form-control" data-bind="attr: { placeholder: 'Navn på verneområde' }, jqAuto: { autoFocus: true }, jqAutoSource: conservationAreas, jqAutoQuery: getConservationAreas, jqAutoValue: selectedConservationArea, jqAutoSourceLabel: 'displayName', jqAutoSourceInputValue: 'displayName'" />
+                </div>
+                <div class="input-group col-xs-12">
+                    <h5>
+                        <span title="Søk i matrikkelen etter polygon for å bruke som geografisk filter">Eiendom fra Matrikkelen</span>
+                        <span data-bind="visible: matrikkelSpinner" class="pull-right glyphicon glyphicon-globe glyphicon-spin"></span>
+                    </h5>
+                    <label class="sr-only">Søk matrikkel:</label>
+                    <input id="mat-search" type="text" class="form-control" data-bind="attr: { placeholder: 'Oppslag KNR-GNR/BNR' }, jqAuto: { autoFocus: true }, jqAutoSource: matrikkelEnheter, jqAutoQuery: getMatrikkelEnheter, jqAutoValue: selectedMatrikkelEnhet, jqAutoSourceLabel: 'displayName', jqAutoSourceInputValue: 'displayName'"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-bind="visible: isNotHideMenuView" class="panel panel-default">
+
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <p class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" title="Tematisk (faglig) avgrensning av naturområdene utifra typer og variable">
+                    Naturområder
+                </a>
+                <span data-bind="visible: hasNodesSelected, click: clearCheckedNodes" class="accordionIcon pull-right glyphicon glyphicon-ok" title="Nullstill gjeldene naturområde-filter"></span>
+            </p>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+                <div class="input-group col-xs-12">
+                    <span data-bind="click: toggleNaturInfo" class="accordionIcon pull-right glyphicon glyphicon-info-sign pointerCursor" title="Info" style="padding-left: 5px"></span>
+                    <p data-bind="visible: naturInfoVisible" class="help-block">Her ser du naturområdene som finnes innenfor ditt valgte geografiske område. Du kan filtrere utvalget ved hjelp av menyen.</p>
+                    <h5 title="Fritekstsøk i hele det tilgjengelige filter-hierarkiet">Fritekstsøk</h5>
+                    <label for="input-search" class="sr-only">Fritekstsøk:</label>
+                    <input type="text" class="form-control" id="input-search" placeholder="Søk i typer og miljøvariable..." value="">
+                </div>
+                <button title="Viser bare avkryssede kategorier" class="btn btn-default btn-sm" id="btn-checked">Vis utvalg</button>
+                <button title="Nullstill gjeldene naturområde-filter" class="btn btn-default btn-sm pull-right" id="btn-reset">Nullstill</button>
+                <div class="input-group col-xs-12">
+                    <h5 title="Innholdet i hierarkiet begrenses utifra gjeldende geografiske filter">Filter</h5>
+                    <span title="Trekk sammen filter-hierarkiet" id="btn-collapse" class="badge"><span class="glyphicon glyphicon-minus"></span></span>
+                    <div id="summarytree" class=""></div>
+                    <p class="bg-warning" data-bind="visible:hiddenFilterOptions">Det er satt et naturområdefilter som ikke vises på grunn av det geografiske filteret. Det anbefales at du setter geografisk filter før du setter naturområde-filter.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div data-bind="visible: isNotHideMenuView" class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingSource">
+            <p class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSource" aria-expanded="false" aria-controls="collapseSource" title="Filtrer på datakilde">
+                    Datakilde
+                </a>
+                <span data-bind="visible: hasSourceFilter, click: clearSourceFilter" class="accordionIcon pull-right glyphicon glyphicon-ok" title="Fjern aktivt filter på datakilde"></span>
+            </p>
+        </div>
+        <div id="collapseSource" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSource">
+            <div class="panel-body">
+                <!--<div class="input-group col-xs-12">
+                    <h5>Fritekst</h5>
+                    <label for="input-search" class="sr-only">Fritekstsøk:</label>
+                    <input type="text" class="form-control" id="input-searchSource" placeholder="Søk i tilgjengelige datakilder..." value="">
+                </div>-->
+                <div class="input-group col-xs-12">
+                    <span data-bind="click: toggleSourceInfo" class="accordionIcon pull-right glyphicon glyphicon-info-sign pointerCursor" title="Info" style="padding-left: 5px"></span>
+                    <p data-bind="visible: sourceInfoVisible" class="help-block">Data kan begrenses på eier. Dette feltet er koblet til brukeren som har lastet opp naturområdene.</p>
+
+                    <h5 title="Tilgjengelige datakilder innenfor gjeldende filter">Tilgjengelige datakilder</h5>
+                    <div id="sourcetree" class=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p style="padding-bottom: 15px"></p>
+    <div data-bind="visible: isMapView" class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingGrid">
+            <p class="panel-title">
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseGrid" aria-expanded="false" aria-controls="collapseGrid" title="Vis tilgjengelige miljøvariabelkart">
+                    Miljøvariabelkart
+                </a>
+                <span data-bind="visible: hasGrid, click: clearGrid" class="accordionIcon pull-right glyphicon glyphicon-ok" title="Fjern aktivt miljøvariabelkart"></span>
+            </p>
+        </div>
+        <div id="collapseGrid" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingGrid">
+            <div class="panel-body">
+                <div class="input-group col-xs-12">
+                    <span data-bind="click: toggleGridInfo" class="accordionIcon pull-right glyphicon glyphicon-info-sign pointerCursor" title="Info" style="padding-left: 5px"></span>
+                    <p data-bind="visible: gridInfoVisible" class="help-block">Her ser du tilgjengelige miljøvariabelkart som kan vises sammen med naturområdene</p>
+                    <h5>Fritekstsøk</h5>
+                    <label for="input-search" class="sr-only">Fritekstsøk:</label>
+                    <input type="text" class="form-control" id="input-searchGrid" placeholder="Søk i tilgjengelige miljøvariabelkart..." value="">
+                </div>
+                <div class="input-group col-xs-12">
+                    <h5>Tilgjengelige kart</h5>
+                    <div id="gridtree" class=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

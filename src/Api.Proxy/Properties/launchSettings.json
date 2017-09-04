@@ -1,0 +1,28 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:59360/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "?url=http%3A%2F%2Fxkcd.com",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Nin.Prox": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/api/values",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

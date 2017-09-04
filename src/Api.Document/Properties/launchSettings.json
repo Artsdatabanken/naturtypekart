@@ -1,0 +1,29 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:60126/diag/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "diag",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Nin.Api.Document": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/diag/",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5000"
+    }
+  }
+}

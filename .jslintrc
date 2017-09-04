@@ -1,0 +1,6 @@
+{
+  "continue": true,
+  "browser": true,
+  "predef": [ "define", "$", "jQuery", "ko", "ol", "d3", "_", "jqAutoComplete"],
+  "strict_mode":false
+}

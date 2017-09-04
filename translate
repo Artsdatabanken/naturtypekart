@@ -1,0 +1,6 @@
+while IFS= read -r A; do
+# echo $A
+  echo "${A%% *} -> ${A#* }"
+  find database/ -type f -exec sed -i "s/${A%% *}/${A#* }/g" {} \;
+done <translation
+

@@ -1,0 +1,18 @@
+﻿.saturate(@value:0) {
+    @percent: percentage(@value);
+
+    filter: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'><filter%20id='grayscale'><feColorMatrix%20type='saturate'%20values='@value'/></filter></svg>#grayscale"); /* Firefox 3.5+ */
+    filter: grayscale(@percent); /* Current draft standard */
+    -webkit-filter: grayscale(@percent); /* New WebKit */
+    -moz-filter: grayscale(@percent);
+    -ms-filter: grayscale(@percent);
+    -o-filter: grayscale(@percent);
+}
+
+img.desaturate {
+    transition: all 0.2s linear;
+    .saturate(0);
+    &:hover {
+        .saturate(1);
+    }
+}

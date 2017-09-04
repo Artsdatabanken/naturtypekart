@@ -1,0 +1,295 @@
+﻿@charset "UTF-8";
+/**************************************************************************************************************
+
+      * Styleinfo.less * 
+
+                 (\_/)
+         .-""-.-.-' a\
+        /  \      _.--'
+       (\  /_---\\_\_
+        `'-.
+         ,__)
+
+  
+This LESS document will (and shall) not generate any real CSS tags.
+It contain style info that is used in other LESS files that DO generate concrete css.
+
+It contains such as:
+
+Colors (the standard pallette used for the site)
+Font information
+Standard dimensions (Most importantly Line height, grid widths and related dimensions)
+Mix-in helper methods
+
+
+This file will be imported into all other LESS files that uses this values
+
+
+***************************************************************************************************************/
+
+/*-- n�ytral --*
+@colorLightBoxBackground: #DDD;
+@color: #333;
+@colorHeader: #333;
+@colorThinLine: #333;
+@colorHrLine: #333;
+@colorFacetFilter: #DDD;
+/* */
+
+@colorLightBoxBackground: #ECECE2;
+@colorVeryLightBoxBackground: #F9F7F3;
+@color: #685C53;
+@colorH: #E86C19;
+@colorThinLine: #DFDFCD;
+@colorHrLine: #C7C2BC;
+@colorFacetFilter: #A3A496; /* #685C53; #4f453e */
+@colorDarkBackground: #4f453e;
+@colorPageBackground: #fff;
+@colorHeader: #fff;
+@colorFooter: #fff; 
+@colorVeryBrightText: #A0948B;
+@colorBrightText: #90847B;
+@colorBrightBlue: #09f;
+
+/*
+--m�rkebrune bakgrunnsfarger fra mobilmenyen
+---m�rkest > lysest
+#1F1C19  (hover)
+#3A332F
+#49413B
+#746B63
+#9B9087
+
+*/
+
+// media min-width constants:
+@width-580: 580px;
+@width-690: 690px;
+@width-800: 800px;
+@width-960: 960px;
+@width-1200: 1200px;
+
+/* ----- */
+@font-face {
+	font-family: 'DroidSerifRegular';
+	src: url('./fonts/droidserif-regular-webfont.eot');
+	src: url('./fonts/droidserif-regular-webfont.eot?#iefix') format('embedded-opentype'), url('./fonts/droidserif-regular-webfont.woff') format('woff'), url('./fonts/droidserif-regular-webfont.ttf') format('truetype'), url('./fonts/droidserif-regular-webfont.svg#DroidSerifRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'DroidSerifBold';
+	src: url('./fonts/droidserif-bold-webfont.eot');
+	src: url('./fonts/droidserif-bold-webfont.eot?#iefix') format('embedded-opentype'), url('./fonts/droidserif-bold-webfont.woff') format('woff'), url('./fonts/droidserif-bold-webfont.ttf') format('truetype'), url('./fonts/droidserif-bold-webfont.svg#DroidSerifBold') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'DroidSerifItalic';
+	src: url('./fonts/droidserif-italic-webfont.eot');
+	src: url('./fonts/droidserif-italic-webfont.eot?#iefix') format('embedded-opentype'), url('./fonts/droidserif-italic-webfont.woff') format('woff'), url('./fonts/droidserif-italic-webfont.ttf') format('truetype'), url('./fonts/droidserif-italic-webfont.svg#DroidSerifItalic') format('svg');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'DroidSerifBoldItalic';
+	src: url('./fonts/droidserif-bolditalic-webfont.eot');
+	src: url('./fonts/droidserif-bolditalic-webfont.eot?#iefix') format('embedded-opentype'), url('./fonts/droidserif-bolditalic-webfont.woff') format('woff'), url('./fonts/droidserif-bolditalic-webfont.ttf') format('truetype'), url('./fonts/droidserif-bolditalic-webfont.svg#DroidSerifBoldItalic') format('svg');
+	font-weight: bold;
+	font-style: italic;
+}
+
+
+
+@fontfamilyAdb: Arial,Helvetica,sans-serif;
+@fontfamilyAdbNarrow: Arial Narrow;
+@fontfamilyH: 'DroidSerifRegular',Georgia,'Times New Roman',Times,serif;
+@fontfamilySmallH: @fontfamilyAdb;
+
+@fontfamilyHeader: Arial,Helvetica,sans-serif;
+@fontfamilyFooter: Arial,Helvetica,sans-serif;
+
+
+/* ----- */
+
+
+
+
+@BFS: 1.6;   /* basic font size = 1.4rem = 14px */
+@ReducedFS: 1.4;
+@TinyFS: 1.2;
+@BLH: 2; /* Basic Line Height */
+@ThinLine: 0.1;        /* One px in rem */	
+@HalfLH: @BLH / 2;
+@ReducedLH: @BLH - @ThinLine;              
+@ReducedHalfLH: @HalfLH - @ThinLine;              
+	
+
+//-----------------------
+
+.font-size(@value){
+  @pxValue: (@value * 10);
+  font-size: @pxValue*1px;
+  font-size: @value*1rem;
+}
+
+.line-height(@value){
+  @pxValue: (@value * 10);
+  line-height: @pxValue*1px;
+  line-height: @value*1rem;
+}
+
+.height(@value){
+  @pxValue: (@value * 10);
+  height: @pxValue*1px;
+  height: @value*1rem;
+}
+
+.margin(@value){
+  @pxValue: (@value * 10);
+  margin: @pxValue*1px;
+  margin: @value*1rem;
+}
+
+.margin-top(@value){
+  @pxValue: (@value * 10);
+  margin-top: @pxValue*1px;
+  margin-top: @value*1rem;
+}
+
+.margin-right(@value){
+  @pxValue: (@value * 10);
+  margin-right: @pxValue*1px;
+  margin-right: @value*1rem;
+}
+
+.margin-bottom(@value){
+  @pxValue: (@value * 10);
+  margin-bottom: @pxValue*1px;
+  margin-bottom: @value*1rem;
+}
+
+.margin-left(@value){
+  @pxValue: (@value * 10);
+  margin-left: @pxValue*1px;
+  margin-left: @value*1rem;
+}
+
+.padding(@value){
+  @pxValue: (@value * 10);
+  padding: @pxValue*1px;
+  padding: @value*1rem;
+}
+
+.padding-top(@value){
+  @pxValue: (@value * 10);
+  padding-top: @pxValue*1px;
+  padding-top: @value*1rem;
+}
+
+.padding-right(@value){
+  @pxValue: (@value * 10);
+  padding-right: @pxValue*1px;
+  padding-right: @value*1rem;
+}
+
+.padding-bottom(@value){
+  @pxValue: (@value * 10);
+  padding-bottom: @pxValue*1px;
+  padding-bottom: @value*1rem;
+}
+
+.padding-left(@value){
+  @pxValue: (@value * 10);
+  padding-left: @pxValue*1px;
+  padding-left: @value*1rem;
+}
+
+
+.border(@value: @ThinLine, @colorvalue: @colorThinLine){
+  border: @value*10px solid @colorvalue;
+  border: @value*1rem solid @colorvalue;
+}
+
+.border-top(@value: @ThinLine, @colorvalue: @colorThinLine){
+  border-top: @value*10px solid @colorvalue;
+  border-top: @value*1rem solid @colorvalue;
+}
+
+.border-right(@value: @ThinLine, @colorvalue: @colorThinLine){
+  border-right: @value*10px solid @colorvalue;
+  border-right: @value*1rem solid @colorvalue;
+}
+
+.border-bottom(@value: @ThinLine, @colorvalue: @colorThinLine){
+  border-bottom: @value*10px solid @colorvalue;
+  border-bottom: @value*1rem solid @colorvalue;
+}
+
+.border-left(@value: @ThinLine, @colorvalue: @colorThinLine){
+  border-left: @value*10px solid @colorvalue;
+  border-left: @value*1rem solid @colorvalue;
+}
+
+.border-radius(@radius) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+
+/*.line-height(@value){
+  line-height: @value*10px;
+  line-height: @value*1rem;
+}
+
+.font-size(@value){
+  font-size: @value*10px;
+  font-size: @value*1rem;
+}*/
+
+.border-box() {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+//-----------------------------
+.spriteX(@spriteimg, @height: 36px, @width: 36px) 
+{
+    @offset: @height + 5;
+    background:url(@spriteimg) top left no-repeat; 
+    //background-position: 0 0;
+    width: @width !important; 
+    height:@height; 
+    /*outline: none;*/
+    /*border: 0px;*/  
+    /*.icon {
+        width: @width !important; 
+        height:@height; 
+    }*/
+    &:hover
+    {
+        background-position-x:(@offset* -1);
+    }
+    &:focus
+    {
+        background-position-x:(@offset * -4);
+    }
+    &.active,
+    &:active
+    {
+        background-position-x:(@offset * -2);
+    }
+}
+//-----------------------------
+
+.clearAfter {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+}
+

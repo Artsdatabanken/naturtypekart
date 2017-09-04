@@ -1,0 +1,15 @@
+<Map background-color="blue" srs="+init=epsg:4326">
+  <Style name="My Style">
+    <Rule>
+      <PolygonSymbolizer fill="#f2eff9" />
+      <LineSymbolizer stroke="rgb(50%,50%,50%)" stroke-width="0.1" />
+    </Rule>
+  </Style>
+  <Layer name="world" srs="+init=epsg:4326">
+    <StyleName>My Style</StyleName>
+    <Datasource>
+      <Parameter name="file">/media/kart/sourcemaps/melhus.shp</Parameter>
+      <Parameter name="type">shape</Parameter>
+    </Datasource>
+  </Layer>
+</Map>

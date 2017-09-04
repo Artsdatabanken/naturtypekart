@@ -1,0 +1,37 @@
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+.idea/
+.idea.*/
+
+
+.vs/
+*.user
+
+# DNX
+project.*lock.json
+artifacts/
+
+# Others
+node_modules/
+dist
+
+report/
+report/_coverage.xml
+metrics/
+uitest-result.xml
+TestResult.xml
+lint-results.xml
+*.log
+packages
+.vscode/
+junit.xml
+nin.test.json
+nin.development.json
+nin.json

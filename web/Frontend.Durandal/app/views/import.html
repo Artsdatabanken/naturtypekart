@@ -1,0 +1,475 @@
+﻿<div data-bind="visible: !loggedIn()">
+    <h4>Logg inn for tilgang til importfunksjonalitet</h4>
+    <p class="help-block">
+        Logg inn med brukerkonto fra Artsdatabanken.
+        <a style="padding-right: 10px" class="pull-right" data-bind="attr:{href: forgotPasswordUrl, target:'_blank'}">Glemt passord</a>
+        <a style="padding-right: 10px"class="pull-right" data-bind="attr:{href: newUserUrl, target:'_blank'}">Opprett ny konto</a>
+    </p>
+    <form action="" id="loginForm" class="form-horizontal well">
+        <div class="control-group">
+            <label class="control-label" for="username">Brukernavn</label>
+            <input data-bind="value: username" class="form-control input-sm" type="text" placeholder="Brukernavn" name="username" id="username" required minlength="2" />
+            <p class="help-block">Brukernavn hos Artsdatabankens Naturtypekart</p>
+
+            <label class="control-label" for="password">Passord</label>
+            <input data-bind="value: password" class="form-control input-sm" type="password" name="password" id="password" placeholder="Passord" />
+            <p class="help-block">Personlig passord</p>
+
+            <button type="submit" class="submit btn btn-default" data-bind="click: login">Logg inn</button>
+            <p data-bind="visible: loginSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></p>
+            <p data-bind="visible: loginError" class="pull-right error help-block">Kunne ikke logge inn</p>
+
+        </div>
+    </form>
+</div>
+
+<div data-bind="visible: loggedIn">
+    <p data-bind="text: 'Bruker ' + username() + ' innlogget som ' + userRole()" class="help-block"></p>
+
+    <h4>Naturkartlegginger</h4>
+    <div data-bind="visible: isProvider" class="panel-group" id="importAccordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="importHeadingOne">
+                <p class="panel-title">
+                    <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#importAccordion" href="#importCollapseOne" aria-expanded="false" aria-controls="importCollapseOne" title="Opplastning av dataleveranse">
+                        Opplastning av dataleveranse
+                        <span class="pull-right glyphicon glyphicon-upload"></span>
+                    </a>
+                </p>
+            </div>
+
+            <div id="importCollapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <form class="form-horizontal well">
+                    <div class="control-group">
+                        <label class="control-label" for="metadata">Dataleveransens metadata (.xml)</label>
+                        <input class="form-control" type="file" name="metadata" id="metadata" accept="text/xml" />
+                        <p class="help-block">Dataleveransen vil bli validert som en del av opplastingen.</p>
+
+                        <label class="control-label" for="files">Vedlegg til dataleveransen</label>
+                        <input class="form-control" type="file" name="files" id="files" multiple />
+                        <p class="help-block">Vedleggene må være referert i dataleveransens metadata-fil.</p>
+
+                        <button type="submit" class="btn btn-default" data-bind="click: uploadDataDelivery">Lagre dataleveransen</button>
+                        <button type="reset" class="pull-right btn btn-default">Nullstill</button>
+                        <span data-bind="visible: uploadDataDeliverySpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                        <div class="pull-right" data-bind="visible: uploadDataDeliveryReady">
+                            <span data-bind="visible: uploadDataDeliverySuccess" class="bg-success glyphicon glyphicon-ok"></span>
+                            <span data-bind="visible: !uploadDataDeliverySuccess()" class="bg-danger glyphicon glyphicon-remove"></span>
+                            <span data-bind="visible: !uploadDataDeliverySuccess(), text: uploadDataDeliveryResult" class="bg-danger"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div data-bind="visible: isProvider" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="importHeadingTwo">
+                <p class="panel-title">
+                    <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#importAccordion" href="#listUserDataDeliveriesCollapse" aria-expanded="false" aria-controls="listUserDataDeliveriesCollapse" title="List dataleveranser for bruker">
+                        List dataleveranser for bruker
+                        <span class="pull-right glyphicon glyphicon-th-list"></span>
+                    </a>
+                </p>
+            </div>
+            <div id="listUserDataDeliveriesCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+
+                <form class="form-horizontal well">
+                    <div class="control-group">
+                        <span data-bind="visible: listUserDataDeliveriesSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                        <div class="pull-right" data-bind="visible: listUserDataDeliveriesReady">
+                            <p data-bind="visible: !listUserDataDeliveriesSuccess(), text: listUserDataDeliveriesResult" class="bg-danger glyphicon glyphicon-remove"></p>
+                        </div>
+
+                        <div data-bind="visible: listUserDataDeliveriesReady">
+                            <div class="row clearfix">
+                                <div class="col-md-12 column">
+                                    <table class="table table-bordered table-striped" id="listUserDataDeliveries">
+                                        <thead>
+                                            <tr>
+                                                <th data-bind="click: sortUserColumn.bind($data, 'id')" class="pointerCursor">
+                                                    Id
+                                                </th>
+                                                <th data-bind="click: sortUserColumn.bind($data, 'name')" title="Navn på leveransen" class="pointerCursor">
+                                                    Navn
+                                                </th>
+                                                <th data-bind="click: sortUserColumn.bind($data, 'status')" title="Leveranser kan ha status 'Importert', 'Gjeldende' eller 'Utgått'" class="pointerCursor">
+                                                    Status
+                                                </th>
+                                                <th data-bind="click: sortUserColumn.bind($data, 'publishable'), visible: isAdministrator" title="Administrator kan publisere leveranser med status 'Importert'" class="pointerCursor">
+                                                    Publiser
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: listUserData">
+                                            <tr>
+                                                <td>
+                                                    <a data-bind="text: id, attr: {href: url, target: '_blank', title: fullId + ' ' + upload}"></a>
+                                                </td>
+                                                <td data-bind="text: name, attr: {title: projectName + ' - ' + projectDescription}"></td>
+                                                <td data-bind="text: status, attr: {title: statusDescription}"></td>
+                                                <td data-bind="visible: $parent.isAdministrator">
+                                                    <div data-bind="visible: publishable">
+                                                        <span data-bind="visible: false, text:publishable"></span>
+                                                        <span data-bind="visible: !ready(), click: $parent.publishOwn"
+                                                              style="cursor: pointer" class="glyphicon glyphicon-thumbs-up" title="Godkjenn og publiser dataleveranse"></span>
+                                                        <span data-bind="visible: spinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                                                        <div data-bind="visible: ready">
+                                                            <span data-bind="visible: success" class="bg-success glyphicon glyphicon-ok"></span>
+                                                            <span data-bind="visible: !success()" class="bg-danger glyphicon glyphicon-remove"></span>
+                                                            <span data-bind="visible: !success(), text: result" class="bg-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div data-bind="visible: isAdministrator" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="importHeadingFour">
+                <p class="panel-title">
+                    <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#importAccordion" href="#listNewDataDeliveriesCollapse" aria-expanded="false" aria-controls="listNewDataDeliveriesCollapse" title="List nye dataleveranser">
+                        List nye dataleveranser
+                        <span class="pull-right glyphicon glyphicon-th-list"></span>
+                    </a>
+                </p>
+            </div>
+            <div id="listNewDataDeliveriesCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                <form class="form-horizontal well">
+                    <div class="control-group">
+                        <span data-bind="visible: listNewDataDeliveriesSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                        <div class="pull-right" data-bind="visible: listNewDataDeliveriesReady">
+                            <p data-bind="visible: !listNewDataDeliveriesSuccess(), text: listNewDataDeliveriesResult" class="bg-danger glyphicon glyphicon-remove"></p>
+                        </div>
+                        <div data-bind="visible: listNewDataDeliveriesReady">
+                            <div class="row clearfix">
+                                <div class="col-md-12 column">
+                                    <table class="table table-bordered table-striped" id="listNewDataDeliveries">
+                                        <thead>
+                                            <tr>
+                                                <th data-bind="click: sortNewColumn.bind($data, 'id')" class="pointerCursor">
+                                                    Id
+                                                </th>
+                                                <th data-bind="click: sortNewColumn.bind($data, 'name')" title="Navn på leveransen" class="pointerCursor">
+                                                    Navn
+                                                </th>
+                                                <th data-bind="click: sortNewColumn.bind($data, 'username')" title="Brukernavn til opplaster" class="pointerCursor">
+                                                    Opplaster
+                                                </th>
+                                                <th data-bind="click: sortNewColumn.bind($data, 'contactPerson')" title="Datakilde er hentet fra 'Operator' i leveransen" class="pointerCursor">
+                                                    Datakilde
+                                                </th>
+                                                <th data-bind="visible: isAdministrator" title="Administrator kan publisere alle nye leveranser">
+                                                    Publiser
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: listNewData">
+                                            <tr>
+                                                <td>
+                                                    <a data-bind="text: id, attr: {href: url, target: '_blank', title: fullId + ' ' + statusDescription}"></a>
+                                                </td>
+                                                <td data-bind="text: name, attr: {title: projectName + ' - ' + projectDescription}"></td>
+                                                <td data-bind="text: username"></td>
+                                                <td>
+                                                    <a data-bind="text: contactPerson, attr: {href: 'mailto:' + email + '?Subject=' + name} "></a> -
+                                                    <a data-bind="text: company, attr: {href: companyUrl, target:'_blank'} "></a>
+                                                </td>
+                                                <td data-bind="visible: $parent.isAdministrator">
+                                                    <span data-bind="visible: !ready(), click: $parent.publishAny"
+                                                          style="cursor: pointer" class="glyphicon glyphicon-thumbs-up" title="Godkjenn og publiser dataleveranse"></span>
+                                                    <span data-bind="visible: spinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                                                    <div data-bind="visible: ready">
+                                                        <span data-bind="visible: success" class="bg-success glyphicon glyphicon-ok"></span>
+                                                        <span data-bind="visible: !success()" class="bg-danger glyphicon glyphicon-remove"></span>
+                                                        <span data-bind="visible: !success(), text: result" class="bg-danger"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <h4>Miljøvariabelkart</h4>
+        <div data-bind="visible: isProvider" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="importHeadingFive">
+                <p class="panel-title">
+                    <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#importAccordion" href="#importCollapseFive" aria-expanded="false" aria-controls="importCollapseFive" title="Opplastning av miljøvariabelkart">
+                        Opplastning av miljøvariabelkart
+                        <span class="pull-right glyphicon glyphicon-upload"></span>
+                    </a>
+                </p>
+            </div>
+            <div id="importCollapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                <p class="help-block">Miljøvariabelkart kan enten leveres på NiN-core format, eller et egendefinert format. Ved opplasting på egendefinert format må metadatainformasjonen spesifiseres ved opplastning</p>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#ninCore" aria-controls="ninCore" role="tab" data-toggle="tab">NiN Core</a></li>
+                    <li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">Andre format</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="ninCore">
+                        <form class="form-horizontal well">
+                            <div class="control-group">
+                                <label class="control-label" for="gridmetadata">Miljøvariabelkartets metadata (.xml)</label>
+                                <input class="form-control" type="file" name="gridmetadata" id="gridmetadata" accept="text/xml" />
+                                <p class="help-block">Dataleveransen vil bli validert som en del av opplastningen.</p>
+
+                                <label class="control-label" for="gridfiles">Vedlegg til miljøvariabelkartet</label>
+                                <input class="form-control" type="file" name="gridfiles" id="gridfiles" multiple />
+                                <p class="help-block">Vedleggene må være referert i metadata-filen.</p>
+
+                                <button type="submit" class="btn btn-default" data-bind="click: uploadGrid">Lagre miljøvariabelkart</button>
+                                <button type="reset" class="pull-right btn btn-default">Nullstill</button>
+                                <span data-bind="visible: uploadGridSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                                <div class="pull-right" data-bind="visible: uploadGridReady">
+                                    <span data-bind="visible: uploadGridSuccess" class="bg-success glyphicon glyphicon-ok"></span>
+                                    <span data-bind="visible: !uploadGridSuccess()" class="bg-danger glyphicon glyphicon-remove"></span>
+                                    <span data-bind="visible: !uploadGridSuccess(), text: uploadGridResult" class="bg-danger"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="other">
+                        <form action="" id="otherGridForm" class="form-horizontal well">
+                            <div class="control-group">
+                                <label class="control-label" for="navn">Navn</label>
+                                <input data-bind="value: navn" class="form-control input-sm" type="text" name="navn" id="navn" placeholder="Navn" required minlength="2" />
+                                <p class="help-block">Navn på variabelkartet.</p>
+
+                                <label class="control-label" for="beskrivelse">Beskrivelse</label>
+                                <textarea data-bind="value: beskrivelse" name="beskrivelse" id="beskrivelse" class="form-control" rows="3" placeholder="Beskrivelse"></textarea>
+                                <p class="help-block">Beskrivelse av variabelkartet.</p>
+
+                                <label class="control-label" for="kode">NiN-kode</label>
+                                <input data-bind="value: kode" class="form-control input-sm" type="text" name="kode" id="kode" placeholder="NiN-kode" required />
+                                <p class="help-block">Hvilken NIN-variabel viser kartet. Fyll inn gyldig variabel-kode.</p>
+
+                                <label class="control-label" for="koderegister">Koderegister</label>
+                                <input data-bind="value: koderegister" class="form-control input-sm" type="text" name="koderegister" id="koderegister" placeholder="Koderegister" required />
+                                <p class="help-block">Hvilket koderegister tilhører koden?</p>
+
+                                <label class="control-label" for="kodeversjon">Kodeversjon</label>
+                                <input data-bind="value: kodeversjon" class="form-control input-sm" type="text" name="kodeversjon" id="kodeversjon" placeholder="Kodeversjon" required />
+                                <p class="help-block">Hvilken versjon av koderegisteret?</p>
+
+                                <label class="control-label">Eier</label>
+                                <div class="form-inline">
+                                    <div class="noHorizontalMargins form-group">
+                                        <label class="sr-only" for="firmanavn">Firmanavn</label>
+                                        <input data-bind="value: firmanavn" type="text" class="form-control" id="firmanavn" placeholder="Firmanavn" required>
+                                    </div>
+                                    <div class="noHorizontalMargins form-group">
+                                        <label class="sr-only" for="kontaktperson">Kontaktperson</label>
+                                        <input data-bind="value: kontaktperson" type="text" class="form-control" id="kontaktperson" placeholder="Kontaktperson">
+                                    </div>
+                                    <div class="noHorizontalMargins form-group">
+                                        <label class="sr-only" for="ownerEmail">Epost</label>
+                                        <input data-bind="value: ownerEmail" type="email" class="form-control" id="ownerEmail" placeholder="Epost">
+                                    </div>
+                                    <div class="noHorizontalMargins form-group">
+                                        <label class="sr-only" for="telefon">Telefon</label>
+                                        <input data-bind="value: telefon" type="tel" class="form-control" id="telefon" placeholder="Telefon">
+                                    </div>
+                                    <div class="noHorizontalMargins form-group">
+                                        <label class="sr-only" for="hjemmeside">Hjemmeside</label>
+                                        <input data-bind="value: hjemmeside" type="url" class="form-control" id="hjemmeside" placeholder="Hjemmeside">
+                                    </div>
+                                </div>
+                                <p class="help-block">Informasjon om dataeier</p>
+
+                                <label class="control-label">Etablert</label>
+                                <div class='input-group date' id='etablertDato'>
+                                    <input data-bind="value: etablertDato" type="date" class="form-control" />
+                                </div>
+                                <p class="help-block">Dato for etablering av variabelkartet (åååå-mm-dd)</p>
+
+
+                                <label class="radio-inline">
+                                    <input type="radio" name="kartType" id="rutenettKart" value="RuteNett" data-bind="checked: kartType"> SSB Rutenettkart
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="kartType" id="aoKart" value="AdministrativtOmraade" data-bind="checked: kartType"> Fylke/Kommunekart
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="kartType" id="otherKart" value="Other" data-bind="checked: kartType"> Annet
+                                </label>
+                                <p class="help-block">Velg geografisk inndeling for miljøvariabelkartet.</p>
+
+
+                                <div data-bind="visible: kartType() === 'RuteNett'">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB0250M" value="1" data-bind="checked: ssbType"> 250m
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB0500M" value="2" data-bind="checked: ssbType"> 500m
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB001KM" value="3" data-bind="checked: ssbType"> 1km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB002KM" value="4" data-bind="checked: ssbType"> 2km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB005KM" value="5" data-bind="checked: ssbType"> 5km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB010KM" value="6" data-bind="checked: ssbType"> 10km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB025KM" value="7" data-bind="checked: ssbType"> 25km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB050KM" value="8" data-bind="checked: ssbType"> 50km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB100KM" value="9" data-bind="checked: ssbType"> 100km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB250KM" value="10" data-bind="checked: ssbType"> 250km
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="SSBType" id="SSB500KM" value="11" data-bind="checked: ssbType"> 500km
+                                    </label>
+                                    <p class="help-block">Velg SSB-rutenett. De opplastede dataene må inneholde SSB-Id og trinnverdi.</p>
+                                </div>
+
+                                <div data-bind="visible: kartType() === 'AdministrativtOmraade'">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="aoType" id="kommune" value="1" data-bind="checked: aoType"> Kommune
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="aoType" id="fylke" value="2" data-bind="checked: aoType"> Fylke
+                                    </label>
+                                    <p class="help-block">Velg geografisk inndeling for miljøvariabelkartet. De opplastede dataene må inneholde Fylke/Kommunenummer og trinnverdi.</p>
+                                </div>
+
+                                <label class="control-label" for="dokumenter">Miljøvariabelkartet og tilhørende dokumenter</label>
+                                <input class="form-control" type="file" name="dokumenter" id="dokumenter" multiple />
+                                <p class="help-block">Her velger du datafilen og alle tilhørende dokumenter.</p>
+
+                                <label class="control-label" for="dokumentBeskrivelse">Dokumentbeskrivelse</label>
+                                <textarea data-bind="value: dokumentBeskrivelse" name="dokumentBeskrivelse" id="dokumentBeskrivelse" class="form-control" rows="3" placeholder="Dokumentbeskrivelse"></textarea>
+                                <p class="help-block">Beskrivelse av dokumentene: Tittel, beskrivelse, forfatter.</p>
+
+                                <button type="submit" class="submit btn btn-default" data-bind="click: uploadOtherGrid">Lagre miljøvariabelkart</button>
+                                <button type="reset" class="pull-right btn btn-default">Nullstill</button>
+                                <span data-bind="visible: uploadOtherGridSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                                <div class="pull-right" data-bind="visible: uploadOtherGridReady">
+                                    <span data-bind="visible: uploadOtherGridSuccess" class="bg-success glyphicon glyphicon-ok"></span>
+                                    <span data-bind="visible: !uploadOtherGridSuccess()" class="bg-danger glyphicon glyphicon-remove"></span>
+                                    <span data-bind="visible: !uploadOtherGridSuccess(), text: uploadOtherGridResult" class="bg-danger"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div data-bind="visible: isAdministrator" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="importHeadingFive">
+                <p class="panel-title">
+                    <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#importAccordion" href="#listAllGridDeliveriesCollapse" aria-expanded="false" aria-controls="listAllGridDeliveriesCollapse" title="List nye dataleveranser">
+                        List nye miljøvariabelkart
+                        <span class="pull-right glyphicon glyphicon-th-list"></span>
+                    </a>
+                </p>
+            </div>
+            <div id="listAllGridDeliveriesCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                <form class="form-horizontal well">
+                    <div class="control-group">
+                        <span data-bind="visible: listAllGridDeliveriesSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                        <div class="pull-right" data-bind="visible: listAllGridDeliveriesReady">
+                            <p data-bind="visible: !listAllGridDeliveriesSuccess(), text: listAllGridDeliveriesResult" class="bg-danger glyphicon glyphicon-remove"></p>
+                        </div>
+                        <div data-bind="visible: listAllGridDeliveriesReady">
+                            <div class="row clearfix">
+                                <div class="col-md-12 column">
+                                    <table class="table table-bordered table-striped" id="listAllGridDeliveries">
+                                        <thead>
+                                            <tr>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'id')" class="pointerCursor">
+                                                    Id
+                                                </th>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'value')" class="pointerCursor">
+                                                    Kode
+                                                </th>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'name')" title="Navn på leveransen" class="pointerCursor">
+                                                    Navn
+                                                </th>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'sortDate')" title="Dato etablert" class="pointerCursor">
+                                                    Dato
+                                                </th>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'username')" title="Brukernavn til opplaster" class="pointerCursor">
+                                                    Opplaster
+                                                </th>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'contactPerson')" title="Datakilde er hentet fra 'Owner' i leveransen" class="pointerCursor">
+                                                    Datakilde
+                                                </th>
+                                                <th data-bind="click: sortGridColumn.bind($data, 'gridType')" title="Inndeling i SSB-rutenett eller administrative områder" class="pointerCursor">
+                                                    Inndeling
+                                                </th>
+                                                <th title="Slett opplastede miljøvariabelkart">
+                                                    Slett
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: listAllGrid">
+                                            <tr>
+                                                <td data-bind="text: id, attr: {title: 'Intern id: ' + fullId}"></td>
+                                                <td data-bind="text: value, attr: {title: registryVersion}"></td>
+                                                <td data-bind="text: name, attr: {title: description}"></td>
+                                                <td data-bind="text: established"></td>
+                                                <td data-bind="text: username"></td>
+                                                <td>
+                                                    <a data-bind="text: contactPerson, attr: {href: 'mailto:' + email + '?Subject=' + name} "></a> -
+                                                    <a data-bind="text: company, attr: {href: url, target:'_blank'} "></a>
+                                                </td>
+                                                <td data-bind="text: gridType"></td>
+                                                <td>
+                                                    <span data-bind="click: $parent.deleteGridUpload" class="glyphicon glyphicon-trash" title="Slett dette miljøvariabelkartet med tilhørende dokumenter"></span>                                                    
+                                                </td>
+                                                </tr><tr>
+                                            <td colspan="8">
+                                                <span data-bind="text: documentDescription"></span>
+                                                <div data-bind="foreach: documents">
+                                                    <div data-bind="if: isimage">
+                                                        <div class="glyphicon glyphicon-picture" data-bind="attr: {title: description}"></div>
+                                                        <a data-bind="text:filename, attr: {title: description, href: url, target:'_blank'}"></a><br/>
+                                                    </div>
+                                                    <div data-bind="ifnot: isimage">
+                                                        <div class="glyphicon glyphicon-file" data-bind="attr: {title: description}"></div>
+                                                        <a data-bind="text:filename, attr: {title: description, href: url, download: filename}"></a><br/>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

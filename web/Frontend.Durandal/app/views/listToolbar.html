@@ -1,0 +1,35 @@
+﻿<div class="form-inline">
+    <div class="btn-group">
+        <button data-bind="enable: exportEnabled, attr:{title: exportEnabled() ? 'Eksporter utvalget i ulike formater' : 'Utvalget er for stort for eksport (>' + maxExportItems() + ')'}" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyph-button glyphicon glyphicon-download-alt"></span>
+            Eksport <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li title="Eksporter i GML-format"><a data-bind="click: exportGml" href="#">GML</a></li>
+            <li title="Eksporter i XML-format"><a data-bind="click: exportXml" href="#">XML</a></li>
+            <li title="Eksporter i Shape-fromat"><a data-bind="click: exportShape" href="#">Shape</a></li>
+            <li title="Eksporter i MS Excel-fromat"><a data-bind="click: exportExcel" href="#">Excel</a></li>
+        </ul>
+    </div>
+    <span data-bind="visible: showSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+
+    <button title="Veksle fullskjermsvisning" type="button" data-bind="click: toggleFullscreen" class="btn btn-default form-control glyph-button glyphicon glyphicon-fullscreen hidden-xs"></button>
+
+    <div class="hidden-xs form-group bookmarks" data-bind="css: { 'open panel panel-default': openBookmarks()}">
+        <div data-bind="css: { 'panel-body': openBookmarks}, visible: bookmarks().length">
+            <button class="btn btn-link btn-xs pull-right glyphicon glyphicon-remove"
+                    data-bind="click: toggleBookmarksContainer,
+                    css: { 'glyphicon-folder-open': !openBookmarks() },
+                    visible: (bookmarks().length > 5 || openBookmarks())"></button>
+            <div class="b-container pull-left" data-bind="foreach: tiledBookmarks()">
+                <div class="b-row" data-bind="foreach: $data">
+                    <div class="form-control bookmark"
+                         title="Sett utvalg basert på dette bokmerket"
+                         data-bind="click: $parents[1].applyFilter, style: {'width': '48px', 'height': '34px', 'background-image': 'url(' + image + ')'}">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

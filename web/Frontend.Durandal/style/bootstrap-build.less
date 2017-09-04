@@ -1,0 +1,85 @@
+﻿@boot: "./wwwroot/lib/bootstrap/less";
+//@boot: "bootstrap";
+
+// Core variables and mixins
+@import "@{boot}/variables.less";
+
+// Artsdatabanken
+@import "bootstrap-variable-overrides.less";
+
+
+
+@import "@{boot}/mixins.less";
+
+// Reset and dependencies
+@import "@{boot}/normalize.less";
+@import "@{boot}/print.less";
+@import "@{boot}/glyphicons.less";
+
+// Core CSS
+@import "@{boot}/scaffolding.less";
+@import "@{boot}/type.less";
+@import "@{boot}/code.less";
+@import "@{boot}/grid.less";
+@import "@{boot}/tables.less";
+@import "@{boot}/forms.less";
+@import "@{boot}/buttons.less";
+
+// Components
+@import "@{boot}/component-animations.less";
+@import "@{boot}/dropdowns.less";
+@import "@{boot}/button-groups.less";
+@import "@{boot}/input-groups.less";
+@import "@{boot}/navs.less";
+/*@import "@{boot}/navbar.less";*/
+//@import "@{boot}/breadcrumbs.less";
+@import "@{boot}/pagination.less";
+@import "@{boot}/pager.less";
+@import "@{boot}/labels.less";
+@import "@{boot}/badges.less";
+//@import "@{boot}/jumbotron.less";
+//@import "@{boot}/thumbnails.less";
+@import "@{boot}/alerts.less";
+//@import "@{boot}/progress-bars.less";
+//@import "@{boot}/media.less";
+@import "@{boot}/list-group.less";
+@import "@{boot}/panels.less";
+@import "@{boot}/responsive-embed.less";
+@import "@{boot}/wells.less";
+@import "@{boot}/close.less";
+
+// Components w/ JavaScript
+@import "@{boot}/modals.less";
+@import "@{boot}/tooltip.less";
+@import "@{boot}/popovers.less";
+//@import "@{boot}/carousel.less";
+
+// Utility classes
+@import "@{boot}/utilities.less";
+@import "@{boot}/responsive-utilities.less";
+
+
+
+
+// Artsdatabanken
+@import "styleinfo.less";
+@import "bootstrap-style-overrides.less";
+@import "module-mainpanels.less";
+@import "module-menubar.less";
+@import "module-panel.less";
+@import "module-map.less";
+@import "module-jqauto.less";
+@import "module-image.less";
+@import "module-site.less";
+
+.dummy {
+    background-color: aqua;
+}
+
+
+//fix for firefox fieldset weirdness
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+

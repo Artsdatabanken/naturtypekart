@@ -1,0 +1,11 @@
+{
+  "name": "mapprocessing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mapnik.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bjorn Reppen <bjreppen@gmail.com> (https://github.com/Mashi)",
+  "license": "ISC"
+}

@@ -1,0 +1,22 @@
+﻿<div class="form-inline">
+    <button title="Veksle fullskjermsvisning" type="button" data-bind="click: toggleFullscreen" class="btn btn-default form-control glyph-button glyphicon glyphicon-fullscreen hidden-xs"></button>
+    
+    <div class="hidden-xs form-group bookmarks" data-bind="css: { 'open panel panel-default': openBookmarks()}">
+        <div data-bind="css: { 'panel-body': openBookmarks}, visible: bookmarks().length">
+            <button class="btn btn-link btn-xs pull-right glyphicon glyphicon-remove"
+                    data-bind="click: toggleBookmarksContainer,
+                    css: { 'glyphicon-folder-open': !openBookmarks() },
+                    visible: (bookmarks().length > 5 || openBookmarks())"></button>
+            <div class="b-container pull-left" data-bind="foreach: tiledBookmarks()">
+                <div class="b-row" data-bind="foreach: $data">
+                    <div class="form-control bookmark"
+                         title="Sett utvalg basert på dette bokmerket"
+                         data-bind="click: $parents[1].applyFilter, style: {'width': '48px', 'height': '34px', 'background-image': 'url(' + image + ')'}">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

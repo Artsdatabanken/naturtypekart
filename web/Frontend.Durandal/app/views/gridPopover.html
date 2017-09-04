@@ -1,0 +1,113 @@
+﻿<div id="myGridPopoverContentContainer" class="hide">
+    <div class="mapPopover" id="gridInfo">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title" id="gridType">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseGridTypes" href="javascript: $('#collapseGridTypes').collapse('toggle');void(0);">
+                            <span data-bind="text: name"></span>
+                            (<span data-bind="text: tag"></span>)
+                        </a>
+                    </h4>
+                    <div class="pull-right headerButton">
+                        <button title="Eksporter datagrunnlaget for dette miljøvariabelkartet" type="button" data-bind="click : exportGrid" class="glyphicon glyphicon-download-alt hidden-xs"></button>
+                        <span data-bind="visible: exportSpinner" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                    </div>
+                </div>
+                <div id="collapseGridTypes" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <span data-bind="if: hasId">
+                            <label class="control-label" for="gridCellId">Id:</label>
+                        </span>
+                        <span data-bind="ifnot: hasId">
+                            <span data-bind="if: tag() == 'Fylke'">
+                                <label class="control-label" for="gridCellId">Fylke:</label>
+                            </span>
+                            <span data-bind="if: tag() == 'Kommune'">
+                                <label class="control-label" for="gridCellId">Kommune:</label>
+                            </span>
+                        </span>
+                        <span data-bind="text: id" id="gridCellId"></span><br />
+
+                        <span data-bind="if: hasCodeUrl">
+                            <label class="control-label" for="gridCode">Kode:</label>
+                            <a data-bind="text: code, attr: {href: codeUrl, target:'_blank'}" id="gridCode"></a><br />
+                        </span>
+                        <span data-bind="ifnot: hasCodeUrl">
+                            <label class="control-label" for="gridCodeLink">Kode:</label>
+                            <span data-bind="text: code" id="gridCodeLink"></span><br />
+                        </span>
+                        <label class="control-label" for="gridCodeDescription">Beskrivelse:</label>
+                        <span data-bind="text: codeDescription" id="gridCodeDescription"></span><br />
+                        <label class="control-label" for="gridCodeValue">Verdi:</label>
+                        <span data-bind="text: value" id="gridCodeValue"></span><br />
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title" id="gridDetails">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseGridDetails" href="javascript: $('#collapseGridDetails').collapse('toggle');void(0);">
+                            Miljøvariabelkart
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseGridDetails" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <label class="control-label" for="gridDescription">Beskrivelse:</label>
+                        <span data-bind="text: description" id="gridDescription"></span><br />
+                        <label class="control-label" for="gridMinValue">Minste verdi:</label>
+                        <span data-bind="text: minValue" id="gridMinValue"></span><br />
+                        <label class="control-label" for="gridMaxValue">Største verdi:</label>
+                        <span data-bind="text: maxValue" id="gridMaxValue"></span><br />
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title" id="gridOwner">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseGridOwner" href="javascript: $('#collapseGridOwner').collapse('toggle');void(0);">
+                                        Eier
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseGridOwner" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <label class="control-label" for="gridOwnerCompany">Firma:</label>
+                                    <span data-bind="text: gridOwnerCompany" id="gridOwnerCompany"></span><br />
+                                    <label class="control-label" for="gridOwnerContactPerson">Kontaktperson:</label>
+                                    <span data-bind="text: gridOwnerContactPerson" id="gridOwnerContactPerson"></span><br />
+                                    <label class="control-label" for="gridOwnerEmail">Epost:</label>
+                                    <span data-bind="text: gridOwnerEmail" id="gridOwnerEmail"></span><br />
+                                    <label class="control-label" for="gridPhone">Telefon:</label>
+                                    <span data-bind="text: gridOwnerPhone" id="gridOwnerPhone"></span><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title" id="gridDocuments">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseGridDocuments" href="javascript: $('#collapseGridDocuments').collapse('toggle');void(0);">
+                                        Dokumenter
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseGridDocuments" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div data-bind="if: gridDocuments().length == 0">Ingen dokumenter</div>
+                                    <div data-bind="foreach: gridDocuments">
+                                        <div data-bind="if: newWindow">
+                                            <div class="glyphicon glyphicon-picture"></div>
+                                            <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br />
+                                        </div>
+                                        <div data-bind="ifnot: newWindow">
+                                            <div class="glyphicon glyphicon-file"></div>
+                                            <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

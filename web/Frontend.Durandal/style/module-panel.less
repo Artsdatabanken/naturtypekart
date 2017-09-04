@@ -1,0 +1,56 @@
+﻿@toolbar-height: 50px;
+@sidebar-menu-height: 35px; // tool-tabs menu
+
+
+.l-fillparent {
+    /*height: 100%;
+    width: 100%;*/
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.l-sidebarmenu {
+    top: 0;
+    height: @sidebar-menu-height;
+    width: 100%;
+    overflow: hidden;
+    /*background-color: lightgray;*/
+}
+
+.l-sidebarcontent {
+    top:  @sidebar-menu-height;
+    bottom: 0;
+    width: 100%;
+    position:absolute;
+    overflow-x: hidden;
+}
+
+.l-paneltoolbar {
+    top: 0;
+    height: @toolbar-height;
+    width: 100%;
+    overflow: hidden;
+    /*background-color: lightgray;*/
+}
+
+.l-panelcontent {
+    top:  @toolbar-height;
+    bottom: 0;
+    width: 100%;
+    position:absolute;
+    overflow-x: hidden;
+    //height: 100%;
+}
+
+.l-vscroll {
+    overflow-y: auto;
+    //height: 100%;
+}
+
+.l-fullwidth {
+    padding-left: 0  !important;
+    padding-right: 0 !important;
+}

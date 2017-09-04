@@ -1,0 +1,205 @@
+﻿<div id="myPopoverContentContainer" class="hide">
+<div class="mapPopover" id="natureAreaInfo">
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" id="natureLevel">
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseNatureTypes" href="javascript: $('#collapseNatureTypes').collapse('toggle');void(0);">
+                    <span data-bind="text: natureAreaNatureLevel" id="natureAreaNatureLevel"></span>
+                </a>
+            </h4>
+            <div class="pull-right headerButton">
+                <button title="Faktaark" type="button" data-bind="click: factSheet" class="glyphicon glyphicon-paperclip"></button>
+                <button title="Eksporter" type="button" data-bind="click: exportOne" class="glyphicon glyphicon-download-alt hidden-xs"></button>
+            </div>
+
+        </div>
+        <div id="collapseNatureTypes" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <span id="natureAreaLegends"></span>
+                            </div>
+                            <div class="col-xs-1">
+                                <span id="natureAreaChart"></span>
+                            </div>
+                        </div>
+                        <div data-bind="if: natureAreaDescriptionVariables().length != 0">
+                            <label class="control-label">Beskrivelsesvariabler:</label>
+                        </div>
+                        <div data-bind="foreach: natureAreaDescriptionVariables">
+                            <a class="accordion-toggle" data-bind="text: codeAndValue, attr: {href: url, target:'_blank', title: description}">
+                            </a>
+                            <br/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" id="natureAreaDetails">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaDetails" href="javascript: $('#collapseNatureAreaDetails').collapse('toggle');void(0);">
+                    Detaljer
+                </a>
+            </h4>
+        </div>
+        <div id="collapseNatureAreaDetails" class="panel-collapse collapse">
+            <div class="panel-body">
+                <label class="control-label" for="natureAreaId">Id:</label>
+                <span data-bind="text: natureAreaId" id="natureAreaId"></span><br/>
+                <label class="control-label" for="natureAreaVersion">Versjon:</label>
+                <span data-bind="text: natureAreaVersion" id="natureAreaVersion"></span><br/>
+                <label class="control-label" for="natureAreaSurveyed">Kartlagt:</label>
+                <span class="date" data-bind="text: natureAreaSurveyed" id="natureAreaSurveyed"></span><br/>
+                <label class="control-label" for="natureAreaDescription">Beskrivelse:</label>
+                <span data-bind="text: natureAreaDescription" id="natureAreaDescription"></span><br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" id="natureAreaSurvayer">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaSurveyer" href="javascript: $('#collapseNatureAreaSurveyer').collapse('toggle');void(0);">
+                                Kartlegger
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseNatureAreaSurveyer" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <label class="control-label" for="natureAreaSurveyerCompany">Firma:</label>
+                            <span data-bind="text: natureAreaSurveyerCompany" id="natureAreaSurveyerCompany"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyerContactPerson">Kontaktperson:</label>
+                            <span data-bind="text: natureAreaSurveyerContactPerson" id="natureAreaSurveyerContactPerson"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyerEmail">Epost:</label>
+                            <span data-bind="text: natureAreaSurveyerEmail" id="natureAreaSurveyerEmail"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyerPhone">Telefon:</label>
+                            <span data-bind="text: natureAreaSurveyerPhone" id="natureAreaSurveyerPhone"></span><br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" id="natureAreaDocuments">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaDocuments" href="javascript: $('#collapseNatureAreaDocuments').collapse('toggle');void(0);">
+                                Dokumenter
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseNatureAreaDocuments" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div data-bind="if: natureAreaDocuments().length == 0">Ingen dokumenter</div>
+                            <div data-bind="foreach: natureAreaDocuments">
+                                <div data-bind="if: newWindow">
+                                    <div class="glyphicon glyphicon-picture"></div>
+                                    <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br/>
+                                </div>
+                                <div data-bind="ifnot: newWindow">
+                                    <div class="glyphicon glyphicon-file"></div>
+                                    <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" id="natureAreaSurvey">
+                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaSurvey" href="javascript: $('#collapseNatureAreaSurvey').collapse('toggle');void(0);">
+                    Kartlegging
+                </a>
+            </h4>
+        </div>
+        <div id="collapseNatureAreaSurvey" class="panel-collapse collapse">
+            <div class="panel-body">
+                <label class="control-label" for="natureAreaSurveyId">Id:</label>
+                <span data-bind="text: natureAreaSurveyId" id="natureAreaSurveyId"></span><br/>
+                <label class="control-label" for="natureAreaSurveyProgram">Program:</label>
+                <span data-bind="text: natureAreaSurveyProgram" id="natureAreaSurveyProgram"></span><br/>
+                <label class="control-label" for="natureAreaSurveyProjectName">Prosjektnavn:</label>
+                <span data-bind="text: natureAreaSurveyProjectName" id="natureAreaSurveyProjectName"></span><br/>
+                <label class="control-label" for="natureAreaSurveyProjectDescription">Prosjektbeskrivelse:</label>
+                <span data-bind="text: natureAreaSurveyProjectDescription" id="natureAreaSurveyProjectDescription"></span><br/>
+                <label class="control-label" for="natureAreaSurveyPurpose">Formål:</label>
+                <span data-bind="text: natureAreaSurveyPurpose" id="natureAreaSurveyPurpose"></span><br/>
+                <label class="control-label" for="natureAreaSurveyFrom">Kartlagt fra:</label>
+                <span class="date" data-bind="text: natureAreaSurveyFrom" id="natureAreaSurveyFrom"></span><br/>
+                <label class="control-label" for="natureAreaSurveyTo">Kartlagt til:</label>
+                <span class="date" data-bind="text: natureAreaSurveyTo" id="natureAreaSurveyTo"></span><br/>
+                <label class="control-label" for="natureAreaSurveyScale">Kartleggingsmålestokk:</label>
+                <span data-bind="text: natureAreaSurveyScale" id="natureAreaSurveyScale"></span><br/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" id="natureAreaSurveyContractor">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaSurveyContractor" href="javascript: $('#collapseNatureAreaSurveyContractor').collapse('toggle');void(0);">
+                                Bestiller
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseNatureAreaSurveyContractor" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <label class="control-label" for="natureAreaSurveyContractorCompany">Firma:</label>
+                            <span data-bind="text: natureAreaSurveyContractorCompany" id="natureAreaSurveyContractorCompany"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyContractorContactPerson">Kontaktperson:</label>
+                            <span data-bind="text: natureAreaSurveyContractorContactPerson" id="natureAreaSurveyContractorContactPerson"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyContractorEmail">Epost:</label>
+                            <span data-bind="text: natureAreaSurveyContractorEmail" id="natureAreaSurveyContractorEmail"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyerPhone">Telefon:</label>
+                            <span data-bind="text: natureAreaSurveyContractorPhone" id="natureAreaSurveyContractorPhone"></span><br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" id="natureAreaSurveyOwner">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaSurveyOwner" href="javascript: $('#collapseNatureAreaSurveyOwner').collapse('toggle');void(0);">
+                                Eier
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseNatureAreaSurveyOwner" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <label class="control-label" for="natureAreaSurveyOwnerCompany">Firma:</label>
+                            <span data-bind="text: natureAreaSurveyOwnerCompany" id="natureAreaSurveyOwnerCompany"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyOwnerContactPerson">Kontaktperson:</label>
+                            <span data-bind="text: natureAreaSurveyOwnerContactPerson" id="natureAreaSurveyOwnerContactPerson"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyOwnerEmail">Epost:</label>
+                            <span data-bind="text: natureAreaSurveyOwnerEmail" id="natureAreaSurveyOwnerEmail"></span><br/>
+                            <label class="control-label" for="natureAreaSurveyerPhone">Telefon:</label>
+                            <span data-bind="text: natureAreaSurveyOwnerPhone" id="natureAreaSurveyOwnerPhone"></span><br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" id="natureAreaSurveyDocuments">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseNatureAreaSurveyDocuments" href="javascript: $('#collapseNatureAreaSurveyDocuments').collapse('toggle');void(0);">
+                                Dokumenter
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseNatureAreaSurveyDocuments" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div data-bind="if: natureAreaSurveyDocuments().length == 0">Ingen dokumenter</div>
+                            <div data-bind="foreach: natureAreaSurveyDocuments">
+                                <div data-bind="if: newWindow">
+                                    <div class="glyphicon glyphicon-picture"></div>
+                                    <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br/>
+                                </div>
+                                <div data-bind="ifnot: newWindow">
+                                    <div class="glyphicon glyphicon-file"></div>
+                                    <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>

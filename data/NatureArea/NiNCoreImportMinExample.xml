@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nin:DataLeveranse xmlns:nin='http://kart4.nois.no/skjema/nin' xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>dataLeveranseMinNavn</nin:navn>
+  <nin:leveranseDato>2015-09-21T13:00:00</nin:leveranseDato>
+  <nin:operatoer>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>firmaMinNavn</nin:firmaNavn>
+    </nin:Kontaktinformasjon>
+  </nin:operatoer>
+  <nin:metadata>
+    <nin:Metadata gml:id='METADATA_3fc45ba1-2ce5-46fb-8cbe-159a501e18b7'>
+      <nin:unikId>
+        <nin:Identifikasjon>
+          <nin:lokalId>3fc45ba1-2ce5-46fb-8cbe-159a501e18b7</nin:lokalId>
+          <nin:navnerom>NBic.NiN</nin:navnerom>
+        </nin:Identifikasjon>
+      </nin:unikId>
+      <nin:program>program</nin:program>
+      <nin:prosjektnavn>prosjektnavn</nin:prosjektnavn>
+      <nin:oppdragsgiver>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>firmaMinNavn</nin:firmaNavn>
+        </nin:Kontaktinformasjon>
+      </nin:oppdragsgiver>
+      <nin:eier>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>firmaMinNavn</nin:firmaNavn>
+        </nin:Kontaktinformasjon>
+      </nin:eier>
+      <nin:kartlagtFraDato>2015-09-19T23:00:00</nin:kartlagtFraDato>
+      <nin:kartlagtTilDato>2015-09-21T03:00:00</nin:kartlagtTilDato>
+      <nin:kartleggingsMaalestokk>kartleggings m�lestokk</nin:kartleggingsMaalestokk>
+      <nin:dekningsOmraade>
+        <gml:Polygon gml:id="GEOMETRY_3fc45ba1-2ce5-46fb-8cbe-159a501e18b7" srsName="urn:ogc:def:crs:EPSG::25832">
+          <gml:exterior>
+            <gml:LinearRing>
+              <gml:posList>-11 55 -10 35 -5.5 36 -1 36 1 38 5 38 11 38 14 36 26 33 29 36 26 39 29 46 39 47 40 49 27 56 27 60 25 60 20 58 21 56 19 55 11 55 10 57 7 57 8 54 3 53 -2 60 -8 58 -11 55</gml:posList>
+            </gml:LinearRing>
+          </gml:exterior>
+        </gml:Polygon>
+      </nin:dekningsOmraade>
+      <nin:kvalitet>
+        <nin:Posisjonskvalitet>
+          <nin:maalemetode>10</nin:maalemetode>
+        </nin:Posisjonskvalitet>
+      </nin:kvalitet>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id='NATUREAREA_3fc45ba1-2ce5-46fb-8cbe-259a501e18b8'>
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>3fc45ba1-2ce5-46fb-8cbe-259a501e18b8</nin:lokalId>
+              <nin:navnerom>ADB.NiN</nin:navnerom>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>versjon</nin:versjon>
+          <nin:nivaa>3</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_3fc45ba1-2ce5-46fb-8cbe-259a501e18b8" srsName="urn:ogc:def:crs:EPSG::25832">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>-11 55 -10 35 -5.5 36 -1 36 1 38 5 38 11 38 14 36 26 33 29 36 26 39 29 46 39 47 40 49 27 56 27 60 25 60 20 58 21 56 19 55 11 55 10 57 7 57 8 54 3 53 -2 60 -8 58 -11 55 -11 55</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:parametre>
+            <nin:Beskrivelsesvariabel>
+              <nin:kode>LD1-1</nin:kode>
+              <nin:verdi>verdi1</nin:verdi>
+            </nin:Beskrivelsesvariabel>
+          </nin:parametre>
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>LD1-1</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+    </nin:Metadata> 
+  </nin:metadata>
+</nin:DataLeveranse>

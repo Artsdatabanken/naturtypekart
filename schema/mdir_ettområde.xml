@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<nin:DataLeveranse
+  xmlns:nin='http://pavlov.itea.ntnu.no/NbicFiles'
+  xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>DataleveranseTest4</nin:navn>
+  <nin:leveranseDato>2017-01-09T12:00:00</nin:leveranseDato>
+  <nin:operatoer>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>xxxxxx xxxxxxx</nin:firmaNavn>
+      <nin:kontaktPerson>xxxx xxxxx</nin:kontaktPerson>
+      <nin:email>xxx@xxx.com</nin:email>
+      <nin:telefon>+4755566555</nin:telefon>
+      <nin:hjemmeside>http://www.nois.no</nin:hjemmeside>
+    </nin:Kontaktinformasjon>
+  </nin:operatoer>
+  <nin:beskrivelse>xxxxxxxxx</nin:beskrivelse>
+  <nin:metadata>
+    <nin:Metadata gml:id='METADATA_aaaaaaad-bbbb-cccc-dddd-000000000001'>
+      <nin:unikId>
+        <nin:Identifikasjon>
+          <nin:lokalId>aaaaaaad-bbbb-cccc-dddd-000000000001</nin:lokalId>
+          <nin:navnerom>NOIS</nin:navnerom>
+          <nin:versjonId>1.0</nin:versjonId>
+        </nin:Identifikasjon>
+      </nin:unikId>
+      <nin:program>Test</nin:program>
+      <nin:prosjektnavn>Naturtyper i Norge</nin:prosjektnavn>
+      <nin:prosjektbeskrivelse>Kartlegging av naturtyper i Norge</nin:prosjektbeskrivelse>
+      <nin:formaal>Kartlegging og dokumentasjon</nin:formaal>
+      <nin:oppdragsgiver>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+          <nin:kontaktPerson>Helge Sandmark</nin:kontaktPerson>
+          <nin:email>helge.sandmark@artsdatabanken.no</nin:email>
+          <nin:telefon>+4790694852</nin:telefon>
+          <nin:hjemmeside>http://www.artsdatabanken.no</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:oppdragsgiver>
+      <nin:eier>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+          <nin:kontaktPerson>Steinar H�seggen</nin:kontaktPerson>
+          <nin:email>steinar.hoseggen@geomatikk-ikt.no</nin:email>
+          <nin:telefon>+4790088007 </nin:telefon>
+          <nin:hjemmeside>http://www.geomatikk-ikt.no</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:eier>
+      <nin:kartlagtFraDato>2015-11-07T08:00:00</nin:kartlagtFraDato>
+      <nin:kartlagtTilDato>2015-11-08T16:00:00</nin:kartlagtTilDato>
+      <nin:kartleggingsMaalestokk>1:5000</nin:kartleggingsMaalestokk>
+      <nin:dekningsOmraade>
+        <gml:Polygon gml:id="GEOMETRY_aaaaaaad-bbbb-cccc-dddd-000000000001" srsName="EPSG::25832" srsDimension="3">
+          <gml:exterior>
+            <gml:LinearRing>
+              <gml:posList>250200 6735080 0 250310 6735210 0 250710 6735220 0 250200 6735080 0</gml:posList>
+            </gml:LinearRing>
+          </gml:exterior>
+        </gml:Polygon>
+      </nin:dekningsOmraade>
+      <nin:kvalitet>
+        <nin:Posisjonskvalitet>
+          <nin:maalemetode>10</nin:maalemetode>
+          <nin:noeyaktighet>5</nin:noeyaktighet>
+          <nin:synbarhet>0</nin:synbarhet>
+          <nin:maalemetodeHoeyde>10</nin:maalemetodeHoeyde>
+          <nin:noeyaktighetHoeyde>6</nin:noeyaktighetHoeyde>
+          <nin:maksimaltAvvik>7</nin:maksimaltAvvik>
+        </nin:Posisjonskvalitet>
+      </nin:kvalitet>
+      <nin:naturOmraader>
+        <nin:NaturOmraade gml:id="NATUREAREA_65e0d7af-0e23-4020-b621-31430ac85076">
+          <nin:unikId>
+            <nin:Identifikasjon>
+              <nin:lokalId>65e0d7af-0e23-4020-b621-31430ac85076</nin:lokalId>
+              <nin:navnerom>NO.MILJODIREKTORATET.NIN</nin:navnerom>
+              <nin:versjonId>2.1</nin:versjonId>
+            </nin:Identifikasjon>
+          </nin:unikId>
+          <nin:versjon>1</nin:versjon>
+          <nin:nivaa>4</nin:nivaa>
+          <nin:omraade>
+            <gml:Polygon gml:id="GEOMETRY_65e0d7af-0e23-4020-b621-31430ac85076" srsName="EPSG:32633">
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>86856.93730000034 6458427.5704 86846.362099999562 6458429.98 86843.079499999993 6458433.3339000009 86843.127100000158 6458432.5772999991 86843.219100000337 6458431.8045000006 86843.145999999717 6458430.8102 86842.422600000165 6458431.7959 86840.1941999998 6458437.0980999991 86839.37490000017 6458437.7364000008 86840.6754999999 6458441.3286000006 86837.86400000006 6458445.5458 86834.31269999966 6458454.646 86836.088399999775 6458463.0803999994 86836.088399999775 6458471.6626999993 86838.529900000431 6458485.2020999994 86841.341400000267 6458495.6340999994 86845.336600000039 6458505.9180999994 86855.424200000241 6458511.1899999995 86862.896800000221 6458512.3737 86862.896800000221 6458517.1088 86862.23089999985 6458518.8105 86869.407499999739 6458522.7316999994 86871.627100000158 6458524.6554000005 86876.362200000323 6458517.7747000009 86880.209400000051 6458519.1804000009 86885.240399999544 6458525.9871 86889.679600000381 6458532.0539 86890.97829999961 6458533.5830000006 86892.268099999987 6458533.2358 86909.3805999998 6458537.3917 86933.093700000085 6458516.9789 86939.5719999997 6458513.1897 86943.174599999562 6458513.7478 86956.580900000408 6458502.3034000006 86944.697999999858 6458493.85 86928.416100000031 6458499.2773 86912.1342000002 6458497.3235 86878.702200000174 6458483.6467 86858.729700000025 6458461.7205 86857.4271999998 6458436.7550000008 86856.93730000034 6458427.5704</gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </nin:omraade>
+          <nin:kartlegger>
+            <nin:Kontaktinformasjon>
+              <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+              <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+              <nin:email>knut@ecofact.no</nin:email>
+              <nin:telefon>41278567</nin:telefon>
+              <nin:hjemmeside />
+            </nin:Kontaktinformasjon>
+          </nin:kartlegger>
+          <nin:kartlagtDato>2016-07-12T11:48:12</nin:kartlagtDato>
+          <nin:beskrivelse></nin:beskrivelse>
+          <nin:parametre>
+            <nin:NaturomraadeType>
+              <nin:kode>NA_T34-C-2</nin:kode>
+              <nin:kartlegger>
+                <nin:Kontaktinformasjon>
+                  <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                  <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                  <nin:email>knut@ecofact.no</nin:email>
+                  <nin:telefon>41278567</nin:telefon>
+                  <nin:hjemmeside />
+                </nin:Kontaktinformasjon>
+              </nin:kartlegger>
+              <nin:kartlagtDato>2016-09-01T07:07:07</nin:kartlagtDato>
+              <nin:andel>10</nin:andel>
+              <nin:egendefinerteVariabler>
+                <nin:EgendefinertVariabel>
+                  <nin:betegnelse>RLNA28_4</nin:betegnelse>
+                  <nin:verdi></nin:verdi>
+                </nin:EgendefinertVariabel>
+              </nin:egendefinerteVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>1AG-A-0_2</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:07:38</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>1AG-B_3</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:08:10</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>1AG-A-E_0</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:08:04</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>5XG-SM_0</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:08:30</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7SE_2</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:09:54</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7GR-GI_1</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:09:04</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>BK-0</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:07:10</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7RA-SJ_2</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:09:21</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>5XG-ST_0</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:08:33</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7GR-EG_1</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:09:01</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7JB-BA_3</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:09:11</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>1AG-A-G_2</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:08:07</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7FA_1</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:08:48</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+              <nin:tilleggsVariabler>
+                <nin:Beskrivelsesvariabel>
+                  <nin:kode>7TK_0</nin:kode>
+                  <nin:kartlegger>
+                    <nin:Kontaktinformasjon>
+                      <nin:firmaNavn>EcofactSV</nin:firmaNavn>
+                      <nin:kontaktPerson>knustr (Knut Børge Strøm)</nin:kontaktPerson>
+                      <nin:email>knut@ecofact.no</nin:email>
+                      <nin:telefon>41278567</nin:telefon>
+                      <nin:hjemmeside />
+                    </nin:Kontaktinformasjon>
+                  </nin:kartlegger>
+                  <nin:kartlagtDato>2016-09-01T07:09:32</nin:kartlagtDato>
+                  <nin:verdi></nin:verdi>
+                  <nin:beskrivelse />
+                </nin:Beskrivelsesvariabel>
+              </nin:tilleggsVariabler>
+            </nin:NaturomraadeType>
+          </nin:parametre>
+        </nin:NaturOmraade>
+      </nin:naturOmraader>
+      <nin:variabelDefinisjoner>
+        <nin:StandardisertVariabel>
+          <nin:variabelDefinisjon>
+            <nin:Kode>
+              <nin:koderegister>NiN</nin:koderegister>
+              <nin:kodeversjon>2.0</nin:kodeversjon>
+              <nin:kode>NA_T34-C-2</nin:kode>
+            </nin:Kode>
+          </nin:variabelDefinisjon>
+        </nin:StandardisertVariabel>
+      </nin:variabelDefinisjoner>
+    </nin:Metadata>
+  </nin:metadata>
+</nin:DataLeveranse>

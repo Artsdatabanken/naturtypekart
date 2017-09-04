@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nin:OmraadeKart xmlns:nin='http://pavlov.itea.ntnu.no/NbicFiles' xmlns:gml='http://www.opengis.net/gml/3.2'>
+  <nin:navn>Omr�de kart</nin:navn>
+  <nin:beskrivelse>Omr�de kart test beskrivelse</nin:beskrivelse>
+  <nin:kode>
+    <nin:Kode>
+      <nin:koderegister>NiN</nin:koderegister>
+      <nin:kodeversjon>2.0</nin:kodeversjon>
+      <nin:kode>KA</nin:kode>
+    </nin:Kode>
+  </nin:kode>
+  <nin:eier>
+    <nin:Kontaktinformasjon>
+      <nin:firmaNavn>Artsdatabanken</nin:firmaNavn>
+      <nin:kontaktPerson>Magne T�ndel</nin:kontaktPerson>
+      <nin:email>maton@norconsult.com</nin:email>
+      <nin:telefon>+4748164614</nin:telefon>
+      <nin:hjemmeside>http://www.NOIS.com</nin:hjemmeside>
+    </nin:Kontaktinformasjon>
+  </nin:eier>
+  <nin:etablertDato>2016-01-28T08:00:00</nin:etablertDato>
+  <nin:dokumenter>
+    <nin:Dokument>
+      <nin:tittel>Skog</nin:tittel>
+      <nin:beskrivelse>Test av PNG bilde</nin:beskrivelse>
+      <nin:forfatter>
+        <nin:Kontaktinformasjon>
+          <nin:firmaNavn>Norconsult informasjonssystemer AS</nin:firmaNavn>
+          <nin:kontaktPerson>Magne T�ndel</nin:kontaktPerson>
+          <nin:email>maton@norconsult.com</nin:email>
+          <nin:telefon>+4748164614</nin:telefon>
+          <nin:hjemmeside>http://www.NOIS.com</nin:hjemmeside>
+        </nin:Kontaktinformasjon>
+      </nin:forfatter>
+      <nin:fil>skog.png</nin:fil>
+    </nin:Dokument>
+  </nin:dokumenter>
+  <nin:kartElementer>
+    <nin:OmraadeKartElement gml:id="KA_1">
+      <nin:id>1</nin:id>
+      <nin:geometri>
+        <gml:Polygon gml:id="KA_GEOMETRY_1" srsName="EPSG::32633">
+          <gml:exterior>
+            <gml:LinearRing>
+              <gml:posList>-41216.67659999989 6546386.1998 -41209.543700000271 6546392.5977 -41205.0223000003 6546393.1472999994 -41199.076600000262 6546393.4076 -41193.1688000001 6546393.359 -41180.984400000423 6546395.4545 -41181.703099999577 6546397.9868 -41182.230600000359 6546402.0832 -41182.356700000353 6546404.0384 -41182.273299999535 6546405.3 -41182.196100000292 6546406.3808 -41181.410299999639 6546417.9027 -41180.322900000028 6546428.2996999994 -41177.5 6546446.336 -41174.36959999986 6546459.3993 -41173.237099999562 6546466.9418 -41170.611700000241 6546481.1082 -41177.101700000465 6546472.6783 -41178.201500000432 6546463.9343 -41185.26 6546456.5728999991 -41189.850800000131 6546453.1287999991 -41193.721 6546452.6514 -41197.4729000004 6546453.8253 -41200.088999999687 6546456.6494 -41201.144399999641 6546457.7919 -41204.847000000067 6546466.3339 -41207.204800000414 6546471.9146 -41215.112099999562 6546468.326 -41220.3404000001 6546467.0846 -41222.924700000323 6546464.4469 -41228.200699999928 6546462.676 -41236.890499999747 6546458.5636 -41245.5206000004 6546459.1394 -41237.51350000035 6546448.9608 -41233.162200000137 6546433.6424 -41225.879200000316 6546418.332 -41219.2285000002 6546406.4022 -41217.67119999975 6546403.5627 -41217.634600000456 6546394.5753 -41216.67659999989 6546386.1998</gml:posList>
+            </gml:LinearRing>
+          </gml:exterior>
+        </gml:Polygon>
+      </nin:geometri>
+      <nin:trinnVerdi>2.5</nin:trinnVerdi>
+    </nin:OmraadeKartElement>
+  </nin:kartElementer>
+</nin:OmraadeKart>

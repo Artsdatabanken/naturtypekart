@@ -1,0 +1,9 @@
+{
+    "ConnectionString": "Server=; Database=;Integrated Security=True",
+    "ExternalDependency": {
+        "DocumentArchive": {
+            "DbUrl": "",
+            "FsUrl": ""
+        }
+    }
+}
