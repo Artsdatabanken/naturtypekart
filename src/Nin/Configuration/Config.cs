@@ -137,7 +137,7 @@ namespace Nin.Configuration
     public class Map
     {
         public int SpatialReferenceSystemIdentifier = 32633; // 3857;
-        public string MapLayersPath = @"D:\Nin\Map\";
+        public string MapLayersPath = @"Data\TempMap\";
         public int GeoJsonCoordinateDecimals = 2;
         public bool StoreBoundingBoxes = false;
 

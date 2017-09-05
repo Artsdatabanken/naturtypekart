@@ -34,6 +34,9 @@ using NinStandardVariabel = Nin.Types.MsSql.NinStandardVariabel;
 
 namespace Nin.IO.SqlServer
 {
+    /// <summary>
+    /// Hele denne klassen er teknisk gjeld og bør skrives om og testdekkes.
+    /// </summary>
     public static class SqlServer
     {
         public static void LagreDataleveranse(Dataleveranse dataleveranse)
@@ -41,7 +44,7 @@ namespace Nin.IO.SqlServer
             if (dataleveranse.Operator != null)
                 dataleveranse.Operator.Id = StoreContact(dataleveranse.Operator);
 
-            const string sql = "INSERT INTO DataDelivery (doc_id,name,deliveryDate,operator_id,reasonForChange,description,parent_id,created) OUTPUT (Inserted.id) VALUES (@doc_id,@name,@deliveryDate,@operator_id,@reasonForChange,@description,@parent_id,@created)";
+            const string sql = "INSERT INTO Dataleveranse (doc_id,name,leveranseDato,operatør_id,begrunnelseForEndring,beskrivelse,parent_id,opprettet) OUTPUT (Inserted.id) VALUES (@doc_id,@name,@deliveryDate,@operator_id,@reasonForChange,@description,@parent_id,@created)";
             using (var cmd = SqlStatement(sql))
             {
                 Log.d("LDL", "Id: " + dataleveranse.Id);
@@ -67,12 +70,12 @@ namespace Nin.IO.SqlServer
 
         public static void StoreArea(Area area)
         {
-            const string sql = "INSERT INTO Area (" +
-                               "areaType_id, " +
-                               "number," +
-                               "name," +
-                               "category, " +
-                               "area" +
+            const string sql = "INSERT INTO Område (" +
+                               "geometriType_id, " +
+                               "nummer," +
+                               "navn," +
+                               "kategori, " +
+                               "geometri" +
                                ") VALUES (" +
                                "@areaType_id," +
                                "@number," +
@@ -100,7 +103,7 @@ namespace Nin.IO.SqlServer
         public static void BulkStoreAreas(IEnumerable<Area> areas)
         {
             var areaTableParameter = ToTableParameter(areas);
-            using (var cmd = StoredProc("storeAreas"))
+            using (var cmd = StoredProc("storeOmrådes"))
             {
                 cmd.AddParameter(areaTableParameter);
                 cmd.CommandTimeout = 600;
@@ -134,7 +137,7 @@ namespace Nin.IO.SqlServer
         private static int StoreAreaLayerType(AreaLayer areaLayer)
         {
             const string sql = @"INSERT INTO AreaLayerType 
-(doc_guid, name, codeRegister, codeVersion,code, minValue,maxValue, description, established, owner_id) 
+(doc_guid, navn, koderegister, kodeversjon, kode, minimumsverdi, maksimumsverdi, beskrivelse, etablert, eier_id) 
 OUTPUT (Inserted.id) 
 VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue, @description, @established,@owner_id);";
 
@@ -159,12 +162,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         public static void BulkStoreGrid(Grid grid)
         {
             var gridCellTable = new DataTable();
-            gridCellTable.Columns.Add("gridType_id", typeof(int));
-            gridCellTable.Columns.Add("cellId", typeof(string));
-            gridCellTable.Columns.Add("cell", typeof(SqlBytes));
-            gridCellTable.Columns.Add("cellEpgs", typeof(int));
+            gridCellTable.Columns.Add("rutenettype_id", typeof(int));
+            gridCellTable.Columns.Add("geometrieId", typeof(string));
+            gridCellTable.Columns.Add("geometri", typeof(SqlBytes));
+            gridCellTable.Columns.Add("geometriEpsg", typeof(int));
 
-            using (var cmd = StoredProc("storeGrid"))
+            using (var cmd = StoredProc("storeRutenett"))
             {
 
                 foreach (var cell in grid.Cells)
@@ -177,9 +180,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                     gridCellTable.Rows.Add(row);
                 }
 
-                var gridTableParameter = new SqlParameter("@gridCells", SqlDbType.Structured)
+                var gridTableParameter = new SqlParameter("@rutenettCells", SqlDbType.Structured)
                 {
-                    TypeName = "Grid",
+                    TypeName = "Rutenett",
                     Value = gridCellTable
                 };
 
@@ -197,17 +200,17 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             if (gridLayer.Owner != null)
                 gridLayer.Owner.Id = StoreContact(gridLayer.Owner);
 
-            const string sql = "INSERT INTO GridLayerType(" +
+            const string sql = "INSERT INTO OmrådekartType(" +
                                "doc_guid, " +
-                               "name," +
-                               "codeRegister, " +
-                               "codeVersion, " +
-                               "code, " +
-                               "minValue," +
-                               "maxValue," +
-                               "description, " +
-                               "established, " +
-                               "owner_id" +
+                               "navn," +
+                               "koderegister, " +
+                               "kodeversjon, " +
+                               "kode, " +
+                               "minimumsverdi," +
+                               "maksimumsverdi," +
+                               "beskrivelse, " +
+                               "etablert, " +
+                               "eier_id" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -257,31 +260,31 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             {
                 var sql =
-                    "SELECT dv.code, na.id, 0 FROM NatureArea na, DescriptionVariable dv WHERE na.id = dv.natureArea_id";
+                    "SELECT dv.kode, na.id, 0 FROM Naturområde na, Beskrivelsesvariabel dv WHERE na.id = dv.naturområde_id";
 
                 if (!string.IsNullOrEmpty(geometry))
                 {
                     sql +=
-                        " AND na.area.STIntersects(@area) = 1";
+                        " AND na.geometri.STIntersects(@area) = 1";
                 }
 
                 sql +=
-                    " UNION SELECT nat.code, na.id, 1 FROM NatureArea na, NatureAreaType nat WHERE na.id = nat.natureArea_id";
+                    " UNION SELECT nat.kode, na.id, 1 FROM Naturområde na, NaturområdeType nat WHERE na.id = nat.naturområde_id";
 
                 if (!string.IsNullOrEmpty(geometry))
                 {
                     sql +=
-                        " AND na.area.STIntersects(@area) = 1";
+                        " AND na.geometri.STIntersects(@area) = 1";
                 }
 
                 sql +=
-                    " UNION SELECT dv.code, na.id, 0 FROM NatureArea na, DescriptionVariable dv, NatureAreaType nat WHERE na.id = nat.natureArea_id AND nat.id = dv.natureAreaType_id";
+                    " UNION SELECT dv.kode, na.id, 0 FROM Naturområde na, Beskrivelsesvariabel dv, NaturområdeType nat WHERE na.id = nat.naturområde_id AND nat.id = dv.naturområdetype_id";
 
                 if (!string.IsNullOrEmpty(geometry))
                 {
                     sql +=
                         " AND " +
-                        "na.area.STIntersects(@area) = 1";
+                        "na.geometri.STIntersects(@area) = 1";
                 }
 
                 using (var cmd = SqlStatement(sql))
@@ -312,21 +315,21 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             var natureAreaInstitutionSummary = new Collection<Tuple<string, int>>();
             var sql =
                 "SELECT " +
-                "na.institution, " +
+                "na.institusjon, " +
                 "count(1) as institutionCount " +
                 "FROM " +
-                "NatureArea na";
+                "Naturområde na";
 
             if (!string.IsNullOrEmpty(geometry))
             {
                 sql +=
                     " WHERE " +
-                    "na.area.STIntersects(@area) = 1";
+                    "na.geometri.STIntersects(@area) = 1";
             }
 
             sql +=
                 " GROUP BY " +
-                "institution";
+                "institusjon";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -356,40 +359,40 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             var areaSummary = new Collection<Tuple<int, string, string, AreaType, int>>();
             var sql =
                 "SELECT " +
-                "a.number, " +
-                "a.name, " +
-                "a.category, " +
-                "a.areaType_id, " +
-                "count(al.natureArea_id) " +
+                "a.nummer, " +
+                "a.navn, " +
+                "a.kategori, " +
+                "a.geometriType_id, " +
+                "count(al.naturområde_id) " +
                 "FROM " +
-                "AreaLink al, " +
-                "Area a";
+                "OmrådeLink al, " +
+                "Område a";
 
             if (!string.IsNullOrEmpty(geometry))
             {
                 sql +=
-                    ", NatureArea na";
+                    ", Naturområde na";
             }
 
             sql +=
                 " WHERE " +
-                "al.area_id = a.id ";
+                "al.geometri_id = a.id ";
 
             if (!string.IsNullOrEmpty(geometry))
             {
                 sql +=
                     "AND " +
-                    "al.natureArea_id = na.id " +
+                    "al.naturområde_id = na.id " +
                     "AND " +
-                    "na.area.STIntersects(@area) = 1 ";
+                    "na.geometri.STIntersects(@area) = 1 ";
             }
 
             sql +=
                 "GROUP BY " +
-                "a.number, " +
-                "a.name, " +
-                "a.category, " +
-                "a.areaType_id";
+                "a.nummer, " +
+                "a.navn, " +
+                "a.kategori, " +
+                "a.geometriType_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -425,26 +428,26 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 "SELECT " +
                 "count(1) " +
                 "FROM " +
-                "NatureArea na " +
+                "Naturområde na " +
                 "WHERE EXISTS(" +
                 "SELECT " +
                 "1 " +
                 "FROM " +
-                "AreaLink al, " +
-                "Area a " +
+                "OmrådeLink al, " +
+                "Område a " +
                 "WHERE " +
-                "al.natureArea_id = na.id " +
+                "al.naturområde_id = na.id " +
                 "AND " +
-                "al.area_id = a.id " +
+                "al.geometri_id = a.id " +
                 "AND " +
-                "a.areaType_id = @areaType_id" +
+                "a.geometriType_id = @areaType_id" +
                 ")";
 
             if (!string.IsNullOrEmpty(geometry))
             {
                 sql +=
                     " AND " +
-                    "na.area.STIntersects(@area) = 1 ";
+                    "na.geometri.STIntersects(@area) = 1 ";
             }
 
             using (var cmd = SqlStatement(sql))
@@ -470,17 +473,17 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             const string sql = "SELECT " +
                                "at.id " +
                                "FROM " +
-                               "AreaType at " +
+                               "OmrådeType at " +
                                "WHERE EXISTS(" +
                                "SELECT " +
                                "1 " +
                                "FROM " +
-                               "Area a, " +
-                               "AreaLayer al " +
+                               "Område a, " +
+                               "Områdekart al " +
                                "WHERE " +
-                               "at.id = a.areaType_id " +
+                               "at.id = a.geometriType_id " +
                                "AND " +
-                               "a.id = al.area_id " +
+                               "a.id = al.geometri_id " +
                                ")";
 
             using (var cmd = SqlStatement(sql))
@@ -506,14 +509,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             const string sql = "SELECT " +
                                "gt.id " +
                                "FROM " +
-                               "GridType gt " +
+                               "Rutenettype gt " +
                                "WHERE EXISTS(" +
                                "SELECT " +
                                "1 " +
                                "FROM " +
-                               "Grid g " +
+                               "Rutenett g " +
                                "WHERE " +
-                               "gt.id = g.gridType_id" +
+                               "gt.id = g.rutenettype_id" +
                                ")";
 
             using (var cmd = SqlStatement(sql))
@@ -620,7 +623,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             var metadatas = new Collection<Metadata>();
             if (localIds.Count == 0)
                 return metadatas;
-            const string sql = "SELECT md.id, md.localId, md.nameSpace, md.versionId, md.program, md.project, md.projectDescription, md.purpose, md.contractor_id, md.owner_id, md.surveyedFrom, md.surveyedTo, md.surveyScale, md.resolution, md.area, md.measuringMethod, md.accuracy, md.visibility, md.measuringMethodHeight, md.accuracyHeight, md.maxDeviation FROM Metadata md WHERE md.id IN (SELECT DISTINCT na.metadata_id FROM NatureArea na WHERE na.localId IN ({0}) )";
+            const string sql = "SELECT md.id, md.localId, md.navnerom, md.versjonId, md.program, md.prosjekt, md.prosjektbeskrivelse, md.formål, md.oppdragsgiver_id, md.eier_id, md.kartlagtFraDato, md.kartlagtTilDato, md.kartleggingsmålestokk, md.oppløsning, md.geometri, md.målemetode, md.nøyaktighet, md.visibility, md.målemetodeHøyde, md.nøyaktighetHøyde, md.maksimaltAvvik FROM KartlagtOmråde md WHERE md.id IN (SELECT DISTINCT na.kartlagtOmråde_id FROM Naturområde na WHERE na.localId IN ({0}) )";
 
             var localIdParameters = new Collection<string>();
 
@@ -756,23 +759,23 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         public static Collection<Area> GetAreas(AreaType areaType, int areaLayerTypeId = 0, int number = 0)
         {
             var areas = new Collection<Area>();
-            var sql = "SELECT a.id, a.areaType_id, a.number, a.name, a.category, a.area";
+            var sql = "SELECT a.id, a.geometriType_id, a.nummer, a.navn, a.kategori, a.geometri";
 
             if (areaLayerTypeId != 0)
-                sql += ", al.value";
+                sql += ", al.trinn";
 
-            sql += " FROM Area a";
+            sql += " FROM Område a";
 
             if (areaLayerTypeId != 0)
-                sql += ", AreaLayer al";
+                sql += ", Områdekart al";
 
-            sql += " WHERE a.areaType_id = @areaType_id";
+            sql += " WHERE a.geometriType_id = @areaType_id";
 
             if (number != 0)
-                sql += " AND number = @number";
+                sql += " AND nummer = @number";
 
             if (areaLayerTypeId != 0)
-                sql += " AND a.id = al.area_id AND al.areaLayerType_id = @areaLayerType_id";
+                sql += " AND a.id = al.geometri_id AND al.områdeKartType_id = @areaLayerType_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -809,14 +812,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         public static Collection<Area> SearchAreas(AreaType areaType, string searchName)
         {
             var areas = new Collection<Area>();
-            var sql = "SELECT areaType_id, number, name FROM Area WHERE ";
+            var sql = "SELECT geometriType_id, nummer, navn FROM Område WHERE ";
 
             if (areaType != AreaType.Undefined)
             {
-                sql += "areaType_id = @areaType_id AND ";
+                sql += "geometriType_id = @areaType_id AND ";
             }
 
-            sql += "name LIKE @searchName ORDER BY name";
+            sql += "navn LIKE @searchName ORDER BY navn";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -845,7 +848,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         public static Collection<Area> GetAreaLinkInfos(string wkt, int epsgCode)
         {
             var areaLinkInfos = new Collection<Area>();
-            const string sql = "SELECT id, areaType_id, number, name FROM Area WHERE area.STIntersects(@area) = 1";
+            const string sql = "SELECT id, geometriType_id, nummer, navn FROM Område WHERE geometri.STIntersects(@area) = 1";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -881,20 +884,20 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         {
             var grid = new Grid(rutenettType);
             var preSql = "";
-            var sql = "SELECT g.id, g.cellId, g.cell";
+            var sql = "SELECT g.id, g.geometrieId, g.geometri";
 
             if (gridLayerTypeId != 0)
-                sql += ", gl.value";
+                sql += ", gl.trinn";
 
-            sql += " FROM Grid g";
-
-            if (gridLayerTypeId != 0)
-                sql += ", GridLayer gl";
-
-            sql += " WHERE g.gridType_id = @gridType_id";
+            sql += " FROM Rutenett g";
 
             if (gridLayerTypeId != 0)
-                sql += " AND gl.grid_id = g.id AND gl.gridLayerType_id = @gridLayerType_id";
+                sql += ", Rutenettkart gl";
+
+            sql += " WHERE g.rutenettype_id = @gridType_id";
+
+            if (gridLayerTypeId != 0)
+                sql += " AND gl.rutenett_id = g.id AND gl.rutenettkartType_id = @gridLayerType_id";
 
             var parameters = new Collection<Tuple<string, SqlDbType, object>>
             {
@@ -913,8 +916,8 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 {
                     preSql += "DECLARE @_kommune geometry;\n";
                     preSql +=
-                        "SELECT @_kommune = area FROM Area WHERE areaType_id = 1 AND number = @kommunenummer;\n";
-                    sql += "cell.STIntersects(@_kommune) = 1";
+                        "SELECT @_kommune = geometri FROM Område WHERE geometriType_id = 1 AND nummer = @kommunenummer;\n";
+                    sql += "g.geometri.STIntersects(@_kommune) = 1";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@kommunenummer", SqlDbType.Int,
                         municipalities[0]));
                 }
@@ -926,7 +929,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                         //sql += "cell.STIntersects((SELECT area FROM Area WHERE areaType_id = 1 AND number = @municipality" + i + ")) = 1";
                         preSql += "DECLARE @_kommune" + i + " geometry;\n";
                         preSql += "SELECT @_kommune" + i +
-                                  " = area FROM Area WHERE areaType_id = 1 AND number = @kommunenummer" + i + ";\n";
+                                  " = geometri FROM Område WHERE geometriType_id = 1 AND nummer = @kommunenummer" + i + ";\n";
                         sql += "cell.STIntersects(@_kommune" + i + ") = 1";
                         if (i != municipalities.Count - 1) sql += " OR ";
                         parameters.Add(new Tuple<string, SqlDbType, object>("@kommunenummer" + i, SqlDbType.Int,
@@ -943,8 +946,8 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 {
                     //sql += "cell.STIntersects((SELECT area FROM Area WHERE areaType_id = 2 AND number = @fylke)) = 1";
                     preSql += "DECLARE @_fylke geometry;\n";
-                    preSql += "SELECT @_fylke = area FROM Area WHERE areaType_id = 2 AND number = @fylke;\n";
-                    sql += "cell.STIntersects(@_fylke) = 1";
+                    preSql += "SELECT @_fylke = geometri FROM Område WHERE geometriType_id = 2 AND nummer = @fylke;\n";
+                    sql += "g.geometri.STIntersects(@_fylke) = 1";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@fylke", SqlDbType.Int, counties[0]));
                 }
                 else
@@ -955,8 +958,8 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                         //sql += "cell.STIntersects((SELECT area FROM Area WHERE areaType_id = 2 AND number = @fylke" + i + ")) = 1";
                         preSql += "DECLARE @_fylke" + i + " geometry;\n";
                         preSql += "SELECT @_fylke" + i +
-                                  " = area FROM Area WHERE areaType_id = 2 AND number = @fylke" + i + ";\n";
-                        sql += "cell.STIntersects(@_fylke" + i + ") = 1";
+                                  " = geometri FROM Område WHERE geometriType_id = 2 AND nummer = @fylke" + i + ";\n";
+                        sql += "g.geometri.STIntersects(@_fylke" + i + ") = 1";
                         if (i != counties.Count - 1) sql += " OR ";
                         parameters.Add(new Tuple<string, SqlDbType, object>("@fylke" + i, SqlDbType.Int,
                             counties[i]));
@@ -974,7 +977,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
                 if (areaIntersection.STIsEmpty())
                     return new Grid(rutenettType);
-                sql += "cell.STIntersects(@area) = 1";
+                sql += "g.geometri.STIntersects(@area) = 1";
                 parameters.Add(new Tuple<string, SqlDbType, object>("@area", SqlDbType.VarBinary,
                     areaIntersection.Serialize()));
             }
@@ -982,14 +985,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             {
                 sql += " AND ";
                 var bbox = SqlGeometry.STGeomFromText(new SqlChars(boundingBox), espgCode).MakeValid();
-                sql += "cell.STIntersects(@area) = 1";
+                sql += "g.geometri.STIntersects(@area) = 1";
                 parameters.Add(new Tuple<string, SqlDbType, object>("@area", SqlDbType.VarBinary, bbox.Serialize()));
             }
             else if (!string.IsNullOrEmpty(geometry))
             {
                 sql += " AND ";
                 var area = SqlGeometry.STGeomFromText(new SqlChars(geometry), espgCode).MakeValid();
-                sql += "cell.STIntersects(@area) = 1";
+                sql += "g.geometri.STIntersects(@area) = 1";
                 parameters.Add(new Tuple<string, SqlDbType, object>("@area", SqlDbType.VarBinary, area.Serialize()));
             }
 
@@ -1036,16 +1039,16 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             var sql =
                 "SELECT " +
-                "al.areaLayerType_id, " +
-                "a.number, " +
-                "al.value " +
+                "al.områdeKartType_id, " +
+                "a.nummer, " +
+                "al.trinn " +
                 "FROM " +
-                "AreaLayer al, " +
-                "Area a " +
+                "Områdekart al, " +
+                "Område a " +
                 "WHERE " +
-                "a.areaType_id = @areaType_id " +
+                "a.geometriType_id = @areaType_id " +
                 "AND " +
-                "a.id = al.area_id";
+                "a.id = al.geometri_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -1072,7 +1075,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 foreach (var areaLayerItem in areaLayerItems)
                     distinctAreaLayerTypeIds.Add(areaLayerItem.Item1);
 
-                sql = "DELETE FROM AreaLayer WHERE areaLayerType_id IN (";
+                sql = "DELETE FROM Områdekart WHERE områdeKartType_id IN (";
                 for (var i = 0; i < distinctAreaLayerTypeIds.Count; ++i)
                 {
                     sql += "@areaLayerType_id" + i;
@@ -1097,9 +1100,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             BulkRestoreAreaLayerItems(areaType, areaLayerItems);
 
             // Relink all nature area links.
-            using (var cmd = StoredProc("relinkAreas"))
+            using (var cmd = StoredProc("relinkOmrådes"))
             {
-                cmd.AddParameter("@areaTypeId", (int)areaType);
+                cmd.AddParameter("@geometritypeId", (int)areaType);
                 cmd.CommandTimeout = 600;
                 cmd.ExecuteNonQuery();
             }
@@ -1110,14 +1113,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             DeleteNatureAreas(metadataLocalId);
 
             const string sql = "DELETE FROM " +
-                               "DataDelivery " +
+                               "Dataleveranse " +
                                "WHERE " +
                                "id " +
                                "IN (" +
                                "SELECT " +
-                               "dataDelivery_id " +
+                               "dataleveranse_id " +
                                "FROM " +
-                               "Metadata " +
+                               "KartlagtOmråde " +
                                "WHERE " +
                                "localId = @metadataLocalId" +
                                ")";
@@ -1135,16 +1138,16 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             if (document.Author != null)
                 document.Author.Id = StoreContact(document.Author);
 
-            const string sql = "INSERT INTO Document(" +
+            const string sql = "INSERT INTO Dokument(" +
                                "doc_guid," +
-                               "metadata_id," +
-                               "natureArea_id," +
-                               "areaLayerType_id, " +
-                               "gridLayerType_id, " +
-                               "title," +
-                               "description," +
-                               "author_id," +
-                               "filepath" +
+                               "kartlagtOmråde_id," +
+                               "naturområde_id," +
+                               "områdeKartType_id, " +
+                               "rutenettkartType_id, " +
+                               "tittel," +
+                               "beskrivelse," +
+                               "kartlegger_id," +
+                               "filsti" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1178,12 +1181,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
         private static int StoreContact(Contact contact)
         {
-            var cmd = StoredProc("createContact");
-            cmd.AddParameter("@company", contact.Company);
-            cmd.AddParameter("@contactPerson", contact.ContactPerson);
-            cmd.AddParameter("@email", contact.Email);
-            cmd.AddParameter("@phone", contact.Phone);
-            cmd.AddParameter("@homesite", contact.Homesite);
+            var cmd = StoredProc("createKontakt");
+            cmd.AddParameter("@firmanavn", contact.Company);
+            cmd.AddParameter("@kontaktperson", contact.ContactPerson);
+            cmd.AddParameter("@epost", contact.Email);
+            cmd.AddParameter("@telefon", contact.Phone);
+            cmd.AddParameter("@hjemmeside", contact.Homesite);
 
             var idParameter = cmd.AddReturnParameter("@id", SqlDbType.Int);
             cmd.ExecuteNonQuery();
@@ -1199,28 +1202,28 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             if (metadata.Owner != null)
                 metadata.Owner.Id = StoreContact(metadata.Owner);
 
-            const string sql = "INSERT INTO Metadata(" +
-                               "dataDelivery_id," +
+            const string sql = "INSERT INTO KartlagtOmråde(" +
+                               "dataleveranse_id," +
                                "localId," +
-                               "nameSpace," +
-                               "versionId," +
+                               "navnerom," +
+                               "versjonId," +
                                "program," +
-                               "project," +
-                               "projectDescription, " +
-                               "purpose," +
-                               "contractor_id," +
-                               "owner_id," +
-                               "surveyedFrom," +
-                               "surveyedTo," +
-                               "surveyScale," +
-                               "resolution," +
-                               "area," +
-                               "measuringMethod," +
-                               "accuracy," +
+                               "prosjekt," +
+                               "prosjektbeskrivelse, " +
+                               "formål," +
+                               "oppdragsgiver_id," +
+                               "eier_id," +
+                               "kartlagtFraDato," +
+                               "kartlagtTilDato," +
+                               "kartleggingsmålestokk," +
+                               "oppløsning," +
+                               "geometri," +
+                               "målemetode," +
+                               "nøyaktighet," +
                                "visibility," +
-                               "measuringMethodHeight," +
-                               "accuracyHeight," +
-                               "maxDeviation" +
+                               "målemetodeHøyde," +
+                               "nøyaktighetHøyde," +
+                               "maksimaltAvvik" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1301,19 +1304,19 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             if (natureArea.Surveyer != null)
                 natureArea.Surveyer.Id = StoreContact(natureArea.Surveyer);
 
-            const string sql = "INSERT INTO NatureArea(" +
-                               "metadata_id," +
+            const string sql = "INSERT INTO Naturområde(" +
+                               "kartlagtOmråde_id," +
                                "localId," +
-                               "nameSpace, " +
-                               "versionId, " +
-                               "version," +
-                               "natureLevel_id," +
-                               "area," +
-                               "areaCenterPoint," +
-                               "surveyer_id," +
-                               "surveyed," +
-                               "description," +
-                               "institution" +
+                               "navnerom, " +
+                               "versjonId, " +
+                               "versjon," +
+                               "naturnivå_id," +
+                               "geometri," +
+                               "geometriSenterpunkt," +
+                               "kartlegger_id," +
+                               "kartlagt," +
+                               "beskrivelse," +
+                               "institusjon" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1377,14 +1380,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             if (descriptionVariable.Surveyer != null)
                 descriptionVariable.Surveyer.Id = StoreContact(descriptionVariable.Surveyer);
 
-            const string sql = "INSERT INTO DescriptionVariable(" +
-                               "natureArea_id," +
-                               "natureAreaType_id," +
-                               "code," +
-                               "surveyer_id, " +
-                               "surveyed, " +
-                               "value," +
-                               "description" +
+            const string sql = "INSERT INTO Beskrivelsesvariabel(" +
+                               "naturområde_id," +
+                               "naturområdetype_id," +
+                               "kode," +
+                               "kartlegger_id, " +
+                               "kartlagt, " +
+                               "trinn," +
+                               "beskrivelse" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1417,12 +1420,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             if (natureAreaType.Surveyer != null)
                 natureAreaType.Surveyer.Id = StoreContact(natureAreaType.Surveyer);
 
-            const string sql = "INSERT INTO NatureAreaType(" +
-                               "natureArea_id," +
-                               "code," +
-                               "surveyer_id, " +
-                               "surveyed, " +
-                               "share" +
+            const string sql = "INSERT INTO NaturområdeType(" +
+                               "naturområde_id," +
+                               "kode," +
+                               "kartlegger_id, " +
+                               "kartlagt, " +
+                               "andel" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1456,10 +1459,10 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
         private static int StoreCustomVariable(int natureAreaTypeId, CustomVariable customVariable)
         {
-            const string sql = "INSERT INTO CustomVariable(" +
-                               "natureAreaType_id," +
-                               "specification," +
-                               "value" +
+            const string sql = "INSERT INTO EgendefinertVariabel(" +
+                               "naturområdetype_id," +
+                               "spesifikasjon," +
+                               "trinn" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1480,11 +1483,11 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
         private static int StoreStandardVariable(int metadataId, NinStandardVariabel standardVariable)
         {
-            const string sql = "INSERT INTO StandardVariable(" +
-                               "metadata_id," +
-                               "codeRegister," +
-                               "codeVersion," +
-                               "code" +
+            const string sql = "INSERT INTO Standardvariabel(" +
+                               "kartlagtOmråde_id," +
+                               "koderegister," +
+                               "kodeversjon," +
+                               "kode" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1511,10 +1514,10 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static int StoreCustomVariableDefinition(int metadataId,
             CustomVariableDefinition customVariableDefinition)
         {
-            const string sql = "INSERT INTO CustomVariableDefinition(" +
-                               "metadata_id," +
-                               "specification," +
-                               "description" +
+            const string sql = "INSERT INTO EgendefinertVariabelDefinisjon(" +
+                               "kartlagtOmråde_id," +
+                               "spesifikasjon," +
+                               "beskrivelse" +
                                ") OUTPUT (" +
                                "Inserted.id" +
                                ") VALUES (" +
@@ -1537,12 +1540,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static SqlParameter ToTableParameter(IEnumerable<Area> areas)
         {
             var areaTable = new DataTable();
-            areaTable.Columns.Add("areaType_id", typeof(int));
-            areaTable.Columns.Add("number", typeof(int));
-            areaTable.Columns.Add("name", typeof(string));
-            areaTable.Columns.Add("category", typeof(string));
-            areaTable.Columns.Add("area", typeof(SqlBytes));
-            areaTable.Columns.Add("areaEpgs", typeof(int));
+            areaTable.Columns.Add("geometriType_id", typeof(int));
+            areaTable.Columns.Add("nummer", typeof(int));
+            areaTable.Columns.Add("navn", typeof(string));
+            areaTable.Columns.Add("kategori", typeof(string));
+            areaTable.Columns.Add("geometri", typeof(SqlBytes));
+            areaTable.Columns.Add("geometriEpgs", typeof(int));
             foreach (var area in areas)
             {
                 if (area.Type <= AreaType.Undefined)
@@ -1558,9 +1561,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 areaTable.Rows.Add(row);
             }
 
-            var areaTableParameter = new SqlParameter("@areas", SqlDbType.Structured)
+            var areaTableParameter = new SqlParameter("@geometris", SqlDbType.Structured)
             {
-                TypeName = "Area",
+                TypeName = "Område",
                 Value = areaTable
             };
             return areaTableParameter;
@@ -1569,11 +1572,11 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static void BulkStoreAreaLayerItems(int areaLayerTypeId, AreaLayer areaLayer, Collection<Area> areas)
         {
             var table = new DataTable();
-            table.Columns.Add("areaLayerType_id", typeof(int));
-            table.Columns.Add("area_id", typeof(int));
-            table.Columns.Add("value", typeof(string));
+            table.Columns.Add("områdeKartType_id", typeof(int));
+            table.Columns.Add("geometri_id", typeof(int));
+            table.Columns.Add("trinn", typeof(string));
 
-            using (var cmd = StoredProc("storeAreaLayer"))
+            using (var cmd = StoredProc("storeOmrådekart"))
             {
                 foreach (var areaLayerItem in areaLayer.Items)
                 {
@@ -1590,9 +1593,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 }
 
                 var areaLayerTableParameter =
-                    new SqlParameter("@areaLayerItems", SqlDbType.Structured)
+                    new SqlParameter("@områdeKartItems", SqlDbType.Structured)
                     {
-                        TypeName = "AreaLayer",
+                        TypeName = "Områdekart",
                         Value = table
                     };
 
@@ -1605,12 +1608,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             IEnumerable<Tuple<int, int, string>> areaLayerItems)
         {
             var areaLayerItemsTable = new DataTable();
-            areaLayerItemsTable.Columns.Add("areaLayerType_id", typeof(int));
-            areaLayerItemsTable.Columns.Add("areaType_id", typeof(int));
-            areaLayerItemsTable.Columns.Add("number", typeof(int));
-            areaLayerItemsTable.Columns.Add("value", typeof(string));
+            areaLayerItemsTable.Columns.Add("områdeKartType_id", typeof(int));
+            areaLayerItemsTable.Columns.Add("geometriType_id", typeof(int));
+            areaLayerItemsTable.Columns.Add("nummer", typeof(int));
+            areaLayerItemsTable.Columns.Add("trinn", typeof(string));
 
-            using (var cmd = StoredProc("restoreAreaLayer"))
+            using (var cmd = StoredProc("restoreOmrådekart"))
             {
                 foreach (var areaLayerItem in areaLayerItems)
                 {
@@ -1623,9 +1626,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 }
 
                 var tableParameter =
-                    new SqlParameter("@areaLayerItems", SqlDbType.Structured)
+                    new SqlParameter("@områdeKartItems", SqlDbType.Structured)
                     {
-                        TypeName = "AreaLayerRestore",
+                        TypeName = "OmrådekartRestore",
                         Value = areaLayerItemsTable
                     };
 
@@ -1638,11 +1641,11 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static void BulkStoreGridLayerCells(int gridLayerTypeId, GridLayer gridLayer, Grid grid)
         {
             var table = new DataTable();
-            table.Columns.Add("gridLayerType_id", typeof(int));
-            table.Columns.Add("grid_id", typeof(int));
-            table.Columns.Add("value", typeof(string));
+            table.Columns.Add("rutenettkartType_id", typeof(int));
+            table.Columns.Add("rutenett_id", typeof(int));
+            table.Columns.Add("trinn", typeof(string));
 
-            using (var cmd = StoredProc("storeGridLayer"))
+            using (var cmd = StoredProc("storeRutenettkart"))
             {
                 foreach (var gridLayerCell in gridLayer.Cells)
                 {
@@ -1659,9 +1662,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 }
 
                 var gridLayerTableParameter =
-                    new SqlParameter("@gridLayerCells", SqlDbType.Structured)
+                    new SqlParameter("@rutenettkartCells", SqlDbType.Structured)
                     {
-                        TypeName = "GridLayer",
+                        TypeName = "Rutenettkart",
                         Value = table
                     };
 
@@ -1673,12 +1676,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static void BulkStoreCustomGridLayerCells(int gridLayerTypeId, GridLayer gridLayer)
         {
             var cellTable = new DataTable();
-            cellTable.Columns.Add("cellId", typeof(int));
-            cellTable.Columns.Add("cell", typeof(SqlBytes));
-            cellTable.Columns.Add("cellEpsg", typeof(int));
-            cellTable.Columns.Add("value", typeof(string));
+            cellTable.Columns.Add("geometrieId", typeof(int));
+            cellTable.Columns.Add("geometri", typeof(SqlBytes));
+            cellTable.Columns.Add("geometriEpsg", typeof(int));
+            cellTable.Columns.Add("trinn", typeof(string));
 
-            using (var cmd = StoredProc("storeCustomGridLayer"))
+            using (var cmd = StoredProc("storeCustomRutenettkart"))
             {
                 foreach (var gridLayerCell in gridLayer.Cells)
                 {
@@ -1692,12 +1695,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                     break;
                 }
 
-                cmd.AddParameter("@gridLayerType_id", gridLayerTypeId);
+                cmd.AddParameter("@rutenettkartType_id", gridLayerTypeId);
 
                 var gridLayerTableParameter =
-                    new SqlParameter("@customGridLayerCells", SqlDbType.Structured)
+                    new SqlParameter("@customRutenettkartCells", SqlDbType.Structured)
                     {
-                        TypeName = "CustomGridLayer",
+                        TypeName = "CustomRutenettkart",
                         Value = cellTable
                     };
 
@@ -1708,9 +1711,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
         private static void StoreAreaLink(NatureArea natureArea)
         {
-            using (var cmd = StoredProc("linkAreas"))
+            using (var cmd = StoredProc("linkOmrådes"))
             {
-                cmd.AddParameter("@natureAreaId", natureArea.Id);
+                cmd.AddParameter("@naturområdeId", natureArea.Id);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -1722,29 +1725,29 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             const string sql = "SELECT " +
                                "alt.id, " +
                                "alt.doc_guid, " +
-                               "alt.name, " +
-                               "alt.codeRegister, " +
-                               "alt.codeVersion, " +
-                               "alt.code, " +
-                               "alt.minValue, " +
-                               "alt.maxValue, " +
-                               "alt.description, " +
-                               "alt.established, " +
-                               "alt.owner_id " +
+                               "alt.navn, " +
+                               "alt.koderegister, " +
+                               "alt.kodeversjon, " +
+                               "alt.kode, " +
+                               "alt.minimumsverdi, " +
+                               "alt.maksimumsverdi, " +
+                               "alt.beskrivelse, " +
+                               "alt.etablert, " +
+                               "alt.eier_id " +
                                "FROM " +
-                               "AreaLayerType alt " +
+                               "OmrådekartType alt " +
                                "WHERE EXISTS (" +
                                "SELECT " +
                                "1 " +
                                "FROM " +
-                               "AreaLayer al, " +
-                               "Area a " +
+                               "Områdekart al, " +
+                               "Område a " +
                                "WHERE " +
-                               "alt.id = al.areaLayerType_id " +
+                               "alt.id = al.områdeKartType_id " +
                                "AND " +
-                               "al.area_id = a.id " +
+                               "al.geometri_id = a.id " +
                                "AND " +
-                               "a.areaType_id = @areaType_id" +
+                               "a.geometriType_id = @areaType_id" +
                                ")";
 
             using (var cmd = SqlStatement(sql))
@@ -1792,29 +1795,29 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             const string sql = "SELECT " +
                                "glt.id, " +
                                "glt.doc_guid, " +
-                               "glt.name, " +
-                               "glt.codeRegister, " +
-                               "glt.codeVersion, " +
-                               "glt.code, " +
-                               "glt.minValue, " +
-                               "glt.maxValue, " +
-                               "glt.description, " +
-                               "glt.established, " +
-                               "glt.owner_id " +
+                               "glt.navn, " +
+                               "glt.koderegister, " +
+                               "glt.kodeversjon, " +
+                               "glt.kode, " +
+                               "glt.minimumsverdi, " +
+                               "glt.maksimumsverdi, " +
+                               "glt.beskrivelse, " +
+                               "glt.etablert, " +
+                               "glt.eier_id " +
                                "FROM " +
-                               "GridLayerType glt " +
+                               "RutenettkartType glt " +
                                "WHERE EXISTS (" +
                                "SELECT " +
                                "1 " +
                                "FROM " +
-                               "GridLayer gl, " +
-                               "Grid g " +
+                               "Rutenettkart gl, " +
+                               "Rutenett g " +
                                "WHERE " +
-                               "glt.id = gl.gridLayerType_id " +
+                               "glt.id = gl.rutenettkartType_id " +
                                "AND " +
-                               "gl.grid_id = g.id " +
+                               "gl.rutenett_id = g.id " +
                                "AND " +
-                               "g.gridType_id = @gridType_id" +
+                               "g.rutenettype_id = @gridType_id" +
                                ")";
 
             using (var cmd = SqlStatement(sql))
@@ -1873,7 +1876,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             )
         {
             parameters = new Collection<Tuple<string, SqlDbType, object>>();
-            fromClause = "NatureArea na";
+            fromClause = "Naturområde na";
             whereClause = "";
 
             if (natureLevels != null && natureLevels.Count > 0)
@@ -1881,13 +1884,13 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 if (whereClause != "") whereClause += " AND ";
                 if (natureLevels.Count == 1)
                 {
-                    whereClause += "na.natureLevel_id = @natureLevel_id";
+                    whereClause += "na.naturnivå_id = @natureLevel_id";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@natureLevel_id", SqlDbType.Int,
                          (int)natureLevels[0]));
                 }
                 else
                 {
-                    whereClause += "na.natureLevel_id IN (";
+                    whereClause += "na.naturnivå_id IN (";
                     for (var i = 0; i < natureLevels.Count; ++i)
                     {
                         whereClause += "@natureLevel_id" + i;
@@ -1904,13 +1907,13 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 if (whereClause != "") whereClause += " AND ";
                 if (institutions.Count == 1)
                 {
-                    whereClause += "na.institution = @institution";
+                    whereClause += "na.institusjon = @institution";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@institution", SqlDbType.VarChar,
                         institutions[0]));
                 }
                 else
                 {
-                    whereClause += "na.institution IN (";
+                    whereClause += "na.institusjon IN (";
                     for (var i = 0; i < institutions.Count; ++i)
                     {
                         whereClause += "@institution" + i;
@@ -1924,19 +1927,19 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             if (natureAreaTypeCodes != null && natureAreaTypeCodes.Count > 0)
             {
-                fromClause += ", NatureAreaType nat";
+                fromClause += ", NaturområdeType nat";
                 if (whereClause != "") whereClause += " AND ";
-                whereClause += "na.id = nat.natureArea_id";
+                whereClause += "na.id = nat.naturområde_id";
                 whereClause += " AND ";
                 if (natureAreaTypeCodes.Count == 1)
                 {
-                    whereClause += "nat.code = @natcode ";
+                    whereClause += "nat.kode = @natcode ";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@natcode", SqlDbType.VarChar,
                         natureAreaTypeCodes[0]));
                 }
                 else
                 {
-                    whereClause += "nat.code IN (";
+                    whereClause += "nat.kode IN (";
                     for (var i = 0; i < natureAreaTypeCodes.Count; ++i)
                     {
                         whereClause += "@natcode" + i;
@@ -1950,19 +1953,19 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             if (descriptionVariableCodes != null && descriptionVariableCodes.Count > 0)
             {
-                fromClause += ", DescriptionVariable dv";
+                fromClause += ", Beskrivelsesvariabel dv";
                 if (whereClause != "") whereClause += " AND ";
-                whereClause += "na.id = dv.natureArea_id";
+                whereClause += "na.id = dv.naturområde_id";
                 whereClause += " AND ";
                 if (descriptionVariableCodes.Count == 1)
                 {
-                    whereClause += "dv.code = @dvcode ";
+                    whereClause += "dv.kode = @dvcode ";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@dvcode", SqlDbType.VarChar,
                         descriptionVariableCodes[0]));
                 }
                 else
                 {
-                    whereClause += "dv.code IN (";
+                    whereClause += "dv.kode IN (";
                     for (var i = 0; i < descriptionVariableCodes.Count; ++i)
                     {
                         whereClause += "@dvcode" + i;
@@ -1985,7 +1988,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 if (municipalities != null && municipalities.Count > 0)
                 {
                     subQuery +=
-                        "SELECT al.natureArea_id FROM AreaLink al, Area a WHERE al.area_id = a.id AND a.areaType_id = 1 AND a.number";
+                        "SELECT al.naturområde_id FROM OmrådeLink al, Område a WHERE al.geometri_id = a.id AND a.geometriType_id = 1 AND a.nummer";
                     if (municipalities.Count == 1)
                     {
                         subQuery += " = @municipality";
@@ -2011,7 +2014,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                     if (!string.IsNullOrEmpty(subQuery)) subQuery += " INTERSECT ";
 
                     subQuery +=
-                        "SELECT al.natureArea_id FROM AreaLink al, Area a WHERE al.area_id = a.id AND a.areaType_id = 2 AND a.number";
+                        "SELECT al.naturområde_id FROM OmrådeLink al, Område a WHERE al.geometri_id = a.id AND a.geometriType_id = 2 AND a.nummer";
                     if (counties.Count == 1)
                     {
                         subQuery += " = @fylke";
@@ -2036,7 +2039,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                     if (!string.IsNullOrEmpty(subQuery)) subQuery += " INTERSECT ";
 
                     subQuery +=
-                        "SELECT al.natureArea_id FROM AreaLink al, Area a WHERE al.area_id = a.id AND a.areaType_id = 3 AND a.number";
+                        "SELECT al.naturområde_id FROM OmrådeLink al, Område a WHERE al.geometri_id = a.id AND a.geometriType_id = 3 AND a.nummer";
                     if (conservationAreas.Count == 1)
                     {
                         subQuery += " = @consArea";
@@ -2072,7 +2075,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 {
                     return false;
                 }
-                whereClause += "na.area.STIntersects(@area) = 1";
+                whereClause += "na.geometri.STIntersects(@area) = 1";
                 parameters.Add(new Tuple<string, SqlDbType, object>("@area", SqlDbType.VarBinary,
                     areaIntersection.Serialize()));
             }
@@ -2080,14 +2083,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             {
                 if (whereClause != "") whereClause += " AND ";
                 var bbox = SqlGeometry.STGeomFromText(new SqlChars(boundingBox), espgCode).MakeValid();
-                whereClause += "na.area.STIntersects(@area) = 1";
+                whereClause += "na.geometri.STIntersects(@area) = 1";
                 parameters.Add(new Tuple<string, SqlDbType, object>("@area", SqlDbType.VarBinary, bbox.Serialize()));
             }
             else if (!string.IsNullOrEmpty(geometry))
             {
                 if (whereClause != "") whereClause += " AND ";
                 var area = SqlGeometry.STGeomFromText(new SqlChars(geometry), espgCode).MakeValid();
-                whereClause += "na.area.STIntersects(@area) = 1";
+                whereClause += "na.geometri.STIntersects(@area) = 1";
                 parameters.Add(new Tuple<string, SqlDbType, object>("@area", SqlDbType.VarBinary, area.Serialize()));
             }
             return true;
@@ -2104,11 +2107,11 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             int geometryReduction = 0;
             if (centerPoints)
-                sql += "na.areaCenterPoint";
+                sql += "na.geometriSenterpunkt";
             else if (geometryReduction != 0)
-                sql += "na.area.Reduce(" + geometryReduction + ")";
+                sql += "na.geometri.Reduce(" + geometryReduction + ")";
             else
-                sql += "na.area";
+                sql += "na.geometri";
 
             sql += " FROM " + fromClause;
 
@@ -2160,12 +2163,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 "SELECT " +
                 "na.id, " +
                 "na.localId, " +
-                "na.natureLevel_id, " +
-                "na.surveyed, " +
-                "na.institution";
+                "na.naturnivå_id, " +
+                "na.kartlagt, " +
+                "na.institusjon";
 
             if (infoLevel == 2)
-                sql += ", na.surveyer_id";
+                sql += ", na.kartlegger_id";
 
             sql += " FROM " + fromClause;
 
@@ -2267,7 +2270,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
         private static Collection<NatureArea> GetNatureAreasByMetadataId(int metadataId, Collection<string> localIds)
         {
-            var whereClause = "metadata_id = @metadata_id";
+            var whereClause = "kartlagtOmråde_id = @metadata_id";
 
             var parameters = new Collection<Tuple<string, SqlDbType, object>>
             {
@@ -2313,17 +2316,17 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 "na.id, " +
                 //"na.metadata_id, " +
                 "na.localId, " +
-                "na.nameSpace, " +
-                "na.versionId, " +
-                "na.version, " +
-                "na.natureLevel_id, " +
-                "na.area, " +
-                "na.surveyer_id, " +
-                "na.surveyed, " +
-                "na.description, " +
-                "na.institution " +
+                "na.navnerom, " +
+                "na.versjonId, " +
+                "na.versjon, " +
+                "na.naturnivå_id, " +
+                "na.geometri, " +
+                "na.kartlegger_id, " +
+                "na.kartlagt, " +
+                "na.beskrivelse, " +
+                "na.institusjon " +
                 "FROM " +
-                "NatureArea na " +
+                "Naturområde na " +
                 "WHERE " +
                 whereClause;
 
@@ -2379,13 +2382,13 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             var contact = new Contact();
 
             const string sql = "SELECT " +
-                               "company, " +
-                               "contactPerson, " +
-                               "email, " +
-                               "phone, " +
-                               "homesite " +
+                               "firmanavn, " +
+                               "kontaktperson, " +
+                               "epost, " +
+                               "telefon, " +
+                               "hjemmeside " +
                                "FROM " +
-                               "Contact " +
+                               "Kontakt " +
                                "WHERE " +
                                "id = @id";
 
@@ -2418,18 +2421,18 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 "SELECT " +
                 "id, " +
                 "doc_guid, " +
-                "title, " +
-                "description, " +
-                "author_id, " +
-                "filepath " +
+                "tittel, " +
+                "beskrivelse, " +
+                "kartlegger_id, " +
+                "filsti " +
                 "FROM " +
-                "Document " +
+                "Dokument " +
                 "WHERE ";
 
-            if (metadataId != 0) sql += "metadata_id = @metadata_id";
-            else if (natureAreaId != 0) sql += "natureArea_id = @natureArea_id";
-            else if (areaLayerTypeId != 0) sql += "areaLayerType_id = @areaLayerType_id";
-            else if (gridLayerTypeId != 0) sql += "gridLayerType_id = @gridLayerType_id";
+            if (metadataId != 0) sql += "kartlagtOmråde_id = @metadata_id";
+            else if (natureAreaId != 0) sql += "naturområde_id = @natureArea_id";
+            else if (areaLayerTypeId != 0) sql += "områdeKartType_id = @areaLayerType_id";
+            else if (gridLayerTypeId != 0) sql += "rutenettkartType_id = @gridLayerType_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2485,21 +2488,21 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             var sql =
                 "SELECT " +
                 "id, " +
-                "code, " +
-                "surveyer_id, " +
-                "surveyed, " +
-                "value, " +
-                "description " +
+                "kode, " +
+                "kartlegger_id, " +
+                "kartlagt, " +
+                "trinn, " +
+                "beskrivelse " +
                 "FROM " +
-                "DescriptionVariable " +
+                "Beskrivelsesvariabel " +
                 "WHERE ";
 
             if (natureAreaId != 0)
                 sql +=
-                    "natureArea_id = @natureArea_id" +
+                    "naturområde_id = @natureArea_id" +
                     " AND " +
-                    "natureAreaType_id IS NULL";
-            else if (natureAreaTypeId != 0) sql += "natureAreaType_id = @natureAreaType_id";
+                    "naturområdetype_id IS NULL";
+            else if (natureAreaTypeId != 0) sql += "naturområdetype_id = @natureAreaType_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2539,14 +2542,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             const string sql = "SELECT " +
                                "id, " +
-                               "code, " +
-                               "surveyer_id, " +
-                               "surveyed, " +
-                               "share " +
+                               "kode, " +
+                               "kartlegger_id, " +
+                               "kartlagt, " +
+                               "andel " +
                                "FROM " +
-                               "NatureAreaType " +
+                               "NaturområdeType " +
                                "WHERE " +
-                               "natureArea_id = @natureArea_id";
+                               "naturområde_id = @natureArea_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2589,7 +2592,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             var idTable = new DataTable();
             idTable.Columns.Add("id", typeof(int));
 
-            using (var cmd = StoredProc("getNatureAreaTypeCodes"))
+            using (var cmd = StoredProc("getNaturområdeTypeCodes"))
             {
                 foreach (var natureAreaId in natureAreaIds)
                 {
@@ -2631,12 +2634,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             const string sql = "SELECT " +
                                "id, " +
-                               "specification, " +
-                               "value " +
+                               "spesifikasjon, " +
+                               "verdi " +
                                "FROM " +
-                               "CustomVariable " +
+                               "EgendefinertVariabel " +
                                "WHERE " +
-                               "natureAreaType_id = @natureAreaType_id";
+                               "naturområdetype_id = @natureAreaType_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2675,12 +2678,12 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             const string sql = "SELECT " +
                                "id, " +
-                               "specification, " +
-                               "description " +
+                               "spesifikasjon, " +
+                               "beskrivelse " +
                                "FROM " +
-                               "CustomVariableDefinition " +
+                               "EgendefinertVariabelDefinisjon " +
                                "WHERE " +
-                               "metadata_id = @metadata_id";
+                               "kartlagtOmråde_id = @metadata_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2710,13 +2713,13 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             const string sql = "SELECT " +
                                "id, " +
-                               "codeRegister, " +
-                               "codeVersion, " +
-                               "code " +
+                               "koderegister, " +
+                               "kodeversjon, " +
+                               "kode " +
                                "FROM " +
-                               "StandardVariable " +
+                               "Standardvariabel " +
                                "WHERE " +
-                               "metadata_id = @metadata_id";
+                               "kartlagtOmråde_id = @metadata_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2748,7 +2751,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             DeleteNatureAreas(docId);
 
             const string sql = "DELETE FROM " +
-                               "DataDelivery " +
+                               "Dataleveranse " +
                                "WHERE " +
                                "doc_id = @doc_id";
 
@@ -2764,16 +2767,16 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             DeleteNatureAreaTypes(docId);
 
             const string sql = "DELETE FROM " +
-                               "NatureArea " +
+                               "Naturområde " +
                                "WHERE " +
-                               "metadata_id IN (" +
+                               "kartlagtOmråde_id IN (" +
                                "SELECT " +
                                "m.id " +
                                "FROM " +
-                               "Metadata m, " +
-                               "DataDelivery d " +
+                               "KartlagtOmråde m, " +
+                               "Dataleveranse d " +
                                "WHERE " +
-                               "m.dataDelivery_id = d.id " +
+                               "m.dataleveranse_id = d.id " +
                                "AND " +
                                "d.doc_id = @doc_id" +
                                ")";
@@ -2790,13 +2793,13 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             DeleteNatureAreaTypes(metadataLocalId);
 
             const string sql = "DELETE FROM " +
-                               "NatureArea " +
+                               "Naturområde " +
                                "WHERE " +
-                               "metadata_id = (" +
+                               "kartlagtOmråde_id = (" +
                                "SELECT " +
                                "id " +
                                "FROM " +
-                               "Metadata " +
+                               "KartlagtOmråde " +
                                "WHERE " +
                                "localId = @metadataLocalId" +
                                ")";
@@ -2811,22 +2814,22 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static void DeleteNatureAreaTypes(int docId)
         {
             const string sql = "DELETE FROM " +
-                               "NatureAreaType " +
+                               "NaturområdeType " +
                                "WHERE " +
-                               "natureArea_id IN (" +
+                               "naturområde_id IN (" +
                                "SELECT " +
                                "id " +
                                "FROM " +
-                               "NatureArea " +
+                               "Naturområde " +
                                "WHERE " +
-                               "metadata_id = (" +
+                               "kartlagtOmråde_id = (" +
                                "SELECT " +
                                "m.id " +
                                "FROM " +
-                               "Metadata m, " +
-                               "DataDelivery d " +
+                               "KartlagtOmråde m, " +
+                               "Dataleveranse d " +
                                "WHERE " +
-                               "m.dataDelivery_id = d.id " +
+                               "m.dataleveranse_id = d.id " +
                                "AND " +
                                "d.doc_id = @doc_id" +
                                ")" +
@@ -2842,19 +2845,19 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         private static void DeleteNatureAreaTypes(Guid metadataLocalId)
         {
             const string sql = "DELETE FROM " +
-                               "NatureAreaType " +
+                               "NaturområdeType " +
                                "WHERE " +
-                               "natureArea_id IN (" +
+                               "naturområde_id IN (" +
                                "SELECT " +
                                "id " +
                                "FROM " +
-                               "NatureArea " +
+                               "Naturområde " +
                                "WHERE " +
-                               "metadata_id = (" +
+                               "kartlagtOmråde_id = (" +
                                "SELECT " +
                                "id " +
                                "FROM " +
-                               "Metadata " +
+                               "KartlagtOmråde " +
                                "WHERE " +
                                "localId = @metadataLocalId" +
                                ")" +
@@ -2871,9 +2874,9 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         {
             const string sql =
                 "DELETE FROM " +
-                "Area " +
+                "Område " +
                 "WHERE " +
-                "areaType_id = @areaType_id";
+                "geometriType_id = @areaType_id";
 
             using (var cmd = SqlStatement(sql))
             {
@@ -2943,10 +2946,10 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
         {
             var values = new AreaLayerValues();
 
-            const string sql = @"select al.id, alt.Name, code, value, minValue, maxValue from AreaLayer al 
-INNER JOIN AreaLayerType alt on al.areaLayerType_id = alt.id
-INNER JOIN Area a ON a.id = al.area_id
-WHERE a.number = @number AND a.areaType_id = @areaType";
+            const string sql = @"select al.id, alt.navn, kode, trinn, minimumsverdi, maksimumsverdi from Områdekart al 
+INNER JOIN OmrådekartType alt on al.områdeKartType_id = alt.id
+INNER JOIN Område a ON a.id = al.geometri_id
+WHERE a.nummer = @number AND a.geometriType_id = @areaType";
 
             using (var cmd = SqlStatement(sql))
             {
