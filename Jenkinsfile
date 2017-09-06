@@ -36,22 +36,6 @@ echo "Building configuration: ${params.BuildConfiguration}"
 echo "Building configuration:  " + params.BuildConfiguration
 	    notifyBuild('STARTED')
 //	deleteDir()
-				dir('web/Nin') {
-//					yarn('cache clean')
-//					npm('upgrade npm')
-//					npm('upgrade -g')
-					yarn('install --no-progress')
-					yarn('lint-report')
-					archiveArtifacts 'lint-report.xml'
-				  step([$class: 'CheckStylePublisher',
-             usePreviousBuildAsReference: true,
-             alwaysLinkToLastBuild: true,
-             canComputeNew: true,
-             healthy: '0',
-             unHealthy: '100',
-             useDeltaValues: true,
-             pattern: 'lint-report.xml' ])
-				}
 			}
 		}
 
@@ -98,7 +82,7 @@ echo "Building configuration:  " + params.BuildConfiguration
 //		    dotnetPublish("Api.Proxy", BuildConfiguration)
 		    dotnetPublish("Api", BuildConfiguration)
 
-    		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
+//    		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
     		copy('schema', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\schema')
 
 	//		unstash 'database'
