@@ -20,6 +20,7 @@ namespace Test.Integration.Nin.DataAccess.MSSql
         }
 
         [Test]
+        [Ignore("5 km deleted from repo because of size.")]
         public void StoreSsb005KmTest()
         {
             ImportGrid(@"ssb5km.shp", 32633, RutenettType.SSB005KM);
