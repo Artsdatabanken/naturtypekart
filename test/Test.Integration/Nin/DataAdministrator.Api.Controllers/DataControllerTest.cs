@@ -7,6 +7,7 @@ using Test.Integration.Nin.Common;
 
 namespace Test.Integration.Nin.DataAdministrator.Api.Controllers
 {
+    [Ignore("Test file deleted from repo because of size.")]
     public class DataControllerTest
     {
         public DataControllerTest()
