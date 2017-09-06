@@ -118,10 +118,10 @@ echo "Building configuration:  " + params.BuildConfiguration
 		}
 		stage('Deploy') {
 			steps {
-				createDatabase('Test','database')
+//				createDatabase('Test','database')
 
 		    dotnetPublish("Api.Document", BuildConfiguration)
-		    dotnetPublish("Api.Proxy", BuildConfiguration)
+//		    dotnetPublish("Api.Proxy", BuildConfiguration)
 		    dotnetPublish("Api", BuildConfiguration)
 
     		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
