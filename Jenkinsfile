@@ -54,32 +54,6 @@ echo "Building configuration:  " + params.BuildConfiguration
 				}
 			}
 		}
-		stage('Frontend build') {
-			steps {
-				dir('web/Nin') {
-					bat('echo REACT_APP_BASENAME = ' + env.REACT_APP_BASENAME)
-					yarn('build')
-					yarn('build-storybook')
-					archiveArtifacts 'build/**'
-				}
-			}
-		}
-		stage('Frontend tests') {
-			steps {
-				dir('web/Nin') {
-					yarn('ci_test')
-					bat('dir junit.xml')
-					move('junit.xml', 'testresults-jest.xml')
-					bat('dir testresults-jest.xml')
-					bat 'type testresults-jest.xml'
-					archiveArtifacts 'testresults-jest.xml'
-          junit 'testresults-jest.xml'
-          step([$class: 'CloverPublisher',
-						cloverReportDir: './coverage/',
-						cloverReportFileName: 'clover.xml'])
-				}
-			}
-		}
 
 		stage('Backend build') {
 			steps {
