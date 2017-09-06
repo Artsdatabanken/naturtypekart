@@ -90,6 +90,34 @@ function (ko, _, conf) {
         IndexTo: ko.observable(25),
         ForceRefreshToggle: ko.observable(false)    // used to force refresh of polygons
     },
+    urlFilter = function () {
+        return {
+            NatureLevelCodes: filter.NatureLevelCodes,
+            CenterPoints: filter.CenterPoints,
+            NatureAreaTypeCodes: filter.NatureAreaTypeCodes,
+            DescriptionVariableCodes: filter.DescriptionVariableCodes,
+            Municipalities: filter.Municipalities,
+            Counties: filter.Counties,
+            ConservationAreas: filter.ConservationAreas,
+            Institutions: filter.Institutions,
+            Geometry: filter.Geometry,
+            BoundingBox: filter.BoundingBox,
+            EpsgCode: filter.EpsgCode
+        };
+    },
+    listFilter = function () {
+        return {
+            NatureLevelCodes: filter.NatureLevelCodes,
+            NatureAreaTypeCodes: filter.NatureAreaTypeCodes,
+            DescriptionVariableCodes: filter.DescriptionVariableCodes,
+            Municipalities: filter.Municipalities,
+            Counties: filter.Counties,
+            ConservationAreas: filter.ConservationAreas,
+            Institutions: filter.Institutions,
+            Geometry: filter.Geometry,
+            EpsgCode: filter.EpsgCode
+        };
+    },
     grid = {
         Grid: ko.observable(""),
         GridType: ko.observable(""),
@@ -131,6 +159,16 @@ function (ko, _, conf) {
         });
         return viewportState;
     }).extend({ rateLimit: 10 }),
+    listFilterChanged = ko.computed(function () {
+        // trigger changes in filter unless it's just BoundingBox (zoom/pan in the map)
+        var dummy;
+        _.forEach(_.keys(filter), function (key) {
+            if (key !== "BoundingBox") {
+                dummy = filter[key]();
+            }
+        });
+        return filter;
+    }).extend({rateLimit: 100}),
     filterChanged = ko.computed(function () {
         var dummy;
         _.forEach(_.keys(filter), function (key) {
@@ -213,10 +251,13 @@ function (ko, _, conf) {
 
         viewportState: viewportState,
         filter: filter,
+        urlFilter: urlFilter,
+        listFilter: listFilter,
         grid: grid,
 
         viewportStateChanged: viewportStateChanged,
         filterChanged: filterChanged,
+        listFilterChanged: listFilterChanged,
         currentFeature: currentFeature,
 
         routeInfo: conf.routeInfo,

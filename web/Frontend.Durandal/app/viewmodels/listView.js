@@ -121,19 +121,9 @@
 
         var getListData = function (page) {
             var maxListItems = ($('body').width() > 481) ? application.config.maxListItems : application.config.maxMobileListItems;
-            var listFilter = {
-                NatureLevelCodes: application.filter.NatureLevelCodes,
-                NatureAreaTypeCodes: application.filter.NatureAreaTypeCodes,
-                DescriptionVariableCodes: application.filter.DescriptionVariableCodes,
-                Municipalities: application.filter.Municipalities,
-                Counties: application.filter.Counties,
-                ConservationAreas: application.filter.ConservationAreas,
-                Institutions: application.filter.Institutions,
-                Geometry: application.filter.Geometry,
-                EpsgCode: application.filter.EpsgCode,
-                IndexFrom: maxListItems * page + 1,
-                IndexTo: maxListItems + maxListItems * page
-            };
+            var listFilter = application.listFilter();
+            listFilter.IndexFrom = maxListItems * page + 1;
+            listFilter.IndexTo = maxListItems + maxListItems * page;
             var promise = dataServices.getNatureAreaInfosBySearchFilter(listFilter /*, page*/),
                     result = promise.then(function (featureData) {
                         var resultList = [];
