@@ -78,16 +78,16 @@
                     vm.goToPage(vm.currentPage() - 1);
                 },
                 listSortOrder: ko.observable({
-                    NatureLevelDescription: true,
-                    SurveyScale: true,
-                    SurveyedYear: true,
-                    Contractor: true,
-                    Surveyer: true,
-                    Program: true,
-                    Parameters: {
-                        MainTypeDescription: true,
-                        CodeDescription: true,
-                        Share: true
+                    natureLevelDescription: true,
+                    surveyScale: true,
+                    surveyedYear: true,
+                    contractor: true,
+                    surveyer: true,
+                    program: true,
+                    parameters: {
+                        mainTypeDescription: true,
+                        codeDescription: true,
+                        share: true
                     },
                     natureAreaDescriptionVariables: {
                         codeAndValue: true

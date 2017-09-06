@@ -22,6 +22,7 @@
                 },
                 baseLayerList: ko.computed(function() {
                     return layerConfig.baseLayerPool.filter(function(e) {
+                        if (e.name === 'europa') return false;
                         return !e.needsToken || (!!e.needsToken && !!application.ndToken());
                     });
                 }),

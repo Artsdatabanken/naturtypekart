@@ -20,7 +20,7 @@
             proxyurl: proxyRootUrl + '?url=',
             newUserUrl: asiWebRoot + 'UserSystem/AnonymousUsers/NewUser.aspx',
             forgotPasswordUrl: asiWebRoot + 'UserSystem/AnonymousUsers/PasswordRecovery.aspx',
-            bingKey: 'AkhtNitomZjCNFu9kgrrbVeaF65h94ce1lpwtbeZTuFYiY-ztrERImme_IM3vh6k', // bing-key registrert på Amund, todo: replace
+            bk: 'AkhtNitomZjCNFu9kgrrbVeaF65h94ce1lpwtbeZTuFYiY-ztrERImme_IM3vh6k', // bing-key registrert på Amund, todo: replace
             dev: true, // for nd token
             defaultMapZoom: 3,
             defaultMapCenter: '427864,7623020',

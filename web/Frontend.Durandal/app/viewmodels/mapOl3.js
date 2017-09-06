@@ -293,7 +293,8 @@
                             units: 'metric'
                         })
                     ]),
-                    layers: [layerConfig.baseLayerPool[0], vm.gridLayer, vm.selectionLayer, vm.polygonLayer, vm.polygonClusterLayer],
+                    // europakart alltid underst
+                    layers: [layerConfig.baseLayerPool[5], layerConfig.baseLayerPool[0], vm.gridLayer, vm.selectionLayer, vm.polygonLayer, vm.polygonClusterLayer],
                     overlays: [vm.overlay, vm.gridPopupOverlay],
                     target: document.getElementById('map'),
                     view: new ol.View({

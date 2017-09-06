@@ -18,21 +18,21 @@
                             <thead>
                                 <tr>
                                     <th data-bind="click: sortListColumn.bind($data, 'natureLevelDescription')" class="pointerCursor" >Naturnivå</th>
-                                    <th data-bind="click: deepSortListColumn.bind($data, 'Parameters', 'MainTypeDescription')" class="pointerCursor" >Naturområdetype - Hovedtypegruppe</th>
-                                    <th data-bind="click: deepSortListColumn.bind($data, 'Parameters', 'CodeDescription')" class="pointerCursor">Naturområdetype</th>
-                                    <th data-bind="click: deepSortListColumn.bind($data, 'Parameters', 'Share')" class="pointerCursor">Andel</th>
-                                    <th data-bind="click: sortListColumn.bind($data, 'SurveyScale')" class="pointerCursor">Målestokk</th>
+                                    <th data-bind="click: deepSortListColumn.bind($data, 'parameters', 'mainTypeDescription')" class="pointerCursor" >Naturområdetype - Hovedtypegruppe</th>
+                                    <th data-bind="click: deepSortListColumn.bind($data, 'parameters', 'codeDescription')" class="pointerCursor">Naturområdetype</th>
+                                    <th data-bind="click: deepSortListColumn.bind($data, 'parameters', 'share')" class="pointerCursor">Andel</th>
+                                    <th data-bind="click: sortListColumn.bind($data, 'surveyScale')" class="pointerCursor">Målestokk</th>
                                     <th data-bind="click: deepSortListColumn.bind($data, 'natureAreaDescriptionVariables', 'codeAndValue')" class="pointerCursor">Beskrivelsesvariabler</th>
-                                    <th data-bind="click: sortListColumn.bind($data, 'SurveyedYear')" class="pointerCursor">Kartlagt år</th>
-                                    <th data-bind="click: sortListColumn.bind($data, 'Contractor')" class="pointerCursor">Oppdragsgiver</th>
-                                    <th data-bind="click: sortListColumn.bind($data, 'Surveyer')" class="pointerCursor">Kartlegger</th>
-                                    <th data-bind="click: sortListColumn.bind($data, 'Program')" class="pointerCursor">Program</th>
+                                    <th data-bind="click: sortListColumn.bind($data, 'surveyedYear')" class="pointerCursor">Kartlagt år</th>
+                                    <th data-bind="click: sortListColumn.bind($data, 'contractor')" class="pointerCursor">Oppdragsgiver</th>
+                                    <th data-bind="click: sortListColumn.bind($data, 'surveyer')" class="pointerCursor">Kartlegger</th>
+                                    <th data-bind="click: sortListColumn.bind($data, 'program')" class="pointerCursor">Program</th>
                                     <th>Alle detaljer</th>
                                 </tr>
                             </thead>
                             <tbody data-bind="foreach: itemList">
                                 <tr>
-                                    <td><a data-bind="text: NatureLevelDescription, attr: {href: NatureLevelUrl, target: '_blank'}"></a></td>
+                                    <td><a data-bind="text: natureLevelDescription, attr: {href: natureLevelUrl, target: '_blank'}"></a></td>
                                     <td>
                                         <legend-widget params="natureTypes: natureTypes, level: 'main', element: $element"></legend-widget>
                                     </td>
@@ -43,7 +43,7 @@
                                         <chart-widget params="natureTypes: natureTypes, natureTypeShares:natureTypeShares, element: $element"
                                                        data-bind="click: function(data, event) { $parent.showDetails($index(), data, event, 'right', 'body') }"></chart-widget>
                                     </td>
-                                    <td><a data-bind="text: SurveyScale, attr: {href: 'http://www.artsdatabanken.no/KartleggingNiN', target: '_blank'}"></a></td>
+                                    <td><a data-bind="text: surveyScale, attr: {href: 'http://www.artsdatabanken.no/KartleggingNiN', target: '_blank'}"></a></td>
                                     <td>
                                         <table>
                                             <tbody data-bind="foreach: natureAreaDescriptionVariables">
@@ -56,10 +56,10 @@
                                         </table>
                                         <variable-widget params="natureTypes: natureTypes, element: $element"></variable-widget>
                                     </td>
-                                    <td><span data-bind="text: SurveyedYear" /></td>
-                                    <td><span data-bind="text: Contractor" /></td>
-                                    <td><span data-bind="text: Surveyer" /></td>
-                                    <td><span data-bind="text: Program" /></td>
+                                    <td><span data-bind="text: surveyedYear" /></td>
+                                    <td><span data-bind="text: contractor" /></td>
+                                    <td><span data-bind="text: surveyer" /></td>
+                                    <td><span data-bind="text: program" /></td>
                                     <td><a data-bind="click: function(data, event) { $parent.showDetails($index(), data, event, 'left') }">Alle detaljer</a></td>
                                 </tr>
                             </tbody>
