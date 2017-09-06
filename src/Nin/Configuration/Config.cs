@@ -105,7 +105,7 @@ namespace Nin.Configuration
         public bool SaveResultingConfig = false;
         public const string ApplicationName = "nin";
         public string SchemaSubdirectory = @"schema";
-        public string FrontEndSubdirectory = @"web\\Frontend";
+        public string FrontEndSubdirectory = @"web\\Frontend.Durandal";
     }
 
     public class Database
