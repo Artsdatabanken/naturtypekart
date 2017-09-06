@@ -2522,7 +2522,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                         if (!reader.IsDBNull(2))
                             descriptionVariable.Surveyer = new Contact { Id = reader.GetInt32(2) };
                         if (!reader.IsDBNull(3)) descriptionVariable.Surveyed = reader.GetDateTime(3);
-                        descriptionVariable.Value = reader.GetString(4);
+                        if (!reader.IsDBNull(4)) descriptionVariable.Value = reader.GetString(4);
                         if (!reader.IsDBNull(5)) descriptionVariable.Description = reader.GetString(5);
                         descriptionVariables.Add(descriptionVariable);
                     }
@@ -2635,7 +2635,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             const string sql = "SELECT " +
                                "id, " +
                                "spesifikasjon, " +
-                               "verdi " +
+                               "trinn " +
                                "FROM " +
                                "EgendefinertVariabel " +
                                "WHERE " +
