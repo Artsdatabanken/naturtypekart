@@ -89,7 +89,7 @@ echo "Building configuration:  " + params.BuildConfiguration
 				dotnetBuild('test', 'Debug')
 				copyToDist(binPath('src\\console', BuildConfiguration))
 	//		stash includes: 'database/**', name: 'database'
-	//		stash includes: 'test/*/bin/'+BuildConfiguration+'/net46/win7-x64/**', name: 'test'
+	//		stash includes: 'test/*/bin/'+BuildConfiguration+'/net47/win7-x64/**', name: 'test'
   			archiveArtifacts 'dist/*'
 
 // broken with x64 build? and won't build others?
@@ -124,7 +124,6 @@ echo "Building configuration:  " + params.BuildConfiguration
 		    dotnetPublish("Api.Proxy", BuildConfiguration)
 		    dotnetPublish("Api", BuildConfiguration)
 
-    		copy('web\\Nin\\build', 'd:\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
     		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
     		copy('schema', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\schema')
 
@@ -159,7 +158,7 @@ def dotnetPublish(projectSubDir, BuildConfiguration) {
 	mkdir('dist\\' + projectSubDir)
   bat 'dotnet publish src\\' + projectSubDir + ' --configuration ' + BuildConfiguration
   bat 'pskill \\\\it-webadbtest01.it.ntnu.no ' + projectSubDir + '.exe & EXIT 0'
-	copy('src\\' + projectSubDir + '\\bin\\debug\\net46\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
+	copy('src\\' + projectSubDir + '\\bin\\debug\\net47\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
 }
 
 def copy(src, dest) {
@@ -179,7 +178,7 @@ def runTestsWithCoverage(testCategory, reportPath) {
 		def BuildToolPath= '"'+ pwd() + '\\' + BuildToolRelPath + '"'
 		def workspace = pwd()
 		mkdir(CodeCoveragePath)
-		dir('test/Test.'+testCategory+'/bin/Debug/net46/') {
+		dir('test/Test.'+testCategory+'/bin/Debug/net47/') {
 //			nuget('OpenCover\\4.6.519\\tools\\OpenCover.Console', '-target:dotnet-test-nunit.exe -targetargs:"test.'+testCategory+'.dll -result=testresults3.xml" -register:user -output:"coverage.xml"')
 //			nuget('OpenCover\\4.6.519\\tools\\OpenCover.Console', '-target:dotnet-test-nunit.exe -targetargs:"test.integration.dll -result=testresults3.xml" -register:user -output:"coverage.xml" -filter:+[Nin*]*')
 //			bat BuildToolPath+'\\xsl testresults3.xml '+ BuildToolPath +'\\nunit3-junit.xslt testresults.xml'
@@ -230,7 +229,7 @@ def dotnetBuild(rootPath, BuildConfiguration) {
 }
 
 def binPath(projectDir, BuildConfiguration) {
-	return projectDir + '\\bin\\' + BuildConfiguration + '\\net46'
+	return projectDir + '\\bin\\' + BuildConfiguration + '\\net47'
 }
 
 def copyToDist(src) {
