@@ -79,11 +79,10 @@ echo "Building configuration:  " + params.BuildConfiguration
 //				createDatabase('Test','database')
 
 		    dotnetPublish("Api.Document", BuildConfiguration)
-//		    dotnetPublish("Api.Proxy", BuildConfiguration)
 		    dotnetPublish("Api", BuildConfiguration)
 
-//    		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
-    		copy('schema', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\schema')
+    		copy('web', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin\\' + env.BRANCH_NAME)
+    		copy('schema', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin\\schema')
 
 	//		unstash 'database'
 			}
@@ -116,7 +115,7 @@ def dotnetPublish(projectSubDir, BuildConfiguration) {
 	mkdir('dist\\' + projectSubDir)
   bat 'dotnet publish src\\' + projectSubDir + ' --configuration ' + BuildConfiguration
   bat 'pskill \\\\it-webadbtest01.it.ntnu.no ' + projectSubDir + '.exe & EXIT 0'
-	copy('src\\' + projectSubDir + '\\bin\\debug\\net47\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
+	copy('src\\' + projectSubDir + '\\bin\\debug\\net47\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
 }
 
 def copy(src, dest) {
