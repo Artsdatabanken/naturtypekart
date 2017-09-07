@@ -36,5 +36,6 @@ nin.test.json
 nin.development.json
 nin.json
 web/lib/
+bower_components/
 src/Api/AlleKoder.json
 src/Api/Variasjon.json
