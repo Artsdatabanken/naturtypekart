@@ -3,12 +3,12 @@ require.config({
     wrapShim: true,
     baseUrl: 'app',
     paths: {
-        'text': '../lib/requirejs-text/text',
-        'durandal': '../lib/durandal/js',
-        'plugins': '../lib/durandal/js/plugins',
-        'transitions': '../lib/durandal/js/transitions',
-        "lodash": '../lib/lodash/lodash',
-        "bootstrap-treeview": "../lib/bootstrap-treeview/src/js/bootstrap-treeview",
+        'text': '../bower_components/requirejs-text/text',
+        'durandal': '../bower_components/durandal/js',
+        'plugins': '../bower_components/durandal/js/plugins',
+        'transitions': '../bower_components/durandal/js/transitions',
+        "lodash": '../bower_components/lodash/lodash',
+        "bootstrap-treeview": "../bower_components/bootstrap-treeview/src/js/bootstrap-treeview",
         "d3": "../node_modules/d3/d3"
     }
 });

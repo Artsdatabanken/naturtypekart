@@ -157,10 +157,10 @@
                     if (typeof layerName === "string" && layerName.length > 0) {
                         var layer = layerConfig.getBaseLayerFromPool(layerName);
                         if (layer) {
-                            if (vm.map.getLayers().getLength() > 0) {
-                                vm.map.getLayers().removeAt(0);
+                            if (vm.map.getLayers().getLength() > 1) {
+                                vm.map.getLayers().removeAt(1);
                             }
-                            vm.map.getLayers().insertAt(0, layer);
+                            vm.map.getLayers().insertAt(1, layer);
                             viewportState.background(layerName);
                         }
                     }
