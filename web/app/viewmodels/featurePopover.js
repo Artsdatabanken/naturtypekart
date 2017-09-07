@@ -83,38 +83,38 @@
 
             vm.natureAreaNatureLevel("Naturnivå: " + codelists.natureLevelNames[natureArea.NatureLevel]);
 
-            for (i = 0; i < natureArea.Parameters.length; ++i) {
-                if (natureArea.Parameters[i].Share !== undefined) {
+            for (i = 0; i < natureArea.parameters.length; ++i) {
+                if (natureArea.parameters[i].share !== undefined) {
                     natureTypes.push({
-                        "code": natureArea.Parameters[i].Code,
-                        "description": natureArea.Parameters[i].CodeDescription
+                        "code": natureArea.parameters[i].code,
+                        "description": natureArea.parameters[i].codeDescription
                     });
 
                     natureTypeShares.push({
-                        "value": natureArea.Parameters[i].Share
+                        "value": natureArea.parameters[i].share
                     });
                 } else {
                     vm.natureAreaDescriptionVariables.push({
-                        "codeAndValue": natureArea.Parameters[i].CodeDescription + " (" + natureArea.Parameters[i].Code + "), verdi: " + natureArea.Parameters[i].Value,
-                        "description": natureArea.Parameters[i].Description,
-                        "url": natureArea.Parameters[i].CodeUrl
+                        "codeAndValue": natureArea.parameters[i].codeDescription + " (" + natureArea.parameters[i].code + "), verdi: " + natureArea.parameters[i].value,
+                        "description": natureArea.parameters[i].description,
+                        "url": natureArea.parameters[i].codeUrl
                     });
                 }
-                if (natureArea.Parameters[i].AdditionalVariables) {
-                    for (j = 0; j < natureArea.Parameters[i].AdditionalVariables.length; ++j) {
-                        var avar = natureArea.Parameters[i].AdditionalVariables[j];
+                if (natureArea.parameters[i].additionalVariables) {
+                    for (j = 0; j < natureArea.parameters[i].additionalVariables.length; ++j) {
+                        var avar = natureArea.parameters[i].additionalVariables[j];
                         vm.natureAreaDescriptionVariables.push({
-                            "codeAndValue": avar.CodeDescription + " (" + avar.Code + "), verdi: " + avar.Value,
-                            "description": avar.Description,
-                            "url": avar.CodeUrl
+                            "codeAndValue": avar.codeDescription + " (" + avar.code + "), verdi: " + avar.value,
+                            "description": avar.description,
+                            "url": avar.codeUrl
                         });
                     }
                 }
-                if (natureArea.Parameters[i].CustomVariables) {
-                    for (j = 0; j < natureArea.Parameters[i].CustomVariables.length; ++j) {
-                        var cvar = natureArea.Parameters[i].CustomVariables[j];
+                if (natureArea.parameters[i].customVariables) {
+                    for (j = 0; j < natureArea.parameters[i].customVariables.length; ++j) {
+                        var cvar = natureArea.parameters[i].customVariables[j];
                         vm.natureAreaDescriptionVariables.push({
-                            "codeAndValue": cvar.Specification + ", verdi: " + cvar.Value,
+                            "codeAndValue": cvar.specification + ", verdi: " + cvar.value,
                             "description": "",
                             "url": ""
                         });
@@ -123,74 +123,74 @@
 
             }
 
-            vm.natureAreaId(natureArea.UniqueId.LocalId);
-            vm.natureAreaVersion(natureArea.Version);
-            if (natureArea.Surveyed) vm.natureAreaSurveyed(application.formatDate(natureArea.Surveyed));
-            if (natureArea.Description) vm.natureAreaDescription(natureArea.Description);
+            vm.natureAreaId(natureArea.uniqueId.localId);
+            vm.natureAreaVersion(natureArea.version);
+            if (natureArea.surveyed) vm.natureAreaSurveyed(application.formatDate(natureArea.surveyed));
+            if (natureArea.description) vm.natureAreaDescription(natureArea.description);
 
-            if (natureArea.Surveyer) {
-                vm.natureAreaSurveyerCompany(natureArea.Surveyer.Company);
-                if (natureArea.Surveyer.ContactPerson) vm.natureAreaSurveyerContactPerson(natureArea.Surveyer.ContactPerson);
-                if (natureArea.Surveyer.Email) vm.natureAreaSurveyerEmail(natureArea.Surveyer.Email);
-                if (natureArea.Surveyer.Phone) vm.natureAreaSurveyerPhone(natureArea.Surveyer.Phone);
+            if (natureArea.surveyer) {
+                vm.natureAreaSurveyerCompany(natureArea.surveyer.company);
+                if (natureArea.surveyer.contactPerson) vm.natureAreaSurveyerContactPerson(natureArea.surveyer.contactPerson);
+                if (natureArea.surveyer.email) vm.natureAreaSurveyerEmail(natureArea.surveyer.email);
+                if (natureArea.surveyer.phone) vm.natureAreaSurveyerPhone(natureArea.surveyer.phone);
             }
 
-            vm.natureAreaSurveyId(metadata.UniqueId.LocalId);
-            vm.natureAreaSurveyProgram(metadata.Program);
-            vm.natureAreaSurveyProjectName(metadata.ProjectName);
-            if (metadata.ProjectDescription) vm.natureAreaSurveyProjectDescription(metadata.ProjectDescription);
-            if (metadata.Purpose) vm.natureAreaSurveyPurpose(metadata.Purpose);
-            vm.natureAreaSurveyFrom(application.formatDate(metadata.SurveyedFrom));
-            vm.natureAreaSurveyTo(application.formatDate(metadata.SurveyedTo));
-            if (metadata.SurveyScale) vm.natureAreaSurveyScale(metadata.SurveyScale);
+            vm.natureAreaSurveyId(metadata.uniqueId.localId);
+            vm.natureAreaSurveyProgram(metadata.program);
+            vm.natureAreaSurveyProjectName(metadata.projectName);
+            if (metadata.projectDescription) vm.natureAreaSurveyProjectDescription(metadata.projectDescription);
+            if (metadata.purpose) vm.natureAreaSurveyPurpose(metadata.purpose);
+            vm.natureAreaSurveyFrom(application.formatDate(metadata.surveyedFrom));
+            vm.natureAreaSurveyTo(application.formatDate(metadata.surveyedTo));
+            if (metadata.surveyScale) vm.natureAreaSurveyScale(metadata.surveyScale);
 
             vm.natureAreaDocuments([]);
-            for (i = 0; i < natureArea.Documents.length; ++i) {
+            for (i = 0; i < natureArea.documents.length; ++i) {
 
                 title = "";
-                if (natureArea.Documents[i].Title) title = natureArea.Documents[i].Title;
-                else title = natureArea.Documents[i].FileName;
+                if (natureArea.documents[i].Title) title = natureArea.documents[i].title;
+                else title = natureArea.documents[i].fileName;
 
                 tooltip = "";
-                if (natureArea.Documents[i].Description) tooltip = natureArea.Documents[i].Description;
+                if (natureArea.documents[i].description) tooltip = natureArea.documents[i].description;
 
                 document = {
                     "title": title,
-                    "url": config.dataDeliveryApiUrl + 'DownloadDocument/' + natureArea.Documents[i].Guid,
+                    "url": config.dataDeliveryApiUrl + 'DownloadDocument/' + natureArea.documents[i].guid,
                     "tooltip": tooltip,
-                    "filename": natureArea.Documents[i].FileName,
-                    "newWindow": openInNewWindow(findFileExtension(natureArea.Documents[i].FileName))
+                    "filename": natureArea.documents[i].fileName,
+                    "newWindow": openInNewWindow(findFileExtension(natureArea.documents[i].fileName))
                 };
 
                 vm.natureAreaDocuments.push(document);
             }
 
-            vm.natureAreaSurveyContractorCompany(metadata.Contractor.Company);
-            if (metadata.Contractor.ContactPerson) vm.natureAreaSurveyContractorContactPerson(metadata.Contractor.ContactPerson);
-            if (metadata.Contractor.Email) vm.natureAreaSurveyContractorEmail(metadata.Contractor.Email);
-            if (metadata.Contractor.Phone) vm.natureAreaSurveyContractorPhone(metadata.Contractor.Phone);
+            vm.natureAreaSurveyContractorCompany(metadata.contractor.company);
+            if (metadata.contractor.ContactPerson) vm.natureAreaSurveyContractorContactPerson(metadata.Contractor.ContactPerson);
+            if (metadata.contractor.email) vm.natureAreaSurveyContractorEmail(metadata.contractor.email);
+            if (metadata.contractor.phone) vm.natureAreaSurveyContractorPhone(metadata.contractor.phone);
 
-            vm.natureAreaSurveyOwnerCompany(metadata.Owner.Company);
-            if (metadata.Owner.ContactPerson) vm.natureAreaSurveyOwnerContactPerson(metadata.Owner.ContactPerson);
-            if (metadata.Owner.Email) vm.natureAreaSurveyOwnerEmail(metadata.Owner.Email);
-            if (metadata.Owner.Phone) vm.natureAreaSurveyOwnerPhone(metadata.Owner.Phone);
+            vm.natureAreaSurveyOwnerCompany(metadata.owner.company);
+            if (metadata.owner.contactperson) vm.natureAreaSurveyOwnerContactPerson(metadata.owner.contactPerson);
+            if (metadata.owner.email) vm.natureAreaSurveyOwnerEmail(metadata.owner.email);
+            if (metadata.owner.phone) vm.natureAreaSurveyOwnerPhone(metadata.owner.phone);
 
             vm.natureAreaSurveyDocuments([]);
-            for (i = 0; i < metadata.Documents.length; ++i) {
+            for (i = 0; i < metadata.documents.length; ++i) {
 
                 title = "";
-                if (metadata.Documents[i].Title) title = metadata.Documents[i].Title;
-                else title = metadata.Documents[i].FileName;
+                if (metadata.documents[i].title) title = metadata.documents[i].title;
+                else title = metadata.documents[i].fileName;
 
                 tooltip = "";
-                if (metadata.Documents[i].Description) tooltip = metadata.Documents[i].Description;
+                if (metadata.documents[i].description) tooltip = metadata.documents[i].description;
 
                 vm.natureAreaSurveyDocuments.push({
                     "title": title,
-                    "url": config.dataDeliveryApiUrl + 'DownloadDocument/' + metadata.Documents[i].Guid,
+                    "url": config.dataDeliveryApiUrl + 'DownloadDocument/' + metadata.documents[i].guid,
                     "tooltip": tooltip,
-                    "filename": metadata.Documents[i].FileName,
-                    "newWindow": openInNewWindow(findFileExtension(metadata.Documents[i].FileName))
+                    "filename": metadata.documents[i].fileName,
+                    "newWindow": openInNewWindow(findFileExtension(metadata.documents[i].fileName))
                 });
             }
             vm.makeChart();

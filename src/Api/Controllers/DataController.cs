@@ -531,19 +531,15 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMetadataByNatureAreaLocalId(string localId)
+        public object GetMetadataByNatureAreaLocalId(string id)
         {
-            var metadataJson = "";
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> {localId}, false);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> {id}, false);
 
-            if (metadatas.Count == 1)
+            if (metadatas.Count > 0)
             {
-                var metadata = metadatas[0];
-                metadataJson = JsonConvert.SerializeObject(metadata, jsonSerializerSettings);
+                return metadatas[0];
             }
-
-            var contentResult = new NinJsonResult(metadataJson);
-            return contentResult;
+            return "";
         }
 
         [HttpGet]
