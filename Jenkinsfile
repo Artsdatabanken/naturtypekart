@@ -36,48 +36,6 @@ echo "Building configuration: ${params.BuildConfiguration}"
 echo "Building configuration:  " + params.BuildConfiguration
 	    notifyBuild('STARTED')
 //	deleteDir()
-				dir('web/Nin') {
-//					yarn('cache clean')
-//					npm('upgrade npm')
-//					npm('upgrade -g')
-					yarn('install --no-progress')
-					yarn('lint-report')
-					archiveArtifacts 'lint-report.xml'
-				  step([$class: 'CheckStylePublisher',
-             usePreviousBuildAsReference: true,
-             alwaysLinkToLastBuild: true,
-             canComputeNew: true,
-             healthy: '0',
-             unHealthy: '100',
-             useDeltaValues: true,
-             pattern: 'lint-report.xml' ])
-				}
-			}
-		}
-		stage('Frontend build') {
-			steps {
-				dir('web/Nin') {
-					bat('echo REACT_APP_BASENAME = ' + env.REACT_APP_BASENAME)
-					yarn('build')
-					yarn('build-storybook')
-					archiveArtifacts 'build/**'
-				}
-			}
-		}
-		stage('Frontend tests') {
-			steps {
-				dir('web/Nin') {
-					yarn('ci_test')
-					bat('dir junit.xml')
-					move('junit.xml', 'testresults-jest.xml')
-					bat('dir testresults-jest.xml')
-					bat 'type testresults-jest.xml'
-					archiveArtifacts 'testresults-jest.xml'
-          junit 'testresults-jest.xml'
-          step([$class: 'CloverPublisher',
-						cloverReportDir: './coverage/',
-						cloverReportFileName: 'clover.xml'])
-				}
 			}
 		}
 
@@ -89,7 +47,7 @@ echo "Building configuration:  " + params.BuildConfiguration
 				dotnetBuild('test', 'Debug')
 				copyToDist(binPath('src\\console', BuildConfiguration))
 	//		stash includes: 'database/**', name: 'database'
-	//		stash includes: 'test/*/bin/'+BuildConfiguration+'/net46/win7-x64/**', name: 'test'
+	//		stash includes: 'test/*/bin/'+BuildConfiguration+'/net47/win7-x64/**', name: 'test'
   			archiveArtifacts 'dist/*'
 
 // broken with x64 build? and won't build others?
@@ -118,14 +76,13 @@ echo "Building configuration:  " + params.BuildConfiguration
 		}
 		stage('Deploy') {
 			steps {
-				createDatabase('Test','database')
+//				createDatabase('Test','database')
 
 		    dotnetPublish("Api.Document", BuildConfiguration)
-		    dotnetPublish("Api.Proxy", BuildConfiguration)
+//		    dotnetPublish("Api.Proxy", BuildConfiguration)
 		    dotnetPublish("Api", BuildConfiguration)
 
-    		copy('web\\Nin\\build', 'd:\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
-    		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
+//    		copy('web\\Nin\\build', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\' + env.BRANCH_NAME + '\\wwwroot\\')
     		copy('schema', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\schema')
 
 	//		unstash 'database'
@@ -159,7 +116,7 @@ def dotnetPublish(projectSubDir, BuildConfiguration) {
 	mkdir('dist\\' + projectSubDir)
   bat 'dotnet publish src\\' + projectSubDir + ' --configuration ' + BuildConfiguration
   bat 'pskill \\\\it-webadbtest01.it.ntnu.no ' + projectSubDir + '.exe & EXIT 0'
-	copy('src\\' + projectSubDir + '\\bin\\debug\\net46\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
+	copy('src\\' + projectSubDir + '\\bin\\debug\\net47\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin2\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
 }
 
 def copy(src, dest) {
@@ -179,7 +136,7 @@ def runTestsWithCoverage(testCategory, reportPath) {
 		def BuildToolPath= '"'+ pwd() + '\\' + BuildToolRelPath + '"'
 		def workspace = pwd()
 		mkdir(CodeCoveragePath)
-		dir('test/Test.'+testCategory+'/bin/Debug/net46/') {
+		dir('test/Test.'+testCategory+'/bin/Debug/net47/') {
 //			nuget('OpenCover\\4.6.519\\tools\\OpenCover.Console', '-target:dotnet-test-nunit.exe -targetargs:"test.'+testCategory+'.dll -result=testresults3.xml" -register:user -output:"coverage.xml"')
 //			nuget('OpenCover\\4.6.519\\tools\\OpenCover.Console', '-target:dotnet-test-nunit.exe -targetargs:"test.integration.dll -result=testresults3.xml" -register:user -output:"coverage.xml" -filter:+[Nin*]*')
 //			bat BuildToolPath+'\\xsl testresults3.xml '+ BuildToolPath +'\\nunit3-junit.xslt testresults.xml'
@@ -230,7 +187,7 @@ def dotnetBuild(rootPath, BuildConfiguration) {
 }
 
 def binPath(projectDir, BuildConfiguration) {
-	return projectDir + '\\bin\\' + BuildConfiguration + '\\net46'
+	return projectDir + '\\bin\\' + BuildConfiguration + '\\net47'
 }
 
 def copyToDist(src) {

@@ -35,3 +35,6 @@ junit.xml
 nin.test.json
 nin.development.json
 nin.json
+web/Frontend.Durandal/lib/
+src/Api/AlleKoder.json
+src/Api/Variasjon.json
