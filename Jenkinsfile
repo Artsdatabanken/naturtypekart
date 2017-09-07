@@ -82,9 +82,6 @@ echo "Building configuration:  " + params.BuildConfiguration
 		    dotnetPublish("Api", BuildConfiguration)
 
     		copy('web', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin\\' + env.BRANCH_NAME)
-    		copy('schema', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin\\schema')
-
-	//		unstash 'database'
 			}
 		}
 	}
