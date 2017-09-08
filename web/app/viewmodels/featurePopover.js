@@ -81,7 +81,7 @@
 
             vm.natureAreaDescriptionVariables([]);
 
-            vm.natureAreaNatureLevel("Naturnivå: " + codelists.natureLevelNames[natureArea.NatureLevel]);
+            vm.natureAreaNatureLevel("Naturnivå: " + codelists.natureLevelNames[natureArea.nivå]);
 
             for (i = 0; i < natureArea.parameters.length; ++i) {
                 if (natureArea.parameters[i].share !== undefined) {

@@ -1933,19 +1933,22 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 whereClause += " AND ";
                 if (natureAreaTypeCodes.Count == 1)
                 {
+                    var code = natureAreaTypeCodes[0].Replace(" ", "_");
                     whereClause += "nat.kode = @natcode ";
                     parameters.Add(new Tuple<string, SqlDbType, object>("@natcode", SqlDbType.VarChar,
-                        natureAreaTypeCodes[0]));
+                        code));
                 }
                 else
                 {
                     whereClause += "nat.kode IN (";
                     for (var i = 0; i < natureAreaTypeCodes.Count; ++i)
                     {
+                        var code = natureAreaTypeCodes[i].Replace(" ", "_");
+
                         whereClause += "@natcode" + i;
                         if (i != natureAreaTypeCodes.Count - 1) whereClause += ", ";
                         parameters.Add(new Tuple<string, SqlDbType, object>("@natcode" + i, SqlDbType.VarChar,
-                            natureAreaTypeCodes[i]));
+                            code));
                     }
                     whereClause += ")";
                 }

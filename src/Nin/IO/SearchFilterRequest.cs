@@ -44,6 +44,7 @@ namespace Nin.IO
 
         private static NatureLevel GetNatureLevel(string natureLevelCode)
         {
+
             switch (natureLevelCode)
             {
                 case "NA":
