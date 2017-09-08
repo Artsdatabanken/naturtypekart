@@ -417,7 +417,7 @@
                             var nin = makeRootNode("Naturområdetyper", "nature");
                             _.each(result.NatureAreaTypes.Codes,
                                 function(value, key, list) {
-                                    var type = "NatureLevelCodes";
+                                    var type = "NatureAreaTypeCodes";
                                     var url = openUrl(value.Url);
                                     var root = makeNode(value.Name, type, key, url, value.Count);
 

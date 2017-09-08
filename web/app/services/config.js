@@ -1,8 +1,11 @@
 ﻿define([],
     function () {
-        var rooturl = 'http://localhost:60031/',
-        dataAdmRootUrl = 'http://localhost:60031/',
-//        dataAdmRootUrl = 'http://localhost:5000/',
+
+        // var rooturl = 'http://localhost:60031/',
+        //     dataAdmRootUrl = 'http://localhost:60031/',
+        var rooturl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
+            dataAdmRootUrl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
+
         dataDeliveryRootUrl = '/nindocument_vs2017/',
         //dataDeliveryRootUrl = 'http://localhost:60126/',
 
