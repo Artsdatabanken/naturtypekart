@@ -90,6 +90,7 @@ function (ko, _, conf) {
         IndexTo: ko.observable(25),
         ForceRefreshToggle: ko.observable(false)    // used to force refresh of polygons
     },
+
     urlFilter = function () {
         return {
             NatureLevelCodes: filter.NatureLevelCodes,
@@ -102,6 +103,20 @@ function (ko, _, conf) {
             Institutions: filter.Institutions,
             Geometry: filter.Geometry,
             BoundingBox: filter.BoundingBox,
+            EpsgCode: filter.EpsgCode
+        };
+    },
+    noBoundingBoxFilter = function () { // har centerpoint og ikke boundingbox
+        return {
+            CenterPoints: filter.CenterPoints,
+            NatureLevelCodes: filter.NatureLevelCodes,
+            NatureAreaTypeCodes: filter.NatureAreaTypeCodes,
+            DescriptionVariableCodes: filter.DescriptionVariableCodes,
+            Municipalities: filter.Municipalities,
+            Counties: filter.Counties,
+            ConservationAreas: filter.ConservationAreas,
+            Institutions: filter.Institutions,
+            Geometry: filter.Geometry,
             EpsgCode: filter.EpsgCode
         };
     },
@@ -253,6 +268,7 @@ function (ko, _, conf) {
         filter: filter,
         urlFilter: urlFilter,
         listFilter: listFilter,
+        noBoundingBoxFilter: noBoundingBoxFilter,
         grid: grid,
 
         viewportStateChanged: viewportStateChanged,
@@ -272,26 +288,30 @@ function (ko, _, conf) {
 
         // * view-things *
         baseLayer: "",
-        totalCount: 0
+        totalCount: ko.observable(0)
     };
-    vm.applyFilter = function(bookmark) {
+    vm.applyFilter = function (bookmark) {
         var bmFilter = JSON.parse(bookmark.filter);
         var bmGrid = JSON.parse(bookmark.grid);
+        vm.setFilter(bmFilter, bmGrid);
+    };
 
-        filter.NatureLevelCodes(bmFilter.NatureLevelCodes || []);
-        filter.CenterPoints(bmFilter.CenterPoints);
-        filter.NatureAreaTypeCodes(bmFilter.NatureAreaTypeCodes || []);
-        filter.DescriptionVariableCodes(bmFilter.DescriptionVariableCodes || []);
-        filter.Municipalities(bmFilter.Municipalities || []);
-        filter.Counties(bmFilter.Counties || []);
-        filter.ConservationAreas(bmFilter.ConservationAreas || []);
-        filter.Institutions(bmFilter.Institutions || []);
-        filter.Geometry(bmFilter.Geometry);
-        filter.BoundingBox(bmFilter.BoundingBox);
-        filter.EpsgCode(bmFilter.EpsgCode);
-        grid.GridType(bmGrid.GridType);
-        grid.GridLayerTypeId(bmGrid.GridLayerTypeId);
-        grid.Grid(bmGrid.Grid);
+    vm.setFilter = function (bmFilter, bmGrid) {
+        if (!_.isEqual(filter.NatureLevelCodes(), bmFilter.NatureLevelCodes)) filter.NatureLevelCodes(bmFilter.NatureLevelCodes || []);
+        if (!_.isEqual(filter.CenterPoints(), bmFilter.CenterPoints)) filter.CenterPoints(bmFilter.CenterPoints || []);
+        if (!_.isEqual(filter.NatureAreaTypeCodes(), bmFilter.NatureAreaTypeCodes)) filter.NatureAreaTypeCodes(bmFilter.NatureAreaTypeCodes || []);
+        if (!_.isEqual(filter.DescriptionVariableCodes(), bmFilter.DescriptionVariableCodes)) filter.DescriptionVariableCodes(bmFilter.DescriptionVariableCodes || []);
+        if (!_.isEqual(filter.Municipalities(), bmFilter.Municipalities)) filter.Municipalities(bmFilter.Municipalities || []);
+        if (!_.isEqual(filter.Counties(), bmFilter.Counties)) filter.Counties(bmFilter.Counties || []);
+        if (!_.isEqual(filter.ConservationAreas(), bmFilter.ConservationAreas)) filter.ConservationAreas(bmFilter.ConservationAreas || []);
+        if (!_.isEqual(filter.Institutions(), bmFilter.Institutions)) filter.Institutions(bmFilter.Institutions || []);
+        if (!_.isEqual(filter.Geometry(), bmFilter.Geometry)) filter.Geometry(bmFilter.Geometry);
+        if (!_.isEqual(filter.BoundingBox(), bmFilter.BoundingBox)) filter.BoundingBox(bmFilter.BoundingBox);
+        if (!_.isEqual(filter.EpsgCode(), bmFilter.EpsgCode)) filter.EpsgCode(bmFilter.EpsgCode || 0);
+
+        if (!_.isEqual(grid.GridType(), bmGrid.GridType)) grid.GridType(bmGrid.GridType || 0);
+        if (!_.isEqual(grid.GridLayerTypeId(), bmGrid.GridLayerTypeId)) grid.GridLayerTypeId(bmGrid.GridLayerTypeId || 0);
+        if (!_.isEqual(grid.Grid(), bmGrid.Grid)) grid.Grid(bmGrid.Grid);
 
         vm.rebuildTree(true);
     };

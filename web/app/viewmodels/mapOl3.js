@@ -330,6 +330,187 @@
                 $(".ol-full-screen-false").attr("title", "Veksle fullskjermskart");
                 $(".ol-full-screen-true").attr("title", "Veksle fullskjermskart");
 
+                vm.reloadLocations = function (keepOld, addBounds) {
+                    var filter = application.filter;
+
+                    if (keepOld && addBounds && addBounds.length > 0) {
+                        filter = application.noBoundingBoxFilter();
+                        filter.BoundingBox = vm.boundsToWkt(addBounds);
+                    }
+                    dataServices.getNatureAreasBySearchFilter(filter).then(function (geojsonObject) {
+
+                            if (filter.CenterPoints() === false) {
+                                if (keepOld && addBounds && addBounds.length > 0) {
+                                    // increase record of loaded bounds
+                                    var minX = addBounds[0], minY = addBounds[1], maxX = addBounds[2], maxY = addBounds[3];
+                                    var lminX = vm.loadedBounds()[0], lminY = vm.loadedBounds()[1], lmaxX = vm.loadedBounds()[2], lmaxY = vm.loadedBounds()[3];
+
+                                    vm.loadedBounds(
+                                        [Math.min(minX, lminX),
+                                            Math.min(minY, lminY),
+                                            Math.max(maxX, lmaxX),
+                                            Math.max(maxY, lmaxY)
+                                        ]
+                                    );
+                                } else {
+                                    // store bounds for fetched if correct grouping
+                                    vm.loadedBounds(vm.getBounds());
+                                }
+                            } else {
+                                vm.loadedBounds(undefined);
+                            }
+
+                            if (!keepOld) {
+                                polygonLayerSource.clear();
+                                polygonLayerClusterSource.clear();
+                                //heatmapLayerSource.clear();
+                            }
+
+                            if (filter.CenterPoints() === false) {
+                                polygonLayerSource.addFeatures(
+                                    new ol.format.GeoJSON({defaultDataProjection: "EPSG: 32633"}).readFeatures(geojsonObject, {dataProjection: "EPSG: 32633"})
+                                );
+                            } else {
+                                if (false) {
+
+                                    var featureCollection = JSON.parse(geojsonObject);
+
+                                    // maxHeatmapObservationCount = 0;
+                                    // featureCollection.features.forEach(function (f) {
+                                    //     maxHeatmapObservationCount = Math.max(maxHeatmapObservationCount, f.properties.ObservationCount);
+                                    // });
+                                    //
+                                    // heatmapLayerSource.addFeatures(
+                                    //     new ol.format.GeoJSON({defaultDataProjection: "EPSG: 32633"}).readFeatures(geojsonObject, {dataProjection: "EPSG: 32633"})
+                                    // )
+                                } else {
+                                    polygonLayerClusterSource.addFeatures(
+                                        new ol.format.GeoJSON({defaultDataProjection: "EPSG: 32633"}).readFeatures(geojsonObject, {dataProjection: "EPSG: 32633"})
+                                    );
+                                }
+                            }
+                            vm.isLoading(false);
+                        }, function (reason) {
+                            // failed
+                            console.debug(reason.statusText);
+                            application.setFooterWarning("Kunne ikke laste naturområder!");
+                            vm.isLoading(false);
+                        }
+                    );
+
+                };
+
+                vm.startReloadAreas = function (keepOld, addBounds) {
+                    if (nav.activeView() === 'map') {
+                        vm.isLoading(true);
+                        vm.reloadLocations(keepOld, addBounds);
+                    } else {
+                        vm.reloadNatureAreasOnActivate(true);
+                    }
+
+                };
+                application.listFilterChanged.subscribe(function (value) {
+                    vm.startReloadAreas();
+                });
+
+                application.filterChanged.subscribe(function (value) {
+                    if (application.filter.CenterPoints() === false) {
+                        if (application.filter.BoundingBox() != "" && vm.loadedBounds() != undefined) {
+                            var bounds = vm.getBounds();
+                            var minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3];
+                            var lminX = vm.loadedBounds()[0], lminY = vm.loadedBounds()[1], lmaxX = vm.loadedBounds()[2], lmaxY = vm.loadedBounds()[3];
+                            var addBounds = [];
+                            if (minX >= lminX && minY >= lminY && maxX <= lmaxX && maxY <= lmaxY) {
+                                // New bounds completely inside old bounds, do not need to fetch.
+                                console.debug("Bruker cachede områder:)");
+                                return;
+                            } else if (minX >= lminX && minY >= lminY && maxX <= lmaxX && maxY >= lmaxY) {
+                                console.debug("Laster flere områder i nord");
+                                // New bounds on top+overlapping old
+                                //  ..\\\..
+                                //  //XXX//
+                                //  ///////
+                                addBounds = [lminX, lmaxY, lmaxX, maxY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX >= lminX && minY >= lminY && maxX >= lmaxX && maxY <= lmaxY) {
+                                console.debug("Laster flere observasjoner i øst");
+                                // New bounds right+overlapping old
+                                //  ///////..
+                                //  ////XXX\\
+                                //  ////XXX\\
+                                //  ///////..
+                                addBounds = [lmaxX, lminY, maxX, lmaxY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX >= lminX && minY <= lminY && maxX <= lmaxX && maxY <= lmaxY) {
+                                console.debug("Laster flere områder i sør");
+                                // New bounds bottom+overlapping old
+                                //  ///////
+                                //  //XXX//
+                                //  ..\\\..
+                                addBounds = [lminX, minY, lmaxX, lmaxY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX <= lminX && minY >= lminY && maxX <= lmaxX && maxY <= lmaxY) {
+                                console.debug("Laster flere områder i vest");
+                                // New bounds left+overlapping old
+                                //  ..///////
+                                //  \\XXX////
+                                //  \\XXX////
+                                //  ..///////
+                                addBounds = [minX, lminY, lminX, lmaxY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX >= lminX && minY <= lminY && maxX >= lmaxX && maxY <= lmaxY) {
+                                console.debug("Laster flere områder i sør-øst");
+                                // New bounds bottom-right corner+overlapping old
+                                //  ////////.
+                                //  ////////.
+                                //  //////XX\
+                                //  ......\\\
+                                addBounds = [minX, minY, maxX, lmaxY, lmaxX, lminY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX <= lminX && minY >= lminY && maxX <= lmaxX && maxY >= lmaxY) {
+                                console.debug("Laster flere områder i nord-vest");
+                                // New bounds bottom-right corner+overlapping old
+                                //  \\\......
+                                //  \XX//////
+                                //  .////////
+                                //  .////////
+                                addBounds = [minX, lminY, lmaxX, maxY, lminX, lmaxY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX >= lminX && minY >= lminY && maxX >= lmaxX && maxY >= lmaxY) {
+                                console.debug("Laster flere områder i nord-øst");
+                                // New bounds top-right corner+overlapping old
+                                //  ......\\\
+                                //  //////XX\
+                                //  ////////.
+                                //  ////////.
+                                addBounds = [lminX, maxY, maxX, lminY, lmaxX, lmaxY];
+                                vm.startReloadAreas(true, addBounds);
+                            } else if (minX <= lminX && minY <= lminY && maxX <= lmaxX && maxY <= lmaxY) {
+                                console.debug("Laster flere områder i sør-vest");
+                                // New bounds top-right corner+overlapping old
+                                //  .////////
+                                //  .////////
+                                //  \\XX/////
+                                //  \\\\.....
+                                addBounds = [minX, lmaxY, lmaxX, minY, lminX, lminY];
+                                vm.startReloadAreas(true, addBounds);
+                                // todo: sør-vest
+                            } else {
+                                // reload
+                                console.debug("Laster hele utsnitt på nytt :(");
+                                console.debug("minX " + (minX <= lminX ? "<=" : ">") + " lminX,\r\n" +
+                                    "minY " + (minY <= lminY ? "<=" : "> ") + " lminY,\r\n" +
+                                    "maxX " + (maxX <= lmaxX ? "<=" : "> ") + " lmaxX,\r\n" +
+                                    "maxY " + (maxY <= lmaxY ? "<=" : "> ") + " lmaxY\r\n");
+                                vm.startReloadAreas();
+                            }
+
+                        } else {
+                            vm.startReloadAreas();
+                        }
+                    }
+                });
+
                 mapLoadedDfd.resolve();
             };
 
@@ -346,6 +527,7 @@
             isLoadingGrid: ko.observable(false),
             drawing: ko.observable(false),
             selectedBaseLayer: ko.observable(),
+            loadedBounds: ko.observable(),
             selectionLayer: undefined,
             polygonLayer: undefined,
             features: undefined,
@@ -376,15 +558,38 @@
                 }
             },
 
-            boundsToWkt: function(bounds) {
-                if (bounds.length !== 4) return "POLYGON EMPTY";
-                var minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3];
-                return "POLYGON ((" +
-                    minX + " " + minY + "," +
-                    maxX + " " + minY + "," +
-                    maxX + " " + maxY + "," +
-                    minX + " " + maxY + "," +
-                    minX + " " + minY + "))";
+            boundsToWkt: function (bounds) {
+                var minX, minY, maxX, maxY, centerX, centerY;
+                switch (bounds.length) {
+                    case 4:
+                        minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3];
+                        return "POLYGON ((" +
+                            minX + " " + minY + "," +
+                            maxX + " " + minY + "," +
+                            maxX + " " + maxY + "," +
+                            minX + " " + maxY + "," +
+                            minX + " " + minY + "))";
+                    case 6:
+                        minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3],
+                            centerX = bounds[4], centerY = bounds[5];
+                        return "POLYGON ((" +
+                            minX + " " + minY + "," +
+                            maxX + " " + minY + "," +
+                            maxX + " " + maxY + "," +
+                            centerX + " " + maxY + "," +
+                            centerX + " " + centerY + "," +
+                            minX + " " + centerY + "," +
+                            minX + " " + minY + "))";
+                    default:
+                        return "POLYGON EMPTY";
+                }
+            },
+            getBounds: function () {
+                if (mapViewPortSet.state() === "resolved") {
+                    var vpi = vm.getViewportInfo();
+                    return vpi.bounds;
+                }
+                return "";
             },
             getBoundingBox: function() {
                 if (mapViewPortSet.state() === "resolved") {
@@ -562,36 +767,6 @@
                 vm.redrawSelectionPolygon();
             }
 
-        });
-        application.filterChanged.subscribe(function(value) {
-            if (nav.activeView() === 'map') {
-                vm.isLoading(true);
-                dataServices.getNatureAreasBySearchFilter(application.filter).then(function(geojsonObject) {
-
-                        polygonLayerSource.clear();
-                        polygonLayerClusterSource.clear();
-                        if (application.filter.CenterPoints() === false) {
-                            polygonLayerSource.addFeatures(
-                                new ol.format.GeoJSON({ defaultDataProjection: "EPSG: 32633" }).
-                                readFeatures(geojsonObject, { dataProjection: "EPSG: 32633" })
-                            );
-                        } else {
-                            polygonLayerClusterSource.addFeatures(
-                                new ol.format.GeoJSON({ defaultDataProjection: "EPSG: 32633" }).
-                                readFeatures(geojsonObject, { dataProjection: "EPSG: 32633" })
-                            );
-                        }
-                        vm.isLoading(false);
-                    }, function(reason) {
-                        // failed
-						console.log(reason.responseText);
-                        application.setFooterWarning("Kunne ikke laste naturområder.");
-                        vm.isLoading(false);
-                    }
-                );
-            } else {
-                vm.reloadNatureAreasOnActivate(true);
-            }
         });
 
         application.viewportStateChanged.subscribe(function (value) {
