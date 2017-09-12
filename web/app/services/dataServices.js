@@ -1,11 +1,20 @@
 ﻿define(['services/logger', 'jquery', 'knockout', 'services/config', 'durandal/app'],
     function (logger, $, ko, config, app) {
         var title = "dataServices",
+            myPromises = {},
+            promiseKeeper = function (name, promise) {
+                var lastPromise = myPromises[name];
+                if (lastPromise && lastPromise.state() === "pending") {
+                    // Pending call exist - abort it!
+                    lastPromise.abort("Ignore");
+                }
+                myPromises[name] = promise;
+            },
             downloadFile = function download(data, contentType, fileName, isBinary) {
                 var ie = navigator.userAgent.match(/MSIE\s([\d.]+)/);
                 var ie11 = navigator.userAgent.match(/Trident\/7.0/) && navigator.userAgent.match(/rv:11/);
                 var ieEdge = navigator.userAgent.match(/Edge/g);
-                var ieVer = (ie ? ie[1] : (ie11 ? 11 : (ieEdge ? 12 : -1)));
+                var ieVer = ie ? ie[1] : ie11 ? 11 : ieEdge ? 12 : -1;
 
                 if (ie && ieVer < 10) {
                     alert("Export is not supported in this browser.");
@@ -35,7 +44,7 @@
                 app.trigger('downloadFile:done', fileName);
             },
 
-            getDataPromise = function(url, filter, type) {
+            getDataPromise = function(name, url, filter, type) {
                 var rq = {
                     type: type || 'GET',
                     contentType: "application/json;charset=utf-8"
@@ -46,10 +55,12 @@
                 }
                 var promise = $.ajax(rq);
 
+                promiseKeeper(name, promise);
+
                 return promise;
             },
 
-            postDataPromise = function(url, filter, type) {
+            postDataPromise = function(name, url, filter, type) {
                 var rq = {
                     type: type || 'POST',
                     contentType: "application/json;charset=utf-8"
@@ -60,6 +71,7 @@
                 }
                 var promise = $.ajax(rq);
 
+                promiseKeeper(name, promise);
                 return promise;
             },
             deleteDataPromise = function(url) {
@@ -131,12 +143,12 @@
             getListOfDataDeliveries = function (username) {
                 logger.log('getListOfDataDeliveries', null, title, true);
                 var url = config.dataDeliveryApiUrl + "GetListOfDataDeliveries/?username=" + username;
-                return getDataPromise(url);
+                return getDataPromise('getListOfDataDeliveries', url);
             },
             getListOfImportedDataDeliveries = function () {
                 logger.log('getListOfImportedDataDeliveries', null, title, true);
                 var url = config.dataDeliveryApiUrl + "GetListOfImportedDataDeliveries";
-                return getDataPromise(url);
+                return getDataPromise('getListOfImportedDataDeliveries', url);
             },
             publiserDataleveranse = function (formData) {
                 logger.log('publiserDataleveranse', null, title, true);
@@ -151,7 +163,7 @@
             getAllGridDeliveries = function () {
                 logger.log('GetAllGridDeliveries', null, title, true);
                 var url = config.dataDeliveryApiUrl + "GetAllGridDeliveries";
-                return getDataPromise(url);
+                return getDataPromise('getAllGridDeliveries', url);
             },
             getFile = function(docGuid, contentType, filename) {
                 logger.log('DownloadGrid', null, title, true);
@@ -169,7 +181,7 @@
             getLocationByTerm = function (searchTerm) {
                 logger.log('getLocationByTerm', null, title, true);
                 var url = config.apiurl + 'geolocationByName?term=' + searchTerm;
-                return getDataPromise(url);
+                return getDataPromise('getLocationByTerm', url);
             },
             //searchMunicipality = function(searchTerm) {
             //    logger.log('searchMunicipality', null, title, true);
@@ -179,64 +191,64 @@
             hentOmraadeForMatrikkelenhet = function(kommuneNr, gaardsnr, bruksNr, festNr, seksjonsNr) {
                 logger.log('hentOmraadeForMatrikkelenhet', null, title, true);
                 var url = config.apiurl + 'HentOmraadeForMatrikkelenhet/' + kommuneNr + '/' + gaardsnr + '/' + bruksNr + '/' + festNr + '/' + seksjonsNr;
-                return getDataPromise(url);
+                return getDataPromise('hentOmraadeForMatrikkelenhet', url);
             },
             finnMatrikkelenheter = function (kommuneNr, gaardsnr, bruksNr) {
                 logger.log('finnMatrikkelenheter', null, title, true);
                 var url = config.apiurl + 'FinnMatrikkelenheter/' + kommuneNr + '/' + gaardsnr + '/' + bruksNr;
-                return getDataPromise(url);
+                return getDataPromise('finnMatrikkelenheter', url);
             },
             getGbnrByTerm = function(searchTerm) {
                 logger.log('getGbnrByTerm', null, title, true);
                 var url = config.apiurl + 'geolocationByGBNr/' + searchTerm;
-                return getDataPromise(url);
+                return getDataPromise('getGbnrByTerm', url);
             },
             getNatureAreaStatisticsBySearchFilter = function (filter) {
                 logger.log('getNatureAreaStatisticsBySearchFilter', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetNatureAreaStatisticsBySearchFilter';
-                return postDataPromise(url, filter);
+                return postDataPromise('getNatureAreaStatisticsBySearchFilter', url, filter);
             },
             getNatureAreaInstitutionSummary = function (filter) {
                 logger.log('getNatureAreaInstitutionSummary', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetNatureAreaInstitutionSummary';
-                return postDataPromise(url, filter);
+                return postDataPromise('getNatureAreaInstitutionSummary', url, filter);
             },
             getNatureAreaSummary = function (filter) {
                 logger.log('getNatureAreaSummary', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetNatureAreaSummary';
-                return postDataPromise(url, filter);
+                return postDataPromise('getNatureAreaSummary', url, filter);
             },
             getAreaSummary = function (filter) {
                 logger.log('getAreaSummary', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetAreaSummary';
-                return postDataPromise(url, filter);
+                return postDataPromise('getAreaSummary', url, filter);
             },
             getGridSummary = function () {
                 logger.log('getGridSummary', null, title, true);
                 var url = config.dataAdmApiUrl + 'getGridSummary';
-                return getDataPromise(url);
+                return getDataPromise('getGridSummary', url);
             },
 
             getAreas = function(type, nr) {
                 logger.log('getArea', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetAreas/?areatype=' + type + '&number=' + nr;
-                return getDataPromise(url);
+                return getDataPromise('getAreas' + nr, url);
             },
             searchAreas = function (name, areatype) {
                 logger.log('searchAreas', null, title, true);
                 var url = config.dataAdmApiUrl + 'SearchAreas/?name=' + name + '&areatype=' + areatype;
-                return getDataPromise(url);
+                return getDataPromise('searchAreas', url);
             },
             exportNatureAreasByLocalIds = function (ids) {
                 logger.log('exportNatureAreasByLocalIds', null, title, true);
                 var url = config.dataAdmApiUrl + 'ExportNatureAreasByLocalIds';
                 var iddata = { 'LocalIds': ids };
-                return postDataPromise(url, iddata);
+                return postDataPromise('exportNatureAreasByLocalIds', url, iddata);
             },
             exportNatureAreasBySearchFilter = function (filter) {
                 logger.log('exportNatureAreasBySearchFilter', null, title, true);
                 var url = config.dataAdmApiUrl + 'ExportNatureAreasBySearchFilter';
-                return postDataPromise(url, filter);
+                return postDataPromise('exportNatureAreasBySearchFilter', url, filter);
             },
             exportNatureAreasAsShapeBySearchFilter = function (filter) {
                 logger.log('exportNatureAreasAsShapeBySearchFilter', null, title, true);
@@ -256,39 +268,40 @@
             getNatureAreasBySearchFilter = function(filter) {
                 logger.log('getNatureAreasBySearchFilter', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetNatureAreasBySearchFilter?';
-                return postDataPromise(url, filter);
+                return postDataPromise('getNatureAreasBySearchFilter', url, filter);
             },
             getNatureAreaInfosBySearchFilter = function (filter) {
                 logger.log('getNatureAreaInfosBySearchFilter', null, title, true);
                 var url = config.dataAdmApiUrl + 'getNatureAreaInfosBySearchFilter?';
-                return postDataPromise(url, filter);
+                return postDataPromise('getNatureAreaInfosBySearchFilter', url, filter);
             },
 
             getNatureAreaByLocalId = function (id) {
                 logger.log('getNatureAreaByLocalId', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetNatureAreaByLocalId/' + id;
-                return getDataPromise(url);
+                return getDataPromise('getNatureAreaByLocalId' + id, url);
             },
 
             getMetadataByNatureAreaLocalId = function (id) {
                 logger.log('getMetadataByNatureAreaLocalId', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetMetadataByNatureAreaLocalId/' + id;
-                return getDataPromise(url);
+                return getDataPromise('getMetadataByNatureAreaLocalId' + id, url);
             },
             getExpiredMetadatasByNatureAreaLocalId = function (id) {
                 logger.log('getExpiredMetadatasByNatureAreaLocalId', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetExpiredMetadatasByNatureAreaLocalId/' + id;
-                return getDataPromise(url);
+                return getDataPromise('getExpiredMetadatasByNatureAreaLocalId' + id, url);
             },
 
             getGrid = function (filter) {
                 logger.log('GetGrid', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetGrid?';
-                return postDataPromise(url, filter);
+                return postDataPromise('getGrid', url, filter);
             },
 
             /// ---------------------
             services = {
+                promiseKeeper: promiseKeeper,
                 getLocationByTerm: getLocationByTerm,
                 getGbnrByTerm: getGbnrByTerm,
                 getNatureAreasBySearchFilter: getNatureAreasBySearchFilter,
