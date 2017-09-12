@@ -111,8 +111,8 @@ def iisAppCmd(args) {
 def dotnetPublish(projectSubDir, BuildConfiguration) {
 	mkdir('dist\\' + projectSubDir)
   bat 'dotnet publish src\\' + projectSubDir + ' --configuration ' + BuildConfiguration
-//  bat 'pskill -t \\\\it-webadbtest01.it.ntnu.no ' + projectSubDir + '.exe & EXIT 0'
-    bat 'pskill -t \\\\it-webadbtest01.it.ntnu.no ' + projectSubDir + '.exe '		
+  bat 'pskill -t \\\\it-webadbtest01.it.ntnu.no ' + projectSubDir + '.exe /accepteula & EXIT 0'
+  
 	copy('src\\' + projectSubDir + '\\bin\\debug\\net47\\publish', '\\\\it-webadbtest01.it.ntnu.no\\d$\\Websites\\Nin\\'+env.BRANCH_NAME+'\\' + projectSubDir + "\\")
 }
 
