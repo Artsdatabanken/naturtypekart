@@ -25,6 +25,7 @@ using Nin.Types.MsSql;
 using Raven.Abstractions.Extensions;
 using Types;
 using Dataleveranse = Nin.Types.RavenDb.Dataleveranse;
+using System.Linq;
 
 namespace Api.Controllers
 {
@@ -133,9 +134,16 @@ namespace Api.Controllers
             return gridSummaryItems;
         }
 
+        private static object cachedNatureAreaSummary = null;
+
         [HttpPost]
         public object GetNatureAreaSummary(AreaFilterRequest areaFilterRequest)
         {
+            if(areaFilterRequest.Geometry == null && cachedNatureAreaSummary != null)
+            {
+                return cachedNatureAreaSummary;
+            }
+
             var geometry = "";
 
             if (areaFilterRequest != null)
@@ -151,19 +159,18 @@ namespace Api.Controllers
                     if (natureAreaTypeHash.ContainsKey(natureAreaTypeItem.Item1))
                         natureAreaTypeHash[natureAreaTypeItem.Item1].Add(natureAreaTypeItem.Item2);
                     else
-                        natureAreaTypeHash[natureAreaTypeItem.Item1] = new HashSet<int> {natureAreaTypeItem.Item2};
+                        natureAreaTypeHash[natureAreaTypeItem.Item1] = new HashSet<int> { natureAreaTypeItem.Item2 };
                 }
                 else
                 {
                     if (decriptionVariableHash.ContainsKey(natureAreaTypeItem.Item1))
                         decriptionVariableHash[natureAreaTypeItem.Item1].Add(natureAreaTypeItem.Item2);
                     else
-                        decriptionVariableHash[natureAreaTypeItem.Item1] = new HashSet<int> {natureAreaTypeItem.Item2};
+                        decriptionVariableHash[natureAreaTypeItem.Item1] = new HashSet<int> { natureAreaTypeItem.Item2 };
                 }
 
-            var natureAreaTypeSummary = GetCodeSummaryHierarchy(natureAreaTypeHash, Naturkodetrær.Naturtyper);
-            var descriptionVariableSummary =
-                GetCodeSummaryHierarchy(decriptionVariableHash, Naturkodetrær.Naturvariasjon);
+            CodeSummaryItem natureAreaTypeSummary = GetNatureAreaTypeSummary(natureAreaTypeHash);
+            CodeSummaryItem descriptionVariableSummary = GetDescriptionVariableSummary(decriptionVariableHash);
 
             var r = new NatureAreaSummary
             {
@@ -187,7 +194,22 @@ namespace Api.Controllers
                 RemoveFields(jo.Last.First, "Count", false);
             }
 
+            if (areaFilterRequest.Geometry == null)
+            {
+                cachedNatureAreaSummary = jo;
+            }
+
             return jo;
+        }
+
+        private static CodeSummaryItem GetDescriptionVariableSummary(CodeIds decriptionVariableHash)
+        {
+            return GetCodeSummaryHierarchy(decriptionVariableHash, Naturkodetrær.Naturvariasjon);
+        }
+
+        private static CodeSummaryItem GetNatureAreaTypeSummary(CodeIds natureAreaTypeHash)
+        {
+            return GetCodeSummaryHierarchy(natureAreaTypeHash, Naturkodetrær.Naturtyper);
         }
 
         [HttpPost]
@@ -283,14 +305,14 @@ namespace Api.Controllers
         [HttpGet]
         public object GetAreas(int areatype, int number)
         {
-            var areas = SqlServer.GetAreas((AreaType) areatype, 0, number);
+            var areas = SqlServer.GetAreas((AreaType)areatype, 0, number);
             return GeoJsonConverter.AreasToGeoJson(areas, false);
         }
 
         [HttpGet]
         public IActionResult SearchAreas(string name, int areatype)
         {
-            var areas = SqlServer.SearchAreas((AreaType) areatype, name);
+            var areas = SqlServer.SearchAreas((AreaType)areatype, name);
             var searchResultAsJson = JsonConvert.SerializeObject(areas, jsonSerializerSettings);
             var contentResult = new NinJsonResult(searchResultAsJson);
             return contentResult;
@@ -406,14 +428,14 @@ namespace Api.Controllers
                 out natureAreaCount
             );
 
-            var natureAreaList = new NatureAreaList {NatureAreaCount = natureAreaCount};
+            var natureAreaList = new NatureAreaList { NatureAreaCount = natureAreaCount };
 
             foreach (var natureArea in natureAreas)
             {
-                var natureAreaExport = (NatureAreaExport) natureArea;
+                var natureAreaExport = (NatureAreaExport)natureArea;
                 AddCodeHierarchyInfo(natureAreaExport.Parameters);
 
-                var natureAreaListItem = new NatureAreaListItem {LocalId = natureAreaExport.UniqueId.LocalId};
+                var natureAreaListItem = new NatureAreaListItem { LocalId = natureAreaExport.UniqueId.LocalId };
 
                 var natureLevelCode = Naturkodetrær.Naturtyper.HentFraKode(natureAreaExport.Nivå);
                 if (natureLevelCode != null)
@@ -486,16 +508,16 @@ namespace Api.Controllers
             var natureAreaTypeHash = new CodeIds();
 
             foreach (var natureArea in natureAreas)
-            foreach (var parameter in natureArea.Parameters)
-            {
-                var natureAreaType = parameter as NatureAreaType;
-                if (natureAreaType != null)
-                    natureAreaTypeHash.Add(natureAreaType, natureArea);
-            }
+                foreach (var parameter in natureArea.Parameters)
+                {
+                    var natureAreaType = parameter as NatureAreaType;
+                    if (natureAreaType != null)
+                        natureAreaTypeHash.Add(natureAreaType, natureArea);
+                }
 
             var natureAreaTypeSummary = GetCodeSummaryHierarchy(natureAreaTypeHash, Naturkodetrær.Naturtyper);
 
-            var natureAreaStatistics = new NatureAreaStatistics {NatureAreaTypes = natureAreaTypeSummary};
+            var natureAreaStatistics = new NatureAreaStatistics { NatureAreaTypes = natureAreaTypeSummary };
 
             foreach (var institution in institutions)
                 natureAreaStatistics.Institutions.Add(new NatureAreaSummaryItem
@@ -533,7 +555,7 @@ namespace Api.Controllers
         [HttpGet]
         public object GetMetadataByNatureAreaLocalId(string id)
         {
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> {id}, false);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> { id }, false);
 
             if (metadatas.Count > 0)
             {
@@ -555,7 +577,7 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult GetExpiredMetadatasByNatureAreaLocalId(string localId)
         {
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> {localId}, false);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> { localId }, false);
 
             var dataDeliveriesWithNatureArea = new List<Dataleveranse>();
 
@@ -564,20 +586,20 @@ namespace Api.Controllers
                 var dataDeliveries = ninRavenDb.HentDataleveranserGjeldendeOgUtgåtte(metadatas[0].UniqueId.LocalId);
 
                 foreach (var dataDelivery in dataDeliveries)
-                foreach (var natureArea in dataDelivery.Metadata.NatureAreas)
-                {
-                    if (!natureArea.UniqueId.LocalId.Equals(new Guid(localId))) continue;
+                    foreach (var natureArea in dataDelivery.Metadata.NatureAreas)
+                    {
+                        if (!natureArea.UniqueId.LocalId.Equals(new Guid(localId))) continue;
 
-                    dataDelivery.Metadata.NatureAreas.Clear();
-                    var natureAreaExport = new Nin.Types.RavenDb.NatureAreaExport(natureArea);
-                    AddCodeHierarchyInfo(natureAreaExport.Parameters);
-                    dataDelivery.Metadata.NatureAreas.Add(natureAreaExport);
-                    MapProjection.ConvertGeometry(dataDelivery, metadatas[0].GetAreaEpsgCode());
-                    natureAreaExport.Areas =
-                        SqlServer.GetAreaLinkInfos(natureAreaExport.Area, natureAreaExport.AreaEpsgCode);
-                    dataDeliveriesWithNatureArea.Add(dataDelivery);
-                    break;
-                }
+                        dataDelivery.Metadata.NatureAreas.Clear();
+                        var natureAreaExport = new Nin.Types.RavenDb.NatureAreaExport(natureArea);
+                        AddCodeHierarchyInfo(natureAreaExport.Parameters);
+                        dataDelivery.Metadata.NatureAreas.Add(natureAreaExport);
+                        MapProjection.ConvertGeometry(dataDelivery, metadatas[0].GetAreaEpsgCode());
+                        natureAreaExport.Areas =
+                            SqlServer.GetAreaLinkInfos(natureAreaExport.Area, natureAreaExport.AreaEpsgCode);
+                        dataDeliveriesWithNatureArea.Add(dataDelivery);
+                        break;
+                    }
             }
 
             var metadatasJson = JsonConvert.SerializeObject(dataDeliveriesWithNatureArea, jsonSerializerSettings);
@@ -663,11 +685,11 @@ namespace Api.Controllers
         private static void HandleCustomVariable(Guid natureAreaLocalId, Parameter parameter)
         {
             if (parameter.GetType() != typeof(NatureAreaType)) return;
-            var natureAreaType = (NatureAreaType) parameter;
+            var natureAreaType = (NatureAreaType)parameter;
             if (natureAreaType.CustomVariables.Count <= 0) return;
 
             var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(
-                new Collection<string> {natureAreaLocalId.ToString()},
+                new Collection<string> { natureAreaLocalId.ToString() },
                 false);
             if (metadatas.Count <= 0) return;
             for (var i = 0; i < natureAreaType.CustomVariables.Count; ++i)
@@ -675,7 +697,7 @@ namespace Api.Controllers
                 {
                     if (variableDefinition.GetType() != typeof(CustomVariableDefinition)) continue;
 
-                    var customVariableDefinition = (CustomVariableDefinition) variableDefinition;
+                    var customVariableDefinition = (CustomVariableDefinition)variableDefinition;
                     if (
                         !customVariableDefinition.Specification.Equals(
                             natureAreaType.CustomVariables[i].Specification)) continue;
@@ -720,14 +742,14 @@ namespace Api.Controllers
             CodeItem ninCode;
             if (parameter.GetType() == typeof(NatureAreaType))
             {
-                var natureAreaType = (NatureAreaType) parameter;
+                var natureAreaType = (NatureAreaType)parameter;
                 ninCode = Naturkodetrær.Naturtyper.HentFraKode(natureAreaType.Code);
                 foreach (var additionalParameter in natureAreaType.AdditionalVariables)
                     AddCodeHierarchyInfo(additionalParameter);
             }
             else if (parameter.GetType() == typeof(Nin.Types.RavenDb.NatureAreaType))
             {
-                var natureAreaType = (Nin.Types.RavenDb.NatureAreaType) parameter;
+                var natureAreaType = (Nin.Types.RavenDb.NatureAreaType)parameter;
                 ninCode = Naturkodetrær.Naturtyper.HentFraKode(natureAreaType.Code);
                 foreach (var additionalParameter in natureAreaType.AdditionalVariables)
                     AddCodeHierarchyInfo(additionalParameter);
@@ -780,17 +802,17 @@ namespace Api.Controllers
 
             var natureAreaExports = new Collection<NatureAreaExport>();
             foreach (var metadata in metadatas)
-            foreach (var natureArea in metadata.NatureAreas)
-            {
-                var natureAreaExport =
-                    new NatureAreaExport(natureArea)
-                    {
-                        MetadataContractor = metadata.Contractor.Company,
-                        MetadataProgram = metadata.Program,
-                        MetadataSurveyScale = metadata.SurveyScale
-                    };
-                natureAreaExports.Add(natureAreaExport);
-            }
+                foreach (var natureArea in metadata.NatureAreas)
+                {
+                    var natureAreaExport =
+                        new NatureAreaExport(natureArea)
+                        {
+                            MetadataContractor = metadata.Contractor.Company,
+                            MetadataProgram = metadata.Program,
+                            MetadataSurveyScale = metadata.SurveyScale
+                        };
+                    natureAreaExports.Add(natureAreaExport);
+                }
 
             return natureAreaExports;
         }
@@ -814,46 +836,79 @@ namespace Api.Controllers
             );
         }
 
-        private static CodeSummaryItem GetCodeSummaryHierarchy(CodeIds codeIds, Naturetypekodetre kodetre)
+        private static CodeSummaryItem GetCodeSummaryHierarchy(CodeIds idsForCodes, Naturetypekodetre kodetre)
         {
-            var r = new CodeSummaryItem();
-            foreach (var codeId in codeIds)
+            var root = new CodeSummaryItem();
+
+            var index = new Dictionary<string, CodeSummaryItem>();
+
+            foreach (var idsForCode in idsForCodes)
             {
-                var codeItem = kodetre.HentFraKode(codeId.Key);
-                var codes = r.Codes;
-                foreach (var parentCodeItem in codeItem.ParentCodeItems)
-                    if (!codes.ContainsKey(parentCodeItem.Id))
+                var codeItemFromTree = kodetre.HentFraKode(idsForCode.Key);
+
+                if (codeItemFromTree.Name == "?")
+                {
+                    continue;
+                }
+
+                HandleParents(root.Codes, index, codeItemFromTree);
+
+                CodeSummaryItem item = null;
+
+                if (!index.ContainsKey(codeItemFromTree.Id))
+                {
+                    item = new CodeSummaryItem(codeItemFromTree.Name, codeItemFromTree.Url, idsForCode.Value.Count);
+
+                    if (codeItemFromTree.ParentCodeItems.Count > 0)
                     {
-                        var item = new CodeSummaryItem(parentCodeItem.Name, parentCodeItem.Url, 0);
-                        foreach (var id in codeId.Value)
-                        {
-                            if (item.HandledIds.Contains(id)) continue;
-                            item.Count++;
-                            item.HandledIds.Add(id);
-                        }
-                        codes[parentCodeItem.Id] = item;
+                        var parent = index[codeItemFromTree.ParentCodeItems.Last().Id];
+
+                        parent.Codes.Add(codeItemFromTree.Id, item);
                     }
                     else
                     {
-                        foreach (var id in codeId.Value)
-                        {
-                            if (codes[parentCodeItem.Id].HandledIds.Contains(id)) continue;
-                            codes[parentCodeItem.Id].Count++;
-                            codes[parentCodeItem.Id].HandledIds.Add(id);
-                        }
+                        root.Codes.Add(codeItemFromTree.Id, item);
                     }
 
-                if (!codes.ContainsKey(codeItem.Id))
-                    codes[codeItem.Id] = new CodeSummaryItem(codeItem.Name, codeItem.Url,
-                        codeId.Value.Count);
+                    index.Add(codeItemFromTree.Id, item);
+                }
                 else
-                    codes[codeItem.Id].Count += codeId.Value.Count;
+                {
+                    item = index[codeItemFromTree.Id];
+                    item.OwnCount += idsForCode.Value.Count;
+                }
             }
-            return r;
+
+            return root;
+        }
+
+        private static void HandleParents(Dictionary<string, CodeSummaryItem> rootCodes, Dictionary<string, CodeSummaryItem> index, CodeItem codeItemFromTree)
+        {
+            CodeSummaryItem item = null;
+
+            for (int i = 0; i < codeItemFromTree.ParentCodeItems.Count; i++)
+            {
+                var parent = codeItemFromTree.ParentCodeItems[i];
+                item = new CodeSummaryItem(parent.Name, parent.Url, 0);
+
+                if (i == 0 && !rootCodes.ContainsKey(parent.Id))
+                {
+                    rootCodes.Add(parent.Id, item);
+                    index.Add(parent.Id, item);
+                }
+                else if (!index.ContainsKey(parent.Id))
+                {
+                    var parentOfParent = index[codeItemFromTree.ParentCodeItems[i - 1].Id];
+
+                    parentOfParent.Codes.Add(parent.Id, item);
+
+                    index.Add(parent.Id, item);
+                }
+            }
         }
     }
 
-    internal class CodeIds : Dictionary<string, HashSet<int>>
+internal class CodeIds : Dictionary<string, HashSet<int>>
     {
         public void Add(NatureAreaType natureAreaType, NatureArea natureArea)
         {

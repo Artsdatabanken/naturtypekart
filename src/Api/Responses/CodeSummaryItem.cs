@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Nin.Api.Responses
 {
@@ -6,7 +7,15 @@ namespace Nin.Api.Responses
     {
         public string Name { get; set; }
         public string Url { get; set; }
-        public int Count { get; set; }
+        public int OwnCount { get; set; }
+        public int Count
+        {
+            get
+            {
+                return Codes.Sum(c => c.Value.Count) + OwnCount;
+            }
+        }
+        
         public Dictionary<string, CodeSummaryItem> Codes { get; set; }
         public HashSet<int> HandledIds { get; set; }
 
@@ -20,7 +29,7 @@ namespace Nin.Api.Responses
         {
             Name = name;
             Url = url;
-            Count = count;
+            OwnCount = count;
             Codes = new Dictionary<string, CodeSummaryItem>();
             HandledIds = new HashSet<int>();
         }

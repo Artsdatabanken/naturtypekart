@@ -56,8 +56,13 @@ namespace Nin.Naturtyper
 
             var kodetre = new Naturetypekodetre();
             var koder = JsonConvert.DeserializeObject<Collection<KodeInstans>>(data);
+
             foreach (var k in koder)
+            {
+                k.Kode.Id = k.Kode.Id.Replace(" ", "_");
+                k.OverordnetKode.Id = k.OverordnetKode?.Id?.Replace(" ", "_");
                 kodetre.Add(k.Kode.Id, k);
+            }
 
             try
             {

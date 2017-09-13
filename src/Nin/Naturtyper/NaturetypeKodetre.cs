@@ -13,7 +13,6 @@ namespace Nin.Naturtyper
 
         public CodeItem HentFraKode(string code)
         {
-            code = code.Replace("_", " ");
             var codeItem = GetCodeItem(code, out string parentCodeItemId);
             var parentCodeItems = new Stack<CodeItem>();
 

@@ -162,7 +162,7 @@ namespace Nin.Configuration
         public GeoNorge GeoNorge = new GeoNorge();
 
         //public string NinCodeUrl = "http://webtjenester.artsdatabanken.no/NiN/v2b/koder/alleKoder";
-        public string NinCodeUrlAlleKoder = "http://webtjenester.artsdatabanken.no/NiN/v2/alleKoder";
+        public string NinCodeUrlAlleKoder = "http://webtjenester.artsdatabanken.no/NiN/v2b/koder/alleKoder";//"http://webtjenester.artsdatabanken.no/NiN/v2/alleKoder";
         public string NinCodeUrlVariasjon = "http://webtjenester.artsdatabanken.no/NiN/v2b/variasjon/allekoder";
 
         public string UserDatabaseConnectionString =
