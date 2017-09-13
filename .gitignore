@@ -39,3 +39,4 @@ web/lib/
 bower_components/
 src/Api/AlleKoder.json
 src/Api/Variasjon.json
+data/Area/Naturvernområder_utm33/

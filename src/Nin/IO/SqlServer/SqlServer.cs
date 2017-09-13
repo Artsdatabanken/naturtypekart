@@ -277,15 +277,15 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                         " AND na.geometri.STIntersects(@area) = 1";
                 }
 
-                sql +=
-                    " UNION SELECT dv.kode, na.id, 0 FROM Naturområde na, Beskrivelsesvariabel dv, NaturområdeType nat WHERE na.id = nat.naturområde_id AND nat.id = dv.naturområdetype_id";
+                //sql +=
+                //    " UNION SELECT dv.kode, na.id, 0 FROM Naturområde na, Beskrivelsesvariabel dv, NaturområdeType nat WHERE na.id = nat.naturområde_id AND nat.id = dv.naturområdetype_id";
 
-                if (!string.IsNullOrEmpty(geometry))
-                {
-                    sql +=
-                        " AND " +
-                        "na.geometri.STIntersects(@area) = 1";
-                }
+                //if (!string.IsNullOrEmpty(geometry))
+                //{
+                //    sql +=
+                //        " AND " +
+                //        "na.geometri.STIntersects(@area) = 1";
+                //}
 
                 using (var cmd = SqlStatement(sql))
                 {
