@@ -130,7 +130,8 @@ function (ko, _, conf) {
             ConservationAreas: filter.ConservationAreas,
             Institutions: filter.Institutions,
             Geometry: filter.Geometry,
-            EpsgCode: filter.EpsgCode
+            EpsgCode: filter.EpsgCode,
+            ForceRefreshToggle: filter.ForceRefreshToggle
         };
     },
     grid = {

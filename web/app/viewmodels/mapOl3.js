@@ -16,7 +16,7 @@
             clusterDistance = 50,
             colorScale,
             clusterColorScale = d3.scale.linear()
-                            .domain([1, 20, 300])
+                            .domain([1, 50, 5000])
                             .range(["lightblue", "blue", "black"]),
 
             polygonLayerCluster = new ol.source.Cluster({
@@ -507,6 +507,7 @@
 
                         } else {
                             vm.startReloadAreas();
+                            //application.filter.ForceRefreshToggle(!application.filter.ForceRefreshToggle());
                         }
                     }
                 });

@@ -46,7 +46,7 @@
             },
             compositionComplete: function() {
                 if (application.currFeature.data) {
-                    vm.localId(application.currFeature.data.UniqueId.LocalId);
+                    vm.localId(application.currFeature.data.uniqueId.localId);
                     vm.getHistory();
                 } else {
                     nav.restart();
