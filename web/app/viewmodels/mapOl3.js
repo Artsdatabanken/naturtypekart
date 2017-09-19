@@ -392,8 +392,10 @@
                             vm.isLoading(false);
                         }, function (reason) {
                             // failed
-                            console.debug(reason.statusText);
-                            application.setFooterWarning("Kunne ikke laste naturområder!");
+                            if (reason.statusText !== "Ignore") {
+                                console.debug(reason.statusText);
+                                application.setFooterWarning("Kunne ikke laste naturområder!");
+                            }
                             vm.isLoading(false);
                         }
                     );

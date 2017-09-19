@@ -104,7 +104,7 @@
                     for (j = 0; j < natureArea.parameters[i].additionalVariables.length; ++j) {
                         var avar = natureArea.parameters[i].additionalVariables[j];
                         vm.natureAreaDescriptionVariables.push({
-                            "codeAndValue": avar.codeDescription + " (" + avar.code + "), verdi: " + avar.value,
+                            "codeAndValue": (avar.mainTypeDescription ? avar.mainTypeDescription + " - " : "")  + avar.codeDescription + " (" + avar.code + "), verdi: " + avar.value,
                             "description": avar.description,
                             "url": avar.codeUrl
                         });
@@ -120,8 +120,12 @@
                         });
                     }
                 }
-
             }
+            vm.natureAreaDescriptionVariables(
+                vm.natureAreaDescriptionVariables().sort(function (a, b) {
+                    return a.codeAndValue === b.codeAndValue ? 0 : (a.codeAndValue < b.codeAndValue ? -1 : 1);
+                })
+            );
 
             vm.natureAreaId(natureArea.uniqueId.localId);
             vm.natureAreaVersion(natureArea.version);

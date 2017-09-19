@@ -91,14 +91,14 @@
                             codeAndValue = natureTypes[i].additionalVariables[j].codeAndValue;
                             codeUrl = natureTypes[i].additionalVariables[j].url || "javascript:void(0);"; // "http://www.artsdatabanken.no/" + code + "_" + value;
                             legends.append("a").text(codeAndValue).attr("href", codeUrl).attr("target", "_blank");
+                            legends.append("br");
                         }
-                        legends.append("br");
 
                         for (j = 0; j < natureTypes[i].customVariables.length; ++j) {
                             codeAndValue = natureTypes[i].customVariables[j].codeAndValue;
                             legends.append("span").text(codeAndValue);
+                            legends.append("br");
                         }
-                        legends.append("br");
                     }
                 }
             },
@@ -127,11 +127,11 @@
             var promise = dataServices.getNatureAreaInfosBySearchFilter(listFilter /*, page*/),
                     result = promise.then(function (featureData) {
                         var resultList = [];
-                        var totalPages = 1;
+                        var totalPages = ko.observable(1);
                         if (featureData !== undefined && featureData !== null) {
                             toolbar.totalListItems(featureData.NatureAreaCount || 0);
 
-                            totalPages = Math.ceil(toolbar.totalListItems() / maxListItems);
+                            totalPages(Math.ceil(toolbar.totalListItems() / maxListItems));
                             for (var i = 0; i < Math.min(maxListItems, featureData.natureAreas.length); i++) {
                                 var feature = featureData.natureAreas[i];
                                 feature.natureTypes = [];
@@ -154,6 +154,9 @@
                                                 "code": feature.parameters[j].additionalVariables[k].Code,
                                                 "value": feature.parameters[j].additionalVariables[k].Value,
                                                 "codeAndValue":
+                                                    (feature.parameters[j].additionalVariables[k].mainTypeDescription ?
+                                                        feature.parameters[j].additionalVariables[k].mainTypeDescription +
+                                                        " - " : "")  +
                                                     feature.parameters[j].additionalVariables[k].codeDescription +
                                                         " (" +
                                                         feature.parameters[j].additionalVariables[k].code +
