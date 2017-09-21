@@ -92,7 +92,7 @@
                 pieChart('#fsNatureAreaChart', '#fsNatureAreaLegends', natureTypes, natureTypeShares);
             }
         };
-        vm.activate = function (center, zoom, background, id) {
+        vm.activate = function (center, zoom, background, id, filter) {
             vm.updateInProgress(true);
 
             app.trigger('factsheet:activate', id);

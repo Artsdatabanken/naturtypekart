@@ -312,9 +312,14 @@ function (ko, _, conf) {
         baseLayer: "",
         totalCount: ko.observable(0)
     };
+    vm.parseUrlFilter = function (filterString) {
+        vm.applyFilter({
+            "filter": filterString
+        });
+    };
     vm.applyFilter = function (bookmark) {
         var bmFilter = JSON.parse(bookmark.filter);
-        var bmGrid = JSON.parse(bookmark.grid);
+        var bmGrid = bookmark.grid ? JSON.parse(bookmark.grid) : {};
         vm.setFilter(bmFilter, bmGrid);
     };
 

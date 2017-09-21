@@ -4,7 +4,7 @@
             var vm;
             vm = {
                 title: title || "pagedList",
-                activate: function (center, zoom, background, id) {
+                activate: function (center, zoom, background, id, filter) {
                     //logger.log(vm.title + ' View Activated', null, vm.title, true);
                     
                     app.trigger('listview:activate', '');

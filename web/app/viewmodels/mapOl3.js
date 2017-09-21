@@ -45,7 +45,7 @@
                 vm.gridPopupOverlay.setPosition(undefined);
             },
 
-            activate = function (center, zoom, background, id) {
+            activate = function (center, zoom, background, id, filter) {
                 //logger.log(title + ' View activate', null, title, true);
                 viewportState.center(center);
                 viewportState.zoom(zoom);
@@ -59,6 +59,9 @@
                     }, 500);
 
                 }
+                // if (filter) {
+                //     application.parseUrlFilter(filter);
+                // }
                 app.trigger('mapview:activate', '');
             },
 

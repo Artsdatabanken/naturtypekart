@@ -3,7 +3,7 @@
         "use strict";
         var title = 'nav',
             viewportState = application.viewportState,
-            defaultRouteParameters = '/:center/:zoom(/background/:background)(/id/:id)',
+            defaultRouteParameters = '/:center/:zoom(/background/:background)(/id/:id)(/filter/:filter)',
 
             createRoute = function (obj) {
                 return {
@@ -23,16 +23,16 @@
                     createObservable = function (value, bool) {
                         var v = undifinedIsBool(value, bool);
                         return (typeof v !== 'function') ?
-                                ko.observable(!!v) :
-                                ko.computed(function () {
-                                    var result;
-                                    try {
-                                        result = v();
-                                    } catch (err) {
-                                        result = false;
-                                    }
-                                    return !!result;
-                                });
+                            ko.observable(!!v) :
+                            ko.computed(function () {
+                                var result;
+                                try {
+                                    result = v();
+                                } catch (err) {
+                                    result = false;
+                                }
+                                return !!result;
+                            });
                     };
 
                 return {
@@ -52,7 +52,12 @@
                 var uri;
                 viewName = viewName || activeView() || "map";
 
-                uri = viewName + "/" + viewportState.center() + "/" + viewportState.zoom() + "/background/" + viewportState.background() + (viewportState.id() ? "/id/" + viewportState.id() : "");
+                // Todo: fjern tomme innslag fra lista?
+                var urlFilter = application.urlFilter();
+                uri = viewName + "/" + viewportState.center() + "/" + viewportState.zoom() +
+                    "/background/" + viewportState.background() + (viewportState.id() ? "/id/" + viewportState.id() : "")
+                    + "/filter/" + encodeURIComponent(ko.toJSON(urlFilter));
+                //+"/filter/" + encodeURIComponent(ko.toJSON(application.filter));
 
                 return uri;
             },
@@ -104,7 +109,7 @@
                 restart: restart,
                 activeView: activeView,
                 activeRouteItem: function() {
-                     return router.activeItem();
+                    return router.activeItem();
                 },
                 title: title,
                 navTabs: navTabs,
@@ -114,6 +119,9 @@
             };
 
         application.viewportStateChanged.subscribe(function () {
+            updateUri();
+        });
+        application.filterChanged.subscribe(function () {
             updateUri();
         });
 
