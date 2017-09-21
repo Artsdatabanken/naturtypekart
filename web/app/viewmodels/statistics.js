@@ -2,11 +2,13 @@
     function(logger, ko, app, config, application, dataServices, nav, d3) {
         var title = "statistics",
             vm = {
-                activate: function(center, zoom, background, id) {
+                activate: function (center, zoom, background, id, filter) {
                     //logger.log(title + ' View Activated', null, title, true)
+
                     application.viewportState.center(center);
                     application.viewportState.zoom(zoom);
                     application.viewportState.background(background);
+                    application.parseUrlFilter(filter);
 
                     vm.mainWidth($('#main').width() - 20);
                     vm.mainHeight($('#main').height() - 20);

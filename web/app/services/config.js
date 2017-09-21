@@ -1,7 +1,7 @@
 ﻿define([],
     function () {
 
-        // var rooturl = 'http://localhost:60031/',
+        // var rooturl = 'http://localhost:59360/',
         //     dataAdmRootUrl = 'http://localhost:60031/',
         var rooturl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
             dataAdmRootUrl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',

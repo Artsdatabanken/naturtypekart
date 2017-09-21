@@ -4,15 +4,18 @@ define(
     function () {
         "use strict";
         var getElement = function (element) {
-            return (typeof element === 'string') ?
-                document.getElementById(element) :
-                element;
-        },
+                return (typeof element === 'string') ?
+                    document.getElementById(element) :
+                    element;
+            },
             checkForClass = function (element, nameOfClass) {
                 element = getElement(element);
+                if (!element || !element.className){
+                    return false;
+                }
                 return (element.className === '') ?
-                   false :
-                   new RegExp('\\b' + nameOfClass + '\\b').test(element.className);
+                    false :
+                    new RegExp('\\b' + nameOfClass + '\\b').test(element.className);
             },
             addClass = function (element, nameOfClass) {
                 element = getElement(element);
@@ -34,7 +37,7 @@ define(
             },
             replaceClass = function (element, class1, class2) {
                 element = getElement(element);
-                var containsClass = checkForClass(element, nameOfClass);
+                var containsClass = checkForClass(element, class1);
                 if (containsClass) {
                     removeClass(element, class1);
                     addClass(element, class2);

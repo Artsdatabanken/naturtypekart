@@ -16,7 +16,7 @@
             clusterDistance = 50,
             colorScale,
             clusterColorScale = d3.scale.linear()
-                            .domain([1, 20, 300])
+                            .domain([1, 50, 5000])
                             .range(["lightblue", "blue", "black"]),
 
             polygonLayerCluster = new ol.source.Cluster({
@@ -45,7 +45,7 @@
                 vm.gridPopupOverlay.setPosition(undefined);
             },
 
-            activate = function (center, zoom, background, id) {
+            activate = function (center, zoom, background, id, filter) {
                 //logger.log(title + ' View activate', null, title, true);
                 viewportState.center(center);
                 viewportState.zoom(zoom);
@@ -59,6 +59,9 @@
                     }, 500);
 
                 }
+                // if (filter) {
+                //     application.parseUrlFilter(filter);
+                // }
                 app.trigger('mapview:activate', '');
             },
 
@@ -392,8 +395,10 @@
                             vm.isLoading(false);
                         }, function (reason) {
                             // failed
-                            console.debug(reason.statusText);
-                            application.setFooterWarning("Kunne ikke laste naturområder!");
+                            if (reason.statusText !== "Ignore") {
+                                console.debug(reason.statusText);
+                                application.setFooterWarning("Kunne ikke laste naturområder!");
+                            }
                             vm.isLoading(false);
                         }
                     );
@@ -507,6 +512,7 @@
 
                         } else {
                             vm.startReloadAreas();
+                            //application.filter.ForceRefreshToggle(!application.filter.ForceRefreshToggle());
                         }
                     }
                 });

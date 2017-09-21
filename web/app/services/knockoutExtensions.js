@@ -47,6 +47,31 @@
             }
         };
 
+        // usage: <div data-bind="trimText: myText1"></div>
+        // or <div data-bind="trimText: myText1, trimTextLength: 10"></div>
+        ko.bindingHandlers.trimLengthText = {};
+        ko.bindingHandlers.trimText = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+                var trimmedText = ko.computed(function () {
+                    var untrimmedText = ko.utils.unwrapObservable(valueAccessor());
+                    var defaultMaxLength = 25;
+                    var minLength = 5;
+                    var maxLength = ko.utils.unwrapObservable(allBindingsAccessor().trimTextLength) || defaultMaxLength;
+                    if (maxLength < minLength) maxLength = minLength;
+                    var text = untrimmedText.length > maxLength ? untrimmedText.substring(0, maxLength - 1) + '...' : untrimmedText;
+                    return text;
+                });
+                ko.applyBindingsToNode(element, {
+                    text: trimmedText
+                }, viewModel);
+
+                return {
+                    controlsDescendantBindings: true
+                };
+            }
+        };
+
         //https://github.com/rniemeyer/knockout-jqAutocomplete/blob/master/src/knockout-jqAutocomplete.js
         //jqAuto -- main binding (should contain additional options to pass to autocomplete)
         //jqAutoSource -- the array to populate with choices (needs to be an observableArray)

@@ -4,7 +4,7 @@
             var vm;
             vm = {
                 title: title || "pagedList",
-                activate: function (center, zoom, background, id) {
+                activate: function (center, zoom, background, id, filter) {
                     //logger.log(vm.title + ' View Activated', null, vm.title, true);
                     
                     app.trigger('listview:activate', '');
@@ -26,7 +26,7 @@
                     var promise = vm.getListData(vm.currentPage());
                     return promise.then(function (data) {
                         vm.itemList(data.itemList);
-                        vm.lastPageIndex(data.totalPages - 1);
+                        vm.lastPageIndex(data.totalPages() - 1);
                     });
                 },
                 updateSelection: function () {
@@ -58,6 +58,24 @@
                     app.trigger('listview:pagechange', '');
                     var maxListItems = ($('body').width() > 481) ? application.config.maxListShowPages : application.config.maxMobileListShowPages;
 
+                    if (pageIndex === 0) {  // first page
+                        vm.availablePageIndexes.removeAll();
+                        for (i = 0 ; i <= (Math.min(vm.lastPageIndex(), maxListItems)); i++) {
+                            vm.availablePageIndexes.push(i);
+                        }
+                    } else if (pageIndex === vm.lastPageIndex() ){ // last page
+                        vm.availablePageIndexes.removeAll();
+                        for (i = (Math.max(0,vm.lastPageIndex() - maxListItems)) ; i <= vm.lastPageIndex(); i++) {
+                            vm.availablePageIndexes.push(i);
+                        }
+                    } else if (pageIndex > vm.availablePageIndexes()[maxListItems] || pageIndex < vm.availablePageIndexes()[0]) {
+                        vm.availablePageIndexes.removeAll();
+                        var start = Math.max(0, pageIndex-Math.floor(maxListItems/2));
+                        var end = Math.min(vm.lastPageIndex(), start+maxListItems);
+                        for (i = start; i <= end; i++) {
+                            vm.availablePageIndexes.push(i);
+                        }
+                    }
                     if (pageIndex === vm.availablePageIndexes()[maxListItems] && pageIndex < vm.lastPageIndex()) {
                         vm.availablePageIndexes.shift();
                         vm.availablePageIndexes.push(pageIndex + 1);
