@@ -69,4 +69,3 @@ Functions for uploading new data sets and displaying previous uploads.
 
 Import:
 https://kartkatalog.miljodirektoratet.no/Dataset/Details/0
-
