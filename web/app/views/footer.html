@@ -1,12 +1,13 @@
+<div data-bind="visible: !footerWarning()" class="hidden-xs" style="background-color: #4c4a48; height: 10px"></div>
 <div class="label label-warning" data-bind="visible: footerWarning">
     <span data-bind="text: footerWarningText"></span>
-    <span title="Skjul feilmeldingen" data-bind="click: toggleShowWarning" class="pull-right glyphicon glyphicon-remove pointerCursor"></span>
+    <span data-bind="click: toggleShowWarning, attr: {title: res().hideWarning}" class="pull-right glyphicon glyphicon-remove pointerCursor"></span>
 </div>
-<div class="label label-warning" data-bind="visible: noToken() && showTokenError()" title="Klikk skjuler feilmeldingen">
-    NB! Kunne ikke hente gyldig token for Norge Digitalt. Enkelte bakgrunnskart er defor ikke tilgjengelige.
-    <span title="Skjul feilmeldingen" data-bind="click: toggleShowToken" class="pull-right glyphicon glyphicon-remove pointerCursor"></span>
+<div class="label label-warning" data-bind="visible: noToken() && showTokenError(), attr: {title: res().clickHideWarning}">
+    <span data-bind="text: res().warningIllegalToken"></span>
+    <span data-bind="click: toggleShowToken, attr: {title: res().hideWarning}" class="pull-right glyphicon glyphicon-remove pointerCursor"></span>
 </div>
 <div class="label label-danger" data-bind="visible: noTokenForNDLayer() && showTokenError()">
-    Dette bakgrunnskartet er dessverre ikke tilgjengelig pga ugyldig eller manglende Norge Digitalt token.
-    <span title="Skjul feilmeldingen" data-bind="click: toggleShowToken" class="pull-right glyphicon glyphicon-remove pointerCursor"></span>
+    <span data-bind="text: res().warningLayerUnavailable"></span>
+    <span data-bind="click: toggleShowToken, attr: {title: res().hideWarning}" class="pull-right glyphicon glyphicon-remove pointerCursor"></span>
 </div>
