@@ -19,7 +19,7 @@
                 totalAreas: ko.observable(0),
                 loadingAreas: ko.observable(false),
                 mainWidth: ko.observable(660),
-                mainHeight: ko.observable(650),
+                mainHeight: ko.observable(900),
 
                 getSummary: function (filter) {
                     filter = filter || application.filter;
@@ -258,9 +258,12 @@
 
                     var color = d3.scale.category20();
 
+                    var legendWidth = 300;
+                    var chartHeight = 800;
                     var margin = { top: 20, right: 20, bottom: 30, left: 40 },
-                        width = vm.mainWidth() - 200 - margin.left - margin.right,
-                        height = 650 - margin.top - margin.bottom;
+                        width = vm.mainWidth() - legendWidth - margin.left - margin.right,
+                        height = chartHeight - margin.top - margin.bottom;
+
 
                     var y0 = d3.scale.ordinal()
                         .rangeRoundBands([0, height], 0.1);
@@ -283,7 +286,7 @@
                         .orient("top");
 
                     var svg = d3.select(element).append("svg")
-                        .attr("width", width + margin.left + margin.right + 200)
+                        .attr("width", width + margin.left + margin.right + legendWidth)
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -301,7 +304,7 @@
 
                     svg.append("g")
                         .attr("class", "y axis")
-                        .attr("transform", "translate(200,0)")
+                        .attr("transform", "translate(" + legendWidth + ",0)")
                         .call(yAxis0)
                         .selectAll(".tick text")
                         .call(vm.wrap, y0.rangeBand());
@@ -328,7 +331,7 @@
 
                     svg.append("g")
                         .attr("class", "x axis")
-                        .attr("transform", "translate(200,0)")
+                        .attr("transform", "translate(" + legendWidth + ",0)")
                         .call(xAxis)
                         .append("text")
                         .attr("transform", "translate(-50,-10)")
@@ -341,7 +344,7 @@
                     var myBar = svg.selectAll(".bar")
                         .data(dataset)
                         .enter().append("rect")
-                        .attr("transform", "translate(200,0)")
+                        .attr("transform", "translate(" + legendWidth + ",0)")
                         .attr("class", "bar")
                         .attr("y", function(d) {
                              return y0(d.type);
