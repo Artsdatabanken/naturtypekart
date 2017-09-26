@@ -17,7 +17,7 @@ pipeline {
   parameters {
     string(name: 'BuildConfiguration', defaultValue: 'Release', description: 'Debug/Release/...')
   }
-	triggers { pollSCM('H/2 * * * *') }
+	triggers { pollSCM('') }
 	options {
 //		failure_notification()
 		timestamps()
