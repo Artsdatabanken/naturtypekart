@@ -85,8 +85,8 @@
                         dataServices.getLocationByTerm(searchTerm).then(function (data) {
                             var result = [];
                             data.forEach(function (place) {
-                                var desc = place.Name + ", " + place.MunicipalityName + (place.CountyName ? ', ' + place.CountyName : '') + ', ' + place.Product;
-                                result.push(vm.location(place.Coordinate.X, place.Coordinate.Y, desc, vm.getZoomByType(place.ProductTypeLevel)));
+                                var desc = place.navn + ", " + place.kommunenavn + (place.countyName ? ', ' + place.countyName : '') + ', ' + place.product;
+                                result.push(vm.location(place.koordinat.x, place.koordinat.y, desc, vm.getZoomByType(place.productTypeLevel)));
                             });
                             oarray(result);
                         });

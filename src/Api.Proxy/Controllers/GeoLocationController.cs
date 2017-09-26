@@ -48,8 +48,10 @@ namespace Api.Proxy.Controllers
                 // - cannot change stedstjeneste.FinnLokalitet because mobile app uses the service
                 locality.Koordinat.SwapXAndY();
 
+                //locality.Koordinat =
+                //    (GoogleMercatorKoordinat)CoordinateTransformer.TransformCoordinate(locality.Koordinat, (int)Koordinatsystem.GoogleMercator);
                 locality.Koordinat =
-                    (GoogleMercatorKoordinat)CoordinateTransformer.TransformCoordinate(locality.Koordinat, (int)Koordinatsystem.GoogleMercator);
+                    (UtmKoordinat)CoordinateTransformer.TransformCoordinate(locality.Koordinat, (int)Koordinatsystem.EurefUtmZone33N);
             }
             return Ok(locations);
         }

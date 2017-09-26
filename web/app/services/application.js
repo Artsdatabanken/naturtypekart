@@ -33,33 +33,35 @@ function (ko, _, conf) {
             ndWorking = false;
         });
     };
-    
+
     var getNdToken = function () {
         var now = Date.now();
         var token = JSON.parse(window.localStorage.getItem(conf.mapTokenStorageKey));
-        console.log(token.expires);
+        //console.debug("token.expires:" + token.expires);
         console.log(new Date(now + 10 * 60 * 1000));
-        if (token && token.value && token.expires > (now + 10 * 60 * 1000)) 
-        {
-            console.log("% Valid token loaded from localstorage: "+JSON.stringify(token));
-            return token;
-        } 
-        else if (!token || !token.when || token.when < (now - 60 * 1000)) 
-        { // Limit retries to once every minute.
-            console.log("% Token is old");
-            requestNdToken();
+        if (token != undefined && token != null){
+            if (token.value && token.expires && token.expires > (now + 10 * 60 * 1000)) {
+                console.log("% Valid token loaded from localstorage: " + JSON.stringify(token));
+                return token;
+            }
+            else if (!token.when || token.when < (now - 60 * 1000)) { // Limit retries to once every minute.
+                console.log("% Token is old");
+                requestNdToken();
+            }
         }
         return false; // Return false, because the value will be recomputed when the ajax call is done anyway.
     };
 
-    var ndTokenValue = ko.computed(function() {
+    var ndTokenValue = ko.computed(function () {
         var token = ndToken(), now = Date.now();
-        if (!token || !token.value && token.expires < (now + 10*60*1000)) {
+        console.debug("check if we need fetching token. Token:" + token);
+        if ((token == undefined || token == null) || !token.value && token.expires && token.expires < (now + 10 * 60 * 1000)) {
+            console.debug("fetching token");
             requestNdToken();
 //            ndToken(token);
         }
-       // if(!token) console.error("No valid token");
-        return token ? token.value : "";
+        // if(!token) console.error("No valid token");
+        return token != undefined ? token.value : "";
     });
     getNdToken();
 
@@ -130,7 +132,8 @@ function (ko, _, conf) {
             ConservationAreas: filter.ConservationAreas,
             Institutions: filter.Institutions,
             Geometry: filter.Geometry,
-            EpsgCode: filter.EpsgCode
+            EpsgCode: filter.EpsgCode,
+            ForceRefreshToggle: filter.ForceRefreshToggle
         };
     },
     grid = {
@@ -147,14 +150,33 @@ function (ko, _, conf) {
         }
         filter[type].removeAll();
     },
+    arrContains = function (arr, s) {
+        var r, i;
+        r = false;
+        i = arr.length;
+        while (i--) {
+            if (arr[i] == s) {
+                r = true;
+                i = 0;
+            }
+        }
+        return r;
+    },
     updateFilterNoDupe = function (add, type, code) {
         if (type === undefined) {
-            return;
+            return false;
         }
-        filter[type](_.without(filter[type](), code));
-        if (add === true) {
-            filter[type].push(code);
+        if (!(arrContains(filter[type](), code))) {
+            if (add === true) {
+                filter[type].push(code);
+                return true;
+            }
+        } else {
+            if (add !== true) {
+                filter[type](_.without(filter[type](), code));
+            }
         }
+        return false;
     },
     updateFilter = function (add, type, code) {
         if (type === undefined) {
@@ -178,7 +200,7 @@ function (ko, _, conf) {
         // trigger changes in filter unless it's just BoundingBox (zoom/pan in the map)
         var dummy;
         _.forEach(_.keys(filter), function (key) {
-            if (key !== "BoundingBox") {
+            if (key != "BoundingBox") {
                 dummy = filter[key]();
             }
         });
@@ -190,7 +212,7 @@ function (ko, _, conf) {
             dummy = filter[key]();
         });
         return filter;
-    }).extend({ rateLimit: 10 }),
+    }).extend({ rateLimit: 100 }),
 
     fixDates = function () {
         $.datepicker.regional.no =
@@ -290,9 +312,14 @@ function (ko, _, conf) {
         baseLayer: "",
         totalCount: ko.observable(0)
     };
+    vm.parseUrlFilter = function (filterString) {
+        vm.applyFilter({
+            "filter": filterString
+        });
+    };
     vm.applyFilter = function (bookmark) {
         var bmFilter = JSON.parse(bookmark.filter);
-        var bmGrid = JSON.parse(bookmark.grid);
+        var bmGrid = bookmark.grid ? JSON.parse(bookmark.grid) : {};
         vm.setFilter(bmFilter, bmGrid);
     };
 

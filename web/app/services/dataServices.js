@@ -190,12 +190,12 @@
             //},
             hentOmraadeForMatrikkelenhet = function(kommuneNr, gaardsnr, bruksNr, festNr, seksjonsNr) {
                 logger.log('hentOmraadeForMatrikkelenhet', null, title, true);
-                var url = config.apiurl + 'HentOmraadeForMatrikkelenhet/' + kommuneNr + '/' + gaardsnr + '/' + bruksNr + '/' + festNr + '/' + seksjonsNr;
+                var url = config.apiurl + 'HentOmraadeForMatrikkelenhet/?kommunenr=' + kommuneNr + '&gaardsnr=' + gaardsnr + '&bruksNr=' + bruksNr + '&festNr=' + festNr + '&seksjonsNr=' + seksjonsNr;
                 return getDataPromise('hentOmraadeForMatrikkelenhet', url);
             },
             finnMatrikkelenheter = function (kommuneNr, gaardsnr, bruksNr) {
                 logger.log('finnMatrikkelenheter', null, title, true);
-                var url = config.apiurl + 'FinnMatrikkelenheter/' + kommuneNr + '/' + gaardsnr + '/' + bruksNr;
+                var url = config.apiurl + 'FinnMatrikkelenheter/?kommunenr=' + kommuneNr + '&gaardsnr=' + gaardsnr + '&bruksNr=' + bruksNr;
                 return getDataPromise('finnMatrikkelenheter', url);
             },
             getGbnrByTerm = function(searchTerm) {
