@@ -1,13 +1,14 @@
 ﻿//todo: constants to config.less file
-@screen-width-medium: 800px;
+@screen-width-medium: 767px;
 @screen-width-large: 1280px;
-@header-height: 50px;
-@header-height-medium: 50px;
-@header-height-large: 100px;
+@header-height: 0px;
+@header-height-medium: 10px;
+@header-height-large: 10px;
 @footer-height: 0px;
-@footer-height-medium: 15px;
-@footer-height-large: 15px;
+@footer-height-medium: 10px;
+@footer-height-large: 10px;
 @leftpanel-width: 320px;
+
 
 /*#header { background: #FAA }
 #footer { background: #FFA }
@@ -22,6 +23,9 @@ html, body {
     border: 0;
     /*height: 100%;*/
     overflow: hidden;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #4c4a48;
+
 }
 
 /*** basic application panel layout ***/
@@ -81,7 +85,7 @@ html, body {
 }
 #leftpanel, #main {
     position: absolute;
-    top: 0;
+    top: @header-height;
     bottom: 0;
 }
 #leftpanel {
@@ -93,6 +97,9 @@ html, body {
   right: 0;
 }
 
+#contentWrapper {
+  bottom: 0;
+}
 
 @media screen and (min-width: @screen-width-medium) {
     #header {
@@ -105,49 +112,47 @@ html, body {
 
 
     #contentWrapper {
-	    left: 0;
-      padding-left: 0;
-      padding-right: 0;
+    //   left: 0;
+    //  padding-left: 0;
+    //  padding-right: 0;
       top: @header-height-medium;
       bottom: @footer-height-medium;
     }
 
-    #content.showleftMenu {
-      left: 0;
-    }
-
-    .small-screen-only {
-        display: none;
-    }
+  //#content.showleftMenu {
+  //  left: 0;
+  //}
+  //
+  //.small-screen-only {
+  //    display: none;
+  //}
 }
 
-
-@media screen and (min-width: @screen-width-large) {
-    #header {
-      height: @header-height-large;
-    }
-
-    #footer {
-      height: @footer-height-large;
-    }
-
-    #contentWrapper {
-	  left: 0;
-      padding-left: 0;
-      padding-right: 0;
-      top: @header-height-large;
-      bottom: @footer-height-large;
-    }
-
-    #content.showleftMenu {
-      left: 0;
-    }
-
-    .rightmenutoggler {
-      display: none;
-    }
-}
-
+//@media screen and (min-width: @screen-width-large) {
+//    #header {
+//      height: @header-height-large;
+//    }
+//
+//    #footer {
+//      height: @footer-height-large;
+//    }
+//
+//    #contentWrapper {
+//	  left: 0;
+//      padding-left: 0;
+//      padding-right: 0;
+//      top: @header-height-large;
+//      bottom: @footer-height-large;
+//    }
+//
+//    #content.showleftMenu {
+//      left: 0;
+//    }
+//
+//    .rightmenutoggler {
+//      display: none;
+//    }
+//}
 
 /*****************************/
 /*** fullscreen map layout ***/

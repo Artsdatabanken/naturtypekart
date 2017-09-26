@@ -8,14 +8,13 @@ var gulp = require("gulp"),
     rename = require('gulp-rename'),
     del = require('del'),
     karma = require("karma").server,
-    _ = require("lodash"),
-    project = require("./project.json");
+    _ = require("lodash");
 
 
 var bundleNames = { scripts: "scripts", styles: "styles" };
 
 var paths = {
-    webroot: "./" + project.webroot + "/"
+    webroot: "./"
 };
 
 var config = {
@@ -24,25 +23,12 @@ var config = {
     //debug: "src",
     release: "./dist",
     css: "css",
-    lib: "./wwwroot/lib",
+    lib: "./bower_components",
 
 
     // The fonts we want Gulp to process
     fonts: ["./content/fonts/*.*"],
 
-    // The scripts we want Gulp to process - adapted from BundleConfig
-    scripts: [
-        // Vendor Scripts 
-        "./wwwroot/lib/jquery/jquery.js",
-        "./wwwroot/lib/jquery-ui/jquery-ui.js",
-        "./wwwroot/lib/openlayers3-dist/ol.js",
-        "./wwwroot/lib/knockout/dist/knockout.js",
-        "./wwwroot/lib/bootstrap/dist/js/bootstrap.js",
-        "./wwwroot/lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js",
-        "./wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
-        "./wwwroot/lib/jquery-validation/src/localization/messages_no.js",
-        "./wwwroot/lib/requirejs/require.js"
-    ],
     durandalScripts: [
       "activator.js",
       "app.js",
@@ -58,14 +44,28 @@ var config = {
       "plugins/router.js",
       "plugins/widget.js",
       "transitions/entrance.js"
-    ],
+    ]};
+
+    // The scripts we want Gulp to process - adapted from BundleConfig
+    config.scripts = [
+        // Vendor Scripts
+        config.lib + "/jquery/jquery.js",
+        config.lib + "/jquery-ui/jquery-ui.js",
+        config.lib + "/openlayers3-dist/ol.js",
+        config.lib + "/knockout/dist/knockout.js",
+        config.lib + "/bootstrap/dist/js/bootstrap.js",
+        config.lib + "/bootstrap-multiselect/dist/js/bootstrap-multiselect.js",
+        config.lib + "/jquery-validation/dist/jquery.validate.min.js",
+        config.lib + "/jquery-validation/src/localization/messages_no.js",
+        config.lib + "/requirejs/require.js"
+    ];
 
     // The styles we want Gulp to process - adapted from BundleConfig
-    styles: [
-        "./wwwroot/lib/bootstrap-treeview/src/css/bootstrap-treeview.css",
-        "./wwwroot/lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css",
-        "./wwwroot/lib/openlayers3-dist/ol.css"
-    ]};
+    config.styles = [
+        config.lib + "/bootstrap-treeview/src/css/bootstrap-treeview.css",
+        config.lib + "/bootstrap-multiselect/dist/css/bootstrap-multiselect.css",
+        config.lib + "/openlayers3-dist/ol.css"
+    ];
 
 gulp.csrc = function (prefix, glob, conf) {
   var globs =  _.map([].concat(glob), function (g) { return prefix + g; });
@@ -81,12 +81,12 @@ gulp.task("clean", function (cb) {
 gulp.task('styles', function () {
     return gulp.src('./style/bootstrap-build.less')
         .pipe(less())
-        .pipe(gulp.dest('./wwwroot/content'));
+        .pipe(gulp.dest('./content'));
 });
 gulp.task('truncatecss', function () {
-    return gulp.src('./wwwroot/content/bootstrap-build.css')
+    return gulp.src('./content/bootstrap-build.css')
         .pipe(uncss({
-            html: ['./wwwroot/index.html', './wwwroot/app/views/*.html'],
+            html: ['./index.html', './app/views/*.html'],
             ignore: [
                 ".fade",
                 ".fade.in",
@@ -99,20 +99,20 @@ gulp.task('truncatecss', function () {
         }))
         .pipe(minifycss())
         .pipe(rename('bootstrap-build-truncated.css'))
-        .pipe(gulp.dest('./wwwroot/content'));
+        .pipe(gulp.dest('./content'));
 });
 
 
 gulp.task("fonts", function (cb) {
     return gulp.src(config.components + '/bootstrap/fonts/*.*')
-        .pipe(gulp.dest('./wwwroot/content/fonts'));
+        .pipe(gulp.dest('./content/fonts'));
 });
 
 
 
 gulp.task('durandal', function(){
   durandal({
-    baseDir: 'wwwroot/app', //same as default, so not really required.
+    baseDir: 'app', //same as default, so not really required.
     main: 'main.js', //same as default, so not really required.
     output: 'durandal-main.js',
     //rjsConfigAdapter: function (rjsConfig) { // if using r.js for build ( http://stackoverflow.com/questions/28928076/durandal-optimization-with-gulp-and-gulp-durandal-not-working )

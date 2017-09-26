@@ -1091,7 +1091,6 @@ a:focus {
   text-decoration: underline;
 }
 a:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -2516,7 +2515,6 @@ select[size] {
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3007,7 +3005,6 @@ select[multiple].input-lg {
 .btn.focus,
 .btn:active.focus,
 .btn.active.focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -5864,6 +5861,8 @@ body {
   border: 0;
   /*height: 100%;*/
   overflow: hidden;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #4c4a48;
 }
 /*** basic application panel layout ***/
 #header,
@@ -5876,7 +5875,7 @@ body {
 }
 #header {
   top: 0;
-  height: 50px;
+  height: 0px;
 }
 #contentWrapper {
   position: absolute;
@@ -5885,7 +5884,7 @@ body {
   box-sizing: content-box;
   overflow: hidden;
   width: 100%;
-  top: 50px;
+  top: 0px;
   bottom: 0px;
   left: -320px;
   padding-left: 320px;
@@ -5913,7 +5912,7 @@ body {
 #leftpanel,
 #main {
   position: absolute;
-  top: 0;
+  top: 0px;
   bottom: 0;
 }
 #leftpanel {
@@ -5924,46 +5923,19 @@ body {
   left: 320px;
   right: 0;
 }
-@media screen and (min-width: 800px) {
-  #header {
-    height: 50px;
-  }
-  #footer {
-    height: 15px;
-  }
-  #contentWrapper {
-    left: 0;
-    padding-left: 0;
-    padding-right: 0;
-    top: 50px;
-    bottom: 15px;
-  }
-  #content.showleftMenu {
-    left: 0;
-  }
-  .small-screen-only {
-    display: none;
-  }
+#contentWrapper {
+  bottom: 0;
 }
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 767px) {
   #header {
-    height: 100px;
+    height: 10px;
   }
   #footer {
-    height: 15px;
+    height: 10px;
   }
   #contentWrapper {
-    left: 0;
-    padding-left: 0;
-    padding-right: 0;
-    top: 100px;
-    bottom: 15px;
-  }
-  #content.showleftMenu {
-    left: 0;
-  }
-  .rightmenutoggler {
-    display: none;
+    top: 10px;
+    bottom: 10px;
   }
 }
 /*****************************/

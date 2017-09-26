@@ -1,9 +1,10 @@
-define(['knockout', 'services/application', 'services/layerConfig'],
-    function (ko, application, layerConfig) {
+define(['knockout', 'services/application', 'services/layerConfig', 'services/resource'],
+    function (ko, application, layerConfig, resource) {
     "use strict";
 
     return {
         title: "Footer",
+        res: resource.res,
         footerWarning: application.footerWarning,
         footerWarningText: application.footerWarningText,
         toggleShowWarning: function() {
