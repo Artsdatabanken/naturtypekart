@@ -137,7 +137,7 @@ namespace Api.Controllers
         private static object cachedNatureAreaSummary = null;
 
         [HttpPost]
-        public object GetNatureAreaSummary(AreaFilterRequest areaFilterRequest)
+        public object GetNatureAreaSummary([FromBody] AreaFilterRequest areaFilterRequest)
         {
             if(areaFilterRequest.Geometry == null && cachedNatureAreaSummary != null)
             {
@@ -213,7 +213,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public object GetNatureAreaInstitutionSummary(AreaFilterRequest areaFilterRequest)
+        public object GetNatureAreaInstitutionSummary([FromBody] AreaFilterRequest areaFilterRequest)
         {
             var geometry = "";
             var epsgCode = 0;
@@ -221,7 +221,7 @@ namespace Api.Controllers
             if (areaFilterRequest != null)
             {
                 geometry = areaFilterRequest.Geometry;
-                epsgCode = areaFilterRequest.EpsgCode;
+                epsgCode = areaFilterRequest.EpsgCode == null ? default(int) : int.Parse(areaFilterRequest.EpsgCode);
             }
 
             var natureAreaInstitutionSummary = SqlServer.GetNatureAreaInstitutionSummary(geometry, epsgCode);
@@ -248,7 +248,7 @@ namespace Api.Controllers
             if (areaFilterRequest != null)
             {
                 geometry = areaFilterRequest.Geometry;
-                epsgCode = areaFilterRequest.EpsgCode;
+                epsgCode = areaFilterRequest.EpsgCode == null ? default(int) : int.Parse(areaFilterRequest.EpsgCode);
             }
 
             var areaSummary = SqlServer.GetAreaSummary(geometry, epsgCode);
