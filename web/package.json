@@ -41,7 +41,7 @@
     "lodash": "^3.10.1",
     "path": "^0.12.7",
     "requirejs": "^2.1.22",
-    "rimraf": "^2.4.4",
+    "rimraf": "^2.6.2",
     "webpack": "^1.12.15"
   },
   "dependencies": {
