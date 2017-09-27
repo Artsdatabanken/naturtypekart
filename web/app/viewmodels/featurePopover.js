@@ -126,37 +126,34 @@
                     return a.codeAndValue === b.codeAndValue ? 0 : (a.codeAndValue < b.codeAndValue ? -1 : 1);
                 })
             );
-
-            vm.natureAreaId(natureArea.uniqueId.localId);
+            if (natureArea.uniqueId) {
+                vm.natureAreaId(natureArea.uniqueId.localId || "");
+            }
             vm.natureAreaVersion(natureArea.version);
-            if (natureArea.surveyed) vm.natureAreaSurveyed(application.formatDate(natureArea.surveyed));
-            if (natureArea.description) vm.natureAreaDescription(natureArea.description);
+            vm.natureAreaSurveyed(natureArea.surveyed ? application.formatDate(natureArea.surveyed) : "");
+            vm.natureAreaDescription(natureArea.description || "");
 
             if (natureArea.surveyer) {
                 vm.natureAreaSurveyerCompany(natureArea.surveyer.company);
-                if (natureArea.surveyer.contactPerson) vm.natureAreaSurveyerContactPerson(natureArea.surveyer.contactPerson);
-                if (natureArea.surveyer.email) vm.natureAreaSurveyerEmail(natureArea.surveyer.email);
-                if (natureArea.surveyer.phone) vm.natureAreaSurveyerPhone(natureArea.surveyer.phone);
+                vm.natureAreaSurveyerContactPerson(natureArea.surveyer.contactPerson || "");
+                vm.natureAreaSurveyerEmail(natureArea.surveyer.email || "");
+                vm.natureAreaSurveyerPhone(natureArea.surveyer.phone || "");
             }
 
-            vm.natureAreaSurveyId(metadata.uniqueId.localId);
-            vm.natureAreaSurveyProgram(metadata.program);
-            vm.natureAreaSurveyProjectName(metadata.projectName);
-            if (metadata.projectDescription) vm.natureAreaSurveyProjectDescription(metadata.projectDescription);
-            if (metadata.purpose) vm.natureAreaSurveyPurpose(metadata.purpose);
-            vm.natureAreaSurveyFrom(application.formatDate(metadata.surveyedFrom));
-            vm.natureAreaSurveyTo(application.formatDate(metadata.surveyedTo));
-            if (metadata.surveyScale) vm.natureAreaSurveyScale(metadata.surveyScale);
+            vm.natureAreaSurveyId(metadata.uniqueId.localId || "");
+            vm.natureAreaSurveyProgram(metadata.program || "");
+            vm.natureAreaSurveyProjectName(metadata.projectName || "");
+            vm.natureAreaSurveyProjectDescription(metadata.projectDescription || "");
+            vm.natureAreaSurveyPurpose(metadata.purpose || "");
+            vm.natureAreaSurveyFrom(metadata.surveyedFrom ? application.formatDate(metadata.surveyedFrom) : "");
+            vm.natureAreaSurveyTo(metadata.surveyedTo ? application.formatDate(metadata.surveyedTo) : "");
+            vm.natureAreaSurveyScale(metadata.surveyScale || "");
 
             vm.natureAreaDocuments([]);
             for (i = 0; i < natureArea.documents.length; ++i) {
 
-                title = "";
-                if (natureArea.documents[i].Title) title = natureArea.documents[i].title;
-                else title = natureArea.documents[i].fileName;
-
-                tooltip = "";
-                if (natureArea.documents[i].description) tooltip = natureArea.documents[i].description;
+                title = natureArea.documents[i].title || natureArea.documents[i].fileName;
+                tooltip = natureArea.documents[i].description || "";
 
                 document = {
                     "title": title,
@@ -169,25 +166,25 @@
                 vm.natureAreaDocuments.push(document);
             }
 
-            vm.natureAreaSurveyContractorCompany(metadata.contractor.company);
-            if (metadata.contractor.ContactPerson) vm.natureAreaSurveyContractorContactPerson(metadata.Contractor.ContactPerson);
-            if (metadata.contractor.email) vm.natureAreaSurveyContractorEmail(metadata.contractor.email);
-            if (metadata.contractor.phone) vm.natureAreaSurveyContractorPhone(metadata.contractor.phone);
+            if (metadata.contractor) {
+                vm.natureAreaSurveyContractorCompany(metadata.contractor.company || "");
+                vm.natureAreaSurveyContractorContactPerson(metadata.contractor.contactPerson || "");
+                vm.natureAreaSurveyContractorEmail(metadata.contractor.email || "");
+                vm.natureAreaSurveyContractorPhone(metadata.contractor.phone || "");
+            }
 
-            vm.natureAreaSurveyOwnerCompany(metadata.owner.company);
-            if (metadata.owner.contactperson) vm.natureAreaSurveyOwnerContactPerson(metadata.owner.contactPerson);
-            if (metadata.owner.email) vm.natureAreaSurveyOwnerEmail(metadata.owner.email);
-            if (metadata.owner.phone) vm.natureAreaSurveyOwnerPhone(metadata.owner.phone);
+            if (metadata.owner)  {
+                vm.natureAreaSurveyOwnerCompany(metadata.owner.company);
+                vm.natureAreaSurveyOwnerContactPerson(metadata.owner.contactPerson || "");
+                vm.natureAreaSurveyOwnerEmail(metadata.owner.email || "");
+                vm.natureAreaSurveyOwnerPhone(metadata.owner.phone || "");
+            }
 
             vm.natureAreaSurveyDocuments([]);
             for (i = 0; i < metadata.documents.length; ++i) {
 
-                title = "";
-                if (metadata.documents[i].title) title = metadata.documents[i].title;
-                else title = metadata.documents[i].fileName;
-
-                tooltip = "";
-                if (metadata.documents[i].description) tooltip = metadata.documents[i].description;
+                title = metadata.documents[i].title || metadata.documents[i].fileName;
+                tooltip = metadata.documents[i].description || "";
 
                 vm.natureAreaSurveyDocuments.push({
                     "title": title,

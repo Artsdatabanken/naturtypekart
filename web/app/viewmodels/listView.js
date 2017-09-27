@@ -129,7 +129,7 @@
                         var resultList = [];
                         var totalPages = ko.observable(1);
                         if (featureData !== undefined && featureData !== null) {
-                            toolbar.totalListItems(featureData.NatureAreaCount || 0);
+                            toolbar.totalListItems(featureData.natureAreaCount || 0);
 
                             totalPages(Math.ceil(toolbar.totalListItems() / maxListItems));
                             for (var i = 0; i < Math.min(maxListItems, featureData.natureAreas.length); i++) {
