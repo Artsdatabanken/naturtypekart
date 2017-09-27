@@ -53,14 +53,14 @@
         <div data-bind="if: natureAreaDescriptionVariables().length != 0">
             <div data-bind="foreach: natureAreaDescriptionVariables">
                 <dl class="dl-horizontal">
-                    <dt>Hovedtypegruppe</dt>
-                    <dd></dd>
-                    <dt>Hovedtype</dt>
-                    <dd data-bind="text: mainTypeCodeAndDescription"></dd>
-                    <dt>Grunntype</dt>
-                    <dd></dd>
-                    <dt>Kartleggingsenhet</dt>
-                    <dd></dd>
+                    <dt data-bind="visible: mainTypeGroup">Hovedtypegruppe</dt>
+                    <dd data-bind="visible: mainTypeGroup", text: mainTypeGroup></dd>
+                    <dt data-bind="visible: mainTypeCodeAndDescription">Hovedtype</dt>
+                    <dd data-bind="visible: mainTypeCodeAndDescription, text: mainTypeCodeAndDescription"></dd>
+                    <dt data-bind="visible: grunntype">Grunntype</dt>
+                    <dd data-bind="visible: grunntype, text: grunntype"></dd>
+                    <dt data-bind="visible: kartleggingsEnhet">Kartleggingsenhet</dt>
+                    <dd data-bind="visible: kartleggingsEnhet, text: kartleggingsEnhet"></dd>
                     <dt>Variabelnavn</dt>
                     <dd data-bind="text: codeAndDescription"></dd>
                     <dt>Variabelverdi</dt>
