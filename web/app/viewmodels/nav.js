@@ -1,5 +1,6 @@
-﻿define(['services/logger', "knockout", "services/adbFuncs", "durandal/app", 'plugins/router', 'services/application'],
-    function (logger, ko, adbFuncs, app, router, application) {
+﻿define(['services/logger', "knockout", "services/adbFuncs", "durandal/app", 'plugins/router', 'services/application','services/resource'],
+    function (logger, ko, adbFuncs, app, router, application, resource) {
+
         "use strict";
         var title = 'nav',
             viewportState = application.viewportState,
@@ -9,7 +10,7 @@
                 return {
                     route: obj.id + defaultRouteParameters,
                     activeView: obj.id,
-                    title: obj.title,
+                    title: resource.res()[obj.title],
                     moduleId: obj.moduleId,
                     nav: true
                 };
@@ -22,7 +23,7 @@
 
                     createObservable = function (value, bool) {
                         var v = undifinedIsBool(value, bool);
-                        return (typeof v !== 'function') ?
+                        return typeof v !== 'function' ?
                             ko.observable(!!v) :
                             ko.computed(function () {
                                 var result;
@@ -37,8 +38,8 @@
 
                 return {
                     id: obj.id,
-                    name: obj.name || obj.title,
-                    title: obj.title,
+                    name: obj.name || resource.res()[obj.title],
+                    title: resource.res()[obj.title],
                     link: obj.link || "#",
                     //image: "images/Spritelist-" + (obj.name || "list") + ".png",
                     classname: (obj.id || "list") + "Icon",

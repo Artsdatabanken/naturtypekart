@@ -234,11 +234,11 @@
             //if (!popElement.length>0) {    // make it if it don't already exist
             //    popElement = $('<div id="listPopup" data-toggle="popover"></div>');
             //}
-            if (feature && feature.LocalId) {
+            if (feature && feature.localId) {
                 $(event.currentTarget).before(popElement);
-                dataServices.getNatureAreaByLocalId(feature.LocalId)
+                dataServices.getNatureAreaByLocalId(feature.localId)
                     .then(function(data) {
-                        dataServices.getMetadataByNatureAreaLocalId(feature.LocalId)
+                        dataServices.getMetadataByNatureAreaLocalId(feature.localId)
                             .then(function(metadata) {
 
                                 if ((screen.width > 481) && (screen.height > 481)) {

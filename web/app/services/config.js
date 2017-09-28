@@ -1,10 +1,10 @@
 ﻿define([],
     function () {
 
-        // var rooturl = 'http://localhost:59360/',
-        //     dataAdmRootUrl = 'http://localhost:60031/',
-        var rooturl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
-            dataAdmRootUrl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
+        var rooturl = 'http://localhost:59360/',
+            dataAdmRootUrl = 'http://localhost:60031/',
+        // var rooturl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
+        //     dataAdmRootUrl = 'http://it-webadbtest01.it.ntnu.no/nin_master/Api/',
 
         dataDeliveryRootUrl = '/nindocument_vs2017/',
         //dataDeliveryRootUrl = 'http://localhost:60126/',
@@ -45,12 +45,13 @@
             useBoundingBoxLimit: 13,
 
             routeInfo: [
-                { id: 'map', name: "Kart", title: "Vis utvalg i Kart", moduleId: 'viewmodels/mapOl3', visible: true },
-                { id: 'list', name: "Liste", title: "Vis utvalg i liste", moduleId: 'viewmodels/listView', visible: true },
-                { id: 'statistics', name: "Statistikk", title: "Vis statistikk over utvalg", moduleId: 'viewmodels/statistics', visible: true },
-                { id: 'import', name: "Import", title: "Import av kartlegginger og miljøvariabelkart (krever innlogging)", moduleId: 'viewmodels/import', visible: true },
-                { id: 'details', name: "Tilbake til", title: "", moduleId: 'viewmodels/featurePopoverMobile', visible: false },
-                { id: 'factsheet', name: "Faktaark", title: "", moduleId: 'viewmodels/factSheet', visible: false }
+                { id: 'map', name: "routeMapName", title: "routeMapTitle", moduleId: 'viewmodels/mapOl3', visible: true },
+                { id: 'list', name: "routeListName", title: "routeListTitle", moduleId: 'viewmodels/listView', visible: true },
+                { id: 'statistics', name: "routeStatName", title: "routeStatTitle", moduleId: 'viewmodels/statistics', visible: true },
+                { id: 'import', name: "routeImportName", title: "routeImportTitle", moduleId: 'viewmodels/import', visible: true },
+                { id: 'details', name: "routeDetailsName", title: "routeDetailsTitle", moduleId: 'viewmodels/featurePopoverMobile', visible: false },
+                { id: 'factsheet', name: "routeFactsheetName", title: "routeFactsheetTitle", moduleId: 'viewmodels/factSheet', visible: false }
+                //,{ id: 'bookmark', name: "routeBookmarkName", title: "routeBookmarkTitle", moduleId: 'viewmodels/bookmark', visible: false, specialRouteParameters: bokmarkRouteParameters }
             ],
 
             // Polygon style definitions:
