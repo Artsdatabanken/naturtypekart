@@ -6088,8 +6088,9 @@ body {
   }
 }
 .menubar-static-top {
-  z-index: 1000;
+  z-index: 1;
   border-width: 0 0 1px;
+  padding-top: 10px;
   border-radius: 0;
 }
 .menubar > .dropdown > a {
