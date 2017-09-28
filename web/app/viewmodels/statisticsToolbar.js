@@ -1,14 +1,17 @@
-﻿define(['services/logger', "knockout", "services/application", 'viewmodels/shell'],
-    function (logger, ko, application, shell) {
+﻿define(['services/logger', "knockout", "services/application", 'viewmodels/shell', 'services/resource'],
+    function (logger, ko, application, shell, resource) {
         "use strict";
 
         var vm = {
             title: "Statistics toolbar",
+            resource: resource,
+            res: resource.res,
             activate: function() {
                 application.initBookmarks();
             },
             toggleFullscreen: shell.toggleFullscreen,
             bookmarks: application.bookmarks,
+            showAbout: application.showAbout,
             openBookmarks: ko.observable(false),
             toggleBookmarksContainer: function() {
                 vm.openBookmarks(!vm.openBookmarks());

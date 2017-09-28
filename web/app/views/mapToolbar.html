@@ -9,45 +9,53 @@
         </div>
     </div>
 
-    <select class="hide" id="basisLayerSelect" data-placeholder="Vis tilgjengelige bakgrunnslag" title="Vis tilgjengelige bakgrunnslag"
-            data-bind="options: baseLayerList,
+<select class="hide" id="basisLayerSelect"
+        data-bind="options: baseLayerList,
                         optionsText: 'description',
                         optionsValue: 'name',
-                        value: currentBaseLayer"
-    ></select>
+                        value: currentBaseLayer,
+                        attr: {title: res().backgroundLayersTooltip, 
+                               'data-placeholder': res().backgroundLayersTooltip }"
+></select>
 
-    <select class="hide" data-bind="foreach: overlayLayerList" id="overlayMulti" multiple="multiple"
-            data-placeholder="Vis tilgjengelige kartlag">
-        <option data-bind="text: description, attr: {value: name}"></option>
-    </select>
+<select class="hide" data-bind="attr:{'data-placeholder': res().showMapLayersPlaceholder}, foreach: overlayLayerList"
+        id="overlayMulti" multiple="multiple">
+    <option data-bind="text: description, attr: {value: name}"></option>
+</select>
 
-    <button title="Veksle fullskjermsvisning" type="button" data-bind="click: toggleFullscreen"
-            class="btn btn-default form-control glyph-button glyphicon glyphicon-fullscreen hidden-xs"></button>
-    
-    <!--<button title="Veksle 3d-visning" type="button" data-bind="click: toggle3d"
-            class="btn btn-default form-control glyph-button glyphicon glyphicon-sunglasses hidden-xs"></button>-->
+<button title="Veksle fullskjermsvisning" type="button" data-bind="click: toggleFullscreen"
+        class="btn btn-default icon-fullscreen-sm hidden-xs"></button>
 
-    <button title="Lag et bokmerke for gjeldende filter og utsnitt" type="button" data-bind="click: createBookmark"
-            class="btn btn-default form-control glyph-button glyphicon glyphicon-bookmark hidden-xs"></button>
+<!--<button title="Veksle 3d-visning" type="button" data-bind="click: toggle3d"
+        class="btn btn-default form-control glyph-button glyphicon glyphicon-sunglasses hidden-xs"></button>-->
 
-    <div class="form-group bookmarks hidden-xs" data-bind="css: { 'open panel panel-default': openBookmarks()}">
-        <div data-bind="css: { 'panel-body': openBookmarks}, visible: bookmarks().length">
-            <button class="btn btn-link btn-xs pull-right glyphicon"
-                    data-bind="click: toggleBookmarksContainer,
+<button type="button" data-bind="click: createBookmark, attr: {title: res().createBookmarkTitle}"
+        class="btn btn-default icon-bookmark-sm hidden-xs"></button>
+
+<div class="form-group bookmarks hidden-xs" data-bind="css: { 'open panel panel-default': openBookmarks()}">
+    <div data-bind="css: { 'panel-body': openBookmarks}, visible: bookmarks().length">
+        <button class="btn btn-link btn-xs pull-right glyphicon"
+                data-bind="click: toggleBookmarksContainer,
                     css: { 'glyphicon-folder-open': !openBookmarks(), 'glyphicon-remove': openBookmarks() },
                     visible: (bookmarks().length > 5 || openBookmarks())"></button>
-            <div class="b-container pull-left" data-bind="foreach: tiledBookmarks()">
-                <div class="b-row" data-bind="foreach: $data">
-                    <div title="Gå til bokmerke" class="form-control bookmark"
-                         data-bind="click: $parents[1].applyFilter,
+        <div class="b-container pull-left" data-bind="foreach: tiledBookmarks()">
+            <div class="b-row" data-bind="foreach: $data">
+                <div title="Gå til bokmerke" class="form-control bookmark"
+                     data-bind="click: $parents[1].applyFilter,
                 event: {mouseover: $parents[1].enableRemoveBookmark, mouseout: $parents[1].disableRemoveBookmark },
                 style: {'background-image': 'urL(' + image + ')'}">
-                        &nbsp;
-                <span title="Fjern bokmerke" data-bind="click: $parents[1].removeBookmark"
-                      class="glyphicon glyphicon-remove-sign remove-bookmark"></span>
-                    </div>
+                    &nbsp;
+                    <span title="Fjern bokmerke" data-bind="click: $parents[1].removeBookmark"
+                          class="glyphicon glyphicon-remove-sign remove-bookmark"></span>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!--<a type="button" data-bind="attr: {href: res().aboutUrl, target: '_new', title: res().about}" class="btn info-button"></a>-->
+<a data-bind="click: showAbout, attr: {title: res().about, type: 'button'}" class="btn info-button icon-info-xs"></a>
+<button type="button" data-bind="click: resource.chooseNorwegian, attr: {title: res().norwegian}" class="btn lang-no"></button>
+<button type="button" data-bind="click: resource.chooseEnglish, attr: {title: res().english}" class="btn lang-en"></button>
+
 </div>

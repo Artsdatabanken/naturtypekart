@@ -82,7 +82,7 @@
 
         app.on("currentFeatureChanged:trigger").then(function () {
             if (nav.activeView() === 'factsheet') {
-                vm.localId(application.currFeature.data.UniqueId.LocalId);
+                vm.localId(application.currFeature.data.uniqueId.localId);
                 vm.getHistory();
             }
         });

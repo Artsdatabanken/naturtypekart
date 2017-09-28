@@ -14,13 +14,15 @@ function (ko, _, conf) {
         footerWarning(text.length > 0);
         footerWarningText(text);
     };
-
+    var showAbout = function() {
+        app.trigger("showAboutPage:trigger");
+    };
     var ndToken = ko.observable();
     var ndWorking = false;
     var requestNdToken = function() {
         if (ndWorking) return; 
         ndWorking = true;
-        var url = 'http://www.norgeskart.no/ws/gkt.py';
+            var url = '//www.norgeskart.no/ws/gkt.py';
         $.get(url, function (data) {
             var parts = data.split('"');
             var t = {
@@ -155,7 +157,7 @@ function (ko, _, conf) {
         r = false;
         i = arr.length;
         while (i--) {
-            if (arr[i] == s) {
+                    if (arr[i] === s) {
                 r = true;
                 i = 0;
             }
@@ -166,7 +168,7 @@ function (ko, _, conf) {
         if (type === undefined) {
             return false;
         }
-        if (!(arrContains(filter[type](), code))) {
+                if (!arrContains(filter[type](), code)) {
             if (add === true) {
                 filter[type].push(code);
                 return true;
@@ -188,6 +190,17 @@ function (ko, _, conf) {
             filter[type](_.without(filter[type](), code));
         }
     },
+            addSeparator = function (number) {
+                number += '';
+                var x = number.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ' ' + '$2');
+                }
+                return x1 + x2;
+            },
 
     viewportStateChanged = ko.computed(function () {
         var dummy;
@@ -200,7 +213,7 @@ function (ko, _, conf) {
         // trigger changes in filter unless it's just BoundingBox (zoom/pan in the map)
         var dummy;
         _.forEach(_.keys(filter), function (key) {
-            if (key != "BoundingBox") {
+                    if (key !== "BoundingBox") {
                 dummy = filter[key]();
             }
         });
@@ -263,7 +276,9 @@ function (ko, _, conf) {
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     },
-
+            isSecure = function () {
+                return window.location.protocol === 'https:';
+            },
     isIe = navigator.userAgent.match(/MSIE\s([\d.]+)/),
     ie11 = navigator.userAgent.match(/Trident\/7.0/) && navigator.userAgent.match(/rv:11/),
     ieEdge = navigator.userAgent.match(/Edge/g),
@@ -286,6 +301,7 @@ function (ko, _, conf) {
         updateFilterNoDupe: updateFilterNoDupe,
         removeFilter: removeFilter,
 
+                addSeparator: addSeparator,
         viewportState: viewportState,
         filter: filter,
         urlFilter: urlFilter,
@@ -302,11 +318,13 @@ function (ko, _, conf) {
         fixDates: fixDates,
         formatDate: formatDate,
         formatDateSorting: formatDateSorting,
+        showAbout: showAbout,
 
         pad: pad,
         isIe: isIe,
         isIe11: ie11,
         ieVer: ieVer,
+		isSecure: isSecure,
 
         // * view-things *
         baseLayer: "",
