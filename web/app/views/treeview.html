@@ -3,8 +3,8 @@
     <div data-bind="visible: isNotHideMenuView" class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingOne">
             <p class="panel-title">
-                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" title="Begrens utvalget ved å definere et geografisk interesseområde">
-                    Geografisk avgrensning
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" data-bind="attr: {title: res().geoFilterTooltip}">
+                    <span data-bind="text: res().geoFilterTitle"></span>
                 </a>
                 <span data-bind="visible: hasGeometryFilter, click: clearPolygon" class="accordionIcon pull-right glyphicon glyphicon-remove" title="Fjern valgte interesseområde" style="padding-left: 5px"></span>
                 <span data-bind="visible: hasGeometryFilter() && isMapView(), click: zoomToPolygon" class="accordionIcon pull-right glyphicon glyphicon-screenshot" title="Gå til valgte interesseområde"></span>

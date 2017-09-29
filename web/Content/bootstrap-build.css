@@ -7019,38 +7019,6 @@ ol.selectedOptions li:hover {
   padding: 10px;
   background-size: 100%;
 }
-.icon-galleryIcon-lg {
-  background: url("ikoner/galleryIcon_brown.png") top left no-repeat;
-  padding: 20px;
-  background-size: 100%;
-}
-.icon-galleryIcon-sm {
-  background: url("ikoner/galleryIcon_brown.png") top left no-repeat;
-  padding: 16.5px;
-  background-size: 100%;
-}
-.icon-galleryIcon-sm:hover {
-  background: url("ikoner/galleryIcon_white.png") top left no-repeat;
-  padding: 16.5px;
-  background-size: 100%;
-  background-color: #de8608;
-}
-.icon-galleryIcon-sm:focus,
-.icon-galleryIcon-sm:active {
-  background: url("ikoner/galleryIcon_orange.png") top left no-repeat;
-  padding: 16.5px;
-  background-size: 100%;
-}
-.icon-galleryIcon-xs {
-  background: url("ikoner/galleryIcon_brown.png") top left no-repeat;
-  padding: 10px;
-  background-size: 100%;
-}
-.icon-galleryIcon-xs:hover {
-  background: url("ikoner/galleryIcon_orange.png") top left no-repeat;
-  padding: 10px;
-  background-size: 100%;
-}
 .icon-info-lg {
   background: url("ikoner/info_brown.png") top left no-repeat;
   padding: 20px;
@@ -7720,6 +7688,70 @@ ol.selectedOptions li:hover {
 }
 .icon-importIcon-xs:hover {
   background: url("ikoner/importIcon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-print-lg {
+  background: url("ikoner/print_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-print-sm {
+  background: url("ikoner/print_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-print-sm:hover {
+  background: url("ikoner/print_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-print-sm:focus,
+.icon-print-sm:active {
+  background: url("ikoner/print_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-print-xs {
+  background: url("ikoner/print_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-print-xs:hover {
+  background: url("ikoner/print_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-folder_open-lg {
+  background: url("ikoner/folder_open_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-folder_open-sm {
+  background: url("ikoner/folder_open_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-folder_open-sm:hover {
+  background: url("ikoner/folder_open_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-folder_open-sm:focus,
+.icon-folder_open-sm:active {
+  background: url("ikoner/folder_open_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-folder_open-xs {
+  background: url("ikoner/folder_open_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-folder_open-xs:hover {
+  background: url("ikoner/folder_open_orange.png") top left no-repeat;
   padding: 10px;
   background-size: 100%;
 }
