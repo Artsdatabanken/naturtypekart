@@ -753,7 +753,52 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             var natureAreas = GetNatureAreas(whereClause, parameters);
             if (natureAreas.Count <= 0) throw new Exception("Finner ikke naturområde med id '" + localId + "'.");
-            return natureAreas[0];
+            var natureArea = natureAreas.First();
+
+            var areas = GetNatureAreaLinkedAreas(localId);
+
+            natureArea.Areas = areas.ToArray();
+
+            return natureArea;
+        }
+
+        private static List<NatureAreaLinkedArea> GetNatureAreaLinkedAreas(Guid localId)
+        {
+            var areas = new List<NatureAreaLinkedArea>();
+
+            const string linkedAreasQuery =
+@"SELECT o.geometriType_id, navn FROM Naturområde n
+  JOIN OmrådeLink ol ON ol.naturområde_id = n.id
+  JOIN Område o ON o.id = ol.geometri_id
+  WHERE n.localid = @localId";
+
+            using (var cmd = SqlStatement(linkedAreasQuery))
+            {
+                cmd.AddParameter("@localId", localId);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int type = GetValue<int>("geometriType_id", reader);
+                        string name = GetValue<string>("navn", reader);
+
+                        areas.Add(new NatureAreaLinkedArea { Name = name, Type = type });
+                    }
+                }
+            }
+
+            return areas;
+        }
+
+        private static T GetValue<T>(string columnName, SqlDataReader reader)
+        {
+            if (reader[columnName] != DBNull.Value)
+            {
+                return (T)reader[columnName];
+            }
+
+            return default(T);
         }
 
         public static Collection<Area> GetAreas(AreaType areaType, int areaLayerTypeId = 0, int number = 0)
