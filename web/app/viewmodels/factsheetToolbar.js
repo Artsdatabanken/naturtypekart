@@ -32,7 +32,7 @@
                             .multiselect({
                                 templates: {
                                     button:
-                                        '<button type="button" class="glyph-button multiselect dropdown-toggle glyphicon glyphicon-folder-open hidden-xs" data-toggle="dropdown"></button>',
+                                        '<button type="button" class="glyph-button multiselect dropdown-toggle icon-folder_open-sm hidden-xs" data-toggle="dropdown"></button>',
                                     ul: '<ul class="multiselect-container dropdown-menu"></ul>',
                                     li: '<li><a href="javascript:void(0);"><label></label></a></li>'
                                 },
