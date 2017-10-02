@@ -116,6 +116,8 @@ namespace Nin.Types.MsSql
         [JsonIgnore]
         public SqlGeometry Area { get; set; }
         public NatureAreaLinkedArea[] Areas { get; set; }
+        [JsonProperty("area")]
+        public string AreaWkt { get { return Area?.STAsText().ToSqlString().Value; } }
         public Contact Surveyer { get; set; }
 
         public Collection<Document> Documents { get; set; } = new Collection<Document>();
