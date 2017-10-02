@@ -6426,16 +6426,134 @@ img.desaturate:hover {
 }
 .artsdatabank-logo {
   display: inline-block;
-  background-image: url('images/logoer/Artdb_logo.gif');
+  background-image: url('images/logoer/Logo_med_tekst_liten.gif');
+  /*background-image: url('images/logoer/Artdb_logo.gif');*/
   background-size: contain;
-  width: 36px;
-  height: 36px;
+  width: 90px;
+  height: 60px;
+  top: 4px;
+  left: 10px;
+  position: absolute;
 }
-@media screen and (min-width: 1280px) {
-  .artsdatabank-logo {
-    background-image: url('images/artsdatabankenartskart.png');
-    width: 193px;
-    height: 103px;
+/*.artsdatabank-logo:hover {
+    background-image: url('images/logoer/Artdb_logo_glitters.gif');    
+}*/
+.artsdatabank-logo-on-map {
+  background-image: url('images/logoer/Artdb_logo.gif');
+  width: 30px;
+  height: 0;
+  background-size: cover;
+  padding: 0;
+  padding-bottom: 30px;
+}
+.artsdatabank-logo-on-map:hover {
+  background-image: url('images/logoer/Artdb_logo_glitters.gif');
+}
+@media screen and (max-width: 481px) {
+  .go-to-position-button {
+    position: absolute;
+    top: 76px;
+    left: 21px;
+    font-weight: 100 !important;
+    font-size: 1.5em !important;
+  }
+  .menubar-air {
+    width: 25px;
+  }
+  .lang-no {
+    background: url("images/flags-sprite.png") top left no-repeat;
+    background-position: 4px 1px;
+    height: 14px;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    border: 0;
+  }
+  .lang-en {
+    background: url("images/flags-sprite.png") top left no-repeat;
+    background-position: -16px 1px;
+    height: 14px;
+    position: absolute;
+    right: 10px;
+    top: 28px;
+    border: 0;
+  }
+  .info-button {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 35px;
+    top: 18px;
+    border: 0;
+    padding: 0;
+  }
+  .toggle-full-bar {
+    top: 0px;
+    position: fixed;
+    height: 100%;
+    width: 12px;
+    background-color: lightgray;
+  }
+}
+@media screen and (min-width: 800px) {
+  .artsdatabank-logo-on-map {
+    background-image: url('images/logoer/Artdb_logo.gif');
+    width: 67px;
+    height: 0;
+    background-size: cover;
+    padding: 0;
+    padding-bottom: 67px;
+  }
+}
+@media screen and (min-width: 481px) {
+  .go-to-position-button {
+    position: absolute;
+    top: 66px;
+    left: 21px;
+    font-weight: 100;
+  }
+  .menubar-air {
+    width: 50px;
+  }
+  .lang-no {
+    background: url("images/flags-sprite.png") top left no-repeat;
+    background-position: 4px 1px;
+    height: 14px;
+    position: fixed;
+    right: 10px;
+    top: 24px;
+    border: 0;
+  }
+  .lang-en {
+    background: url("images/flags-sprite.png") top left no-repeat;
+    background-position: -16px 1px;
+    height: 14px;
+    position: fixed;
+    right: 10px;
+    top: 40px;
+    border: 0;
+  }
+  .info-button {
+    background-image: url(images/info_brown.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    position: fixed;
+    right: 35px;
+    top: 30px;
+    border: 0;
+    padding: 0;
+  }
+  .toggle-full-bar {
+    top: 10px;
+    position: fixed;
+    height: 100%;
+    width: 12px;
+    background-color: lightgray;
+  }
+  .help-block {
+    margin-left: 5px;
   }
 }
 .map-geosearch {
@@ -6454,113 +6572,8 @@ img.desaturate:hover {
     width: 220px;
   }
 }
-.btn .mapIcon {
-  background: url("images/Spritelist-map.png") top left no-repeat;
-  width: 36px !important;
-  height: 36px;
-  /*outline: none;*/
-  /*border: 0px;*/
-  /*.icon {
-        width: @width !important; 
-        height:@height; 
-    }*/
-}
-.btn .mapIcon:hover {
-  background-position-x: -41px;
-}
-.btn .mapIcon:focus {
-  background-position-x: -164px;
-}
-.btn .mapIcon.active,
-.btn .mapIcon:active {
-  background-position-x: -82px;
-}
-.btn .listIcon {
-  background: url("images/Spritelist-list.png") top left no-repeat;
-  width: 36px !important;
-  height: 36px;
-  /*outline: none;*/
-  /*border: 0px;*/
-  /*.icon {
-        width: @width !important; 
-        height:@height; 
-    }*/
-}
-.btn .listIcon:hover {
-  background-position-x: -41px;
-}
-.btn .listIcon:focus {
-  background-position-x: -164px;
-}
-.btn .listIcon.active,
-.btn .listIcon:active {
-  background-position-x: -82px;
-}
-.btn .statisticsIcon {
-  background: url("images/Spritelist-statistics.png") top left no-repeat;
-  width: 36px !important;
-  height: 36px;
-  /*outline: none;*/
-  /*border: 0px;*/
-  /*.icon {
-        width: @width !important; 
-        height:@height; 
-    }*/
-}
-.btn .statisticsIcon:hover {
-  background-position-x: -41px;
-}
-.btn .statisticsIcon:focus {
-  background-position-x: -164px;
-}
-.btn .statisticsIcon.active,
-.btn .statisticsIcon:active {
-  background-position-x: -82px;
-}
-.btn .tableIcon {
-  background: url("images/Spritelist-table.png") top left no-repeat;
-  width: 36px !important;
-  height: 36px;
-  /*outline: none;*/
-  /*border: 0px;*/
-  /*.icon {
-        width: @width !important; 
-        height:@height; 
-    }*/
-}
-.btn .tableIcon:hover {
-  background-position-x: -41px;
-}
-.btn .tableIcon:focus {
-  background-position-x: -164px;
-}
-.btn .tableIcon.active,
-.btn .tableIcon:active {
-  background-position-x: -82px;
-}
-.btn .importIcon {
-  background: url("images/Spritelist-table.png") top left no-repeat;
-  width: 36px !important;
-  height: 36px;
-  /*outline: none;*/
-  /*border: 0px;*/
-  /*.icon {
-        width: @width !important; 
-        height:@height; 
-    }*/
-}
-.btn .importIcon:hover {
-  background-position-x: -41px;
-}
-.btn .importIcon:focus {
-  background-position-x: -164px;
-}
-.btn .importIcon.active,
-.btn .importIcon:active {
-  background-position-x: -82px;
-}
-.btn > span {
-  padding-left: 0;
+.btn-default:hover {
+  color: #de8819 !important;
 }
 .btn-icon-label {
   margin-right: 8px;
@@ -6578,6 +6591,9 @@ a.icon-btn .btn-icon {
 @media screen and (min-width: 420px) {
   .btn-icon-label {
     display: inline-block;
+  }
+  .mainSelectButton {
+    width: 132px;
   }
 }
 .glyphicon-spin {
@@ -6617,6 +6633,12 @@ a.icon-btn .btn-icon {
     left: 0;
     right: auto;
   }
+  .btn-mini-padding {
+    padding: 2px 4px !important;
+  }
+}
+.dropdown {
+  left: 20px;
 }
 .treeview span.indent {
   margin-left: 5px !important;
@@ -6692,6 +6714,17 @@ a.icon-btn .btn-icon {
 .error {
   color: crimson;
 }
+.panel-default > .panel-heading {
+  background-color: #F6F6F6;
+  border-color: #E4E4E3;
+}
+.panel-default > .panel-collapse {
+  background-color: #F6F6F6;
+  border-color: #E4E4E3;
+}
+.panel-heading .accordion-toggle {
+  text-decoration: none;
+}
 /* Chevron toggle in in treeview*/
 .panel-heading .accordion-toggle:after {
   /* symbol for "opening" panels */
@@ -6732,7 +6765,7 @@ a.icon-btn .btn-icon {
 }
 /* Bookmarks */
 .bookmarks {
-  width: 330px;
+  max-width: 330px;
   height: 38px;
   overflow: hidden;
 }
@@ -6789,6 +6822,989 @@ footer div.label {
   display: block;
   margin: 2px;
   white-space: normal;
+}
+ol.selectedOptions {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+ol.selectedOptions li {
+  float: left;
+  list-style-type: none;
+  margin: 1px 0 0 2px;
+  padding: 0 3px;
+  border: 1px solid #00598a;
+  background-color: #007EC4;
+}
+ol.selectedOptions li.bio {
+  background-color: #007E00;
+}
+ol.selectedOptions li.dataset {
+  background-color: brown;
+}
+ol.selectedOptions li.collection {
+  background-color: yellowgreen;
+}
+ol.selectedOptions li span {
+  display: block;
+  font-size: 11px;
+  padding-right: 13px;
+  line-height: normal;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background: transparent url("images/icon_close_off.gif") no-repeat right center;
+}
+ol.selectedOptions li:hover {
+  background-color: #0095D5;
+}
+.logo-map {
+  z-index: 10;
+  position: absolute;
+  bottom: 40px;
+  left: 19px;
+  width: 67px;
+}
+.nav-tabs > li > a {
+  border: 1px solid #ddd;
+}
+.menu-nav-tabs > li.active > a,
+.menu-nav-tabs > li.active > a:hover,
+.menu-nav-tabs > li.active > a:focus {
+  background-color: #de8608 !important;
+  color: #ffffff !important;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  background-color: #de8608 !important;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #de8608;
+}
+.nav-tabs > li > a {
+  color: #4c4a48;
+}
+.noicon {
+  display: none !important;
+}
+.icon-baselayers-lg {
+  background: url("ikoner/baselayers_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-baselayers-sm {
+  background: url("ikoner/baselayers_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-baselayers-sm:hover {
+  background: url("ikoner/baselayers_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-baselayers-sm:focus,
+.icon-baselayers-sm:active {
+  background: url("ikoner/baselayers_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-baselayers-xs {
+  background: url("ikoner/baselayers_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-baselayers-xs:hover {
+  background: url("ikoner/baselayers_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-bookmark-lg {
+  background: url("ikoner/bookmark_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-bookmark-sm {
+  background: url("ikoner/bookmark_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-bookmark-sm:hover {
+  background: url("ikoner/bookmark_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-bookmark-sm:focus,
+.icon-bookmark-sm:active {
+  background: url("ikoner/bookmark_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-bookmark-xs {
+  background: url("ikoner/bookmark_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-bookmark-xs:hover {
+  background: url("ikoner/bookmark_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-check-lg {
+  background: url("ikoner/check_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-check-sm {
+  background: url("ikoner/check_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-check-sm:hover {
+  background: url("ikoner/check_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-check-sm:focus,
+.icon-check-sm:active {
+  background: url("ikoner/check_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-check-xs {
+  background: url("ikoner/check_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-check-xs:hover {
+  background: url("ikoner/check_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-forward-lg {
+  background: url("ikoner/forward_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-forward-sm {
+  background: url("ikoner/forward_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-forward-sm:hover {
+  background: url("ikoner/forward_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-forward-sm:focus,
+.icon-forward-sm:active {
+  background: url("ikoner/forward_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-forward-xs {
+  background: url("ikoner/forward_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-forward-xs:hover {
+  background: url("ikoner/forward_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-info-lg {
+  background: url("ikoner/info_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-info-sm {
+  background: url("ikoner/info_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-info-sm:hover {
+  background: url("ikoner/info_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-info-sm:focus,
+.icon-info-sm:active {
+  background: url("ikoner/info_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-info-xs {
+  background: url("ikoner/info_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-info-xs:hover {
+  background: url("ikoner/info_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-link-lg {
+  background: url("ikoner/link_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-link-sm {
+  background: url("ikoner/link_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-link-sm:hover {
+  background: url("ikoner/link_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-link-sm:focus,
+.icon-link-sm:active {
+  background: url("ikoner/link_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-link-xs {
+  background: url("ikoner/link_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-link-xs:hover {
+  background: url("ikoner/link_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-listIcon-lg {
+  background: url("ikoner/listIcon_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-listIcon-sm {
+  background: url("ikoner/listIcon_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-listIcon-sm:hover {
+  background: url("ikoner/listIcon_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-listIcon-sm:focus,
+.icon-listIcon-sm:active {
+  background: url("ikoner/listIcon_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-listIcon-xs {
+  background: url("ikoner/listIcon_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-listIcon-xs:hover {
+  background: url("ikoner/listIcon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-mail-lg {
+  background: url("ikoner/mail_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-mail-sm {
+  background: url("ikoner/mail_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-mail-sm:hover {
+  background: url("ikoner/mail_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-mail-sm:focus,
+.icon-mail-sm:active {
+  background: url("ikoner/mail_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-mail-xs {
+  background: url("ikoner/mail_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-mail-xs:hover {
+  background: url("ikoner/mail_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-mapIcon-lg {
+  background: url("ikoner/mapIcon_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-mapIcon-sm {
+  background: url("ikoner/mapIcon_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-mapIcon-sm:hover {
+  background: url("ikoner/mapIcon_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-mapIcon-sm:focus,
+.icon-mapIcon-sm:active {
+  background: url("ikoner/mapIcon_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-mapIcon-xs {
+  background: url("ikoner/mapIcon_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-mapIcon-xs:hover {
+  background: url("ikoner/mapIcon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-menu-lg {
+  background: url("ikoner/menu_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-menu-sm {
+  background: url("ikoner/menu_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-menu-sm:hover {
+  background: url("ikoner/menu_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-menu-sm:focus,
+.icon-menu-sm:active {
+  background: url("ikoner/menu_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-menu-xs {
+  background: url("ikoner/menu_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-menu-xs:hover {
+  background: url("ikoner/menu_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-paperclip-lg {
+  background: url("ikoner/paperclip_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-paperclip-sm {
+  background: url("ikoner/paperclip_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-paperclip-sm:hover {
+  background: url("ikoner/paperclip_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-paperclip-sm:focus,
+.icon-paperclip-sm:active {
+  background: url("ikoner/paperclip_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-paperclip-xs {
+  background: url("ikoner/paperclip_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-paperclip-xs:hover {
+  background: url("ikoner/paperclip_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-picture-lg {
+  background: url("ikoner/picture_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-picture-sm {
+  background: url("ikoner/picture_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-picture-sm:hover {
+  background: url("ikoner/picture_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-picture-sm:focus,
+.icon-picture-sm:active {
+  background: url("ikoner/picture_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-picture-xs {
+  background: url("ikoner/picture_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-picture-xs:hover {
+  background: url("ikoner/picture_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-point-lg {
+  background: url("ikoner/point_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-point-sm {
+  background: url("ikoner/point_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-point-sm:hover {
+  background: url("ikoner/point_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-point-sm:focus,
+.icon-point-sm:active {
+  background: url("ikoner/point_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-point-xs {
+  background: url("ikoner/point_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-point-xs:hover {
+  background: url("ikoner/point_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-polygon-lg {
+  background: url("ikoner/polygon_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-polygon-sm {
+  background: url("ikoner/polygon_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-polygon-sm:hover {
+  background: url("ikoner/polygon_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-polygon-sm:focus,
+.icon-polygon-sm:active {
+  background: url("ikoner/polygon_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-polygon-xs {
+  background: url("ikoner/polygon_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-polygon-xs:hover {
+  background: url("ikoner/polygon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-refresh-lg {
+  background: url("ikoner/refresh_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-refresh-sm {
+  background: url("ikoner/refresh_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-refresh-sm:hover {
+  background: url("ikoner/refresh_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-refresh-sm:focus,
+.icon-refresh-sm:active {
+  background: url("ikoner/refresh_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-refresh-xs {
+  background: url("ikoner/refresh_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-refresh-xs:hover {
+  background: url("ikoner/refresh_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-remove-lg {
+  background: url("ikoner/remove_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-remove-sm {
+  background: url("ikoner/remove_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-remove-sm:hover {
+  background: url("ikoner/remove_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-remove-sm:focus,
+.icon-remove-sm:active {
+  background: url("ikoner/remove_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-remove-xs {
+  background: url("ikoner/remove_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-remove-xs:hover {
+  background: url("ikoner/remove_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-repeat-lg {
+  background: url("ikoner/repeat_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-repeat-sm {
+  background: url("ikoner/repeat_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-repeat-sm:hover {
+  background: url("ikoner/repeat_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-repeat-sm:focus,
+.icon-repeat-sm:active {
+  background: url("ikoner/repeat_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-repeat-xs {
+  background: url("ikoner/repeat_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-repeat-xs:hover {
+  background: url("ikoner/repeat_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-rewind-lg {
+  background: url("ikoner/rewind_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-rewind-sm {
+  background: url("ikoner/rewind_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-rewind-sm:hover {
+  background: url("ikoner/rewind_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-rewind-sm:focus,
+.icon-rewind-sm:active {
+  background: url("ikoner/rewind_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-rewind-xs {
+  background: url("ikoner/rewind_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-rewind-xs:hover {
+  background: url("ikoner/rewind_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-search-lg {
+  background: url("ikoner/search_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-search-sm {
+  background: url("ikoner/search_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-search-sm:hover {
+  background: url("ikoner/search_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-search-sm:focus,
+.icon-search-sm:active {
+  background: url("ikoner/search_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-search-xs {
+  background: url("ikoner/search_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-search-xs:hover {
+  background: url("ikoner/search_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-statisticsIcon-lg {
+  background: url("ikoner/statisticsIcon_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-statisticsIcon-sm {
+  background: url("ikoner/statisticsIcon_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-statisticsIcon-sm:hover {
+  background: url("ikoner/statisticsIcon_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-statisticsIcon-sm:focus,
+.icon-statisticsIcon-sm:active {
+  background: url("ikoner/statisticsIcon_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-statisticsIcon-xs {
+  background: url("ikoner/statisticsIcon_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-statisticsIcon-xs:hover {
+  background: url("ikoner/statisticsIcon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-target-lg {
+  background: url("ikoner/target_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-target-sm {
+  background: url("ikoner/target_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-target-sm:hover {
+  background: url("ikoner/target_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-target-sm:focus,
+.icon-target-sm:active {
+  background: url("ikoner/target_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-target-xs {
+  background: url("ikoner/target_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-target-xs:hover {
+  background: url("ikoner/target_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-warning-lg {
+  background: url("ikoner/warning_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-warning-sm {
+  background: url("ikoner/warning_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-warning-sm:hover {
+  background: url("ikoner/warning_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-warning-sm:focus,
+.icon-warning-sm:active {
+  background: url("ikoner/warning_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-warning-xs {
+  background: url("ikoner/warning_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-warning-xs:hover {
+  background: url("ikoner/warning_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-point-lg {
+  background: url("ikoner/point_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-point-sm {
+  background: url("ikoner/point_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-point-sm:hover {
+  background: url("ikoner/point_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-point-sm:focus,
+.icon-point-sm:active {
+  background: url("ikoner/point_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-point-xs {
+  background: url("ikoner/point_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-point-xs:hover {
+  background: url("ikoner/point_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-fullscreen-lg {
+  background: url("ikoner/fullscreen_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-fullscreen-sm {
+  background: url("ikoner/fullscreen_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-fullscreen-sm:hover {
+  background: url("ikoner/fullscreen_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-fullscreen-sm:focus,
+.icon-fullscreen-sm:active {
+  background: url("ikoner/fullscreen_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-fullscreen-xs {
+  background: url("ikoner/fullscreen_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-fullscreen-xs:hover {
+  background: url("ikoner/fullscreen_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-importIcon-lg {
+  background: url("ikoner/importIcon_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-importIcon-sm {
+  background: url("ikoner/importIcon_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-importIcon-sm:hover {
+  background: url("ikoner/importIcon_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-importIcon-sm:focus,
+.icon-importIcon-sm:active {
+  background: url("ikoner/importIcon_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-importIcon-xs {
+  background: url("ikoner/importIcon_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-importIcon-xs:hover {
+  background: url("ikoner/importIcon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-print-lg {
+  background: url("ikoner/print_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-print-sm {
+  background: url("ikoner/print_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-print-sm:hover {
+  background: url("ikoner/print_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-print-sm:focus,
+.icon-print-sm:active {
+  background: url("ikoner/print_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-print-xs {
+  background: url("ikoner/print_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-print-xs:hover {
+  background: url("ikoner/print_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-folder_open-lg {
+  background: url("ikoner/folder_open_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-folder_open-sm {
+  background: url("ikoner/folder_open_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-folder_open-sm:hover {
+  background: url("ikoner/folder_open_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-folder_open-sm:focus,
+.icon-folder_open-sm:active {
+  background: url("ikoner/folder_open_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-folder_open-xs {
+  background: url("ikoner/folder_open_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-folder_open-xs:hover {
+  background: url("ikoner/folder_open_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.clearfix:after,
+.dl-horizontal dd:after,
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.pager:after,
+.panel-body:after,
+.modal-header:after,
+.modal-footer:after,
+.menubar:after,
+.menubar-header:after,
+.menubar-collapse:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.ui-state-focus {
+  background: #eeeeee !important;
+}
+.ui-widget {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: 1.0em !important;
+}
+.whiteback {
+  background-color: #FFFFFF !important;
+}
+.multiselect-container input {
+  display: none;
+}
+.form-inline .multiselect-container label.checkbox,
+.form-inline .multiselect-container label.radio {
+  padding: 3px 2px 3px 4px !important;
+}
+.panel-heading-icon-left {
+  left: 4px;
+  top: 4px;
+  position: relative;
+}
+.panel-heading-title {
+  padding-left: 4px;
+}
+.dropdown-menu {
+  min-width: 132px !important;
+}
+.ol-rotate {
+  top: 3em !important;
 }
 .dummy {
   background-color: aqua;

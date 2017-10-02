@@ -1,5 +1,5 @@
-﻿define(['services/logger', "knockout", "durandal/app", "services/cssclass", 'viewmodels/shell', 'viewmodels/nav'],
-    function (logger, ko, app, selector, shell, nav) {
+﻿define(['services/logger', "knockout", "durandal/app", "services/cssclass", 'viewmodels/shell', 'viewmodels/nav', 'services/resource'],
+    function (logger, ko, app, selector, shell, nav, resource) {
         var title = 'MainPanel',
             vm,
             mainviewSize = ko.observable(null),
@@ -40,6 +40,7 @@
             };
 
         vm = {
+            res: resource.res,
             activate: activate,
             attached: attached,
             title: title,

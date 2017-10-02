@@ -1,5 +1,5 @@
-﻿define(['services/logger', "knockout", "services/application", "services/dataServices", "viewmodels/mapOl3", "services/layerConfig", "services/knockoutExtensions", 'viewmodels/shell'],
-    function (logger, ko, application, dataServices, map, layerConfig, jqAutoComplete, shell) {
+﻿define(['services/logger', "knockout", "services/application", "services/dataServices", "viewmodels/mapOl3", "services/layerConfig", 'services/resource', "services/knockoutExtensions", 'viewmodels/shell'],
+    function (logger, ko, application, dataServices, map, layerConfig, resource, jqAutoComplete, shell) {
         "use strict";
 
         var bookmarkThumbCanvas;
@@ -11,8 +11,11 @@
             vm = {
                 currentBaseLayer: ko.observable(),
                 title: "Map toolbar",
+                resource: resource,
+                res: resource.res,
                 locations: ko.observableArray(),
                 bookmarks: application.bookmarks,
+                showAbout: application.showAbout,
                 showRemoveBookmark: ko.observable(false),
                 enableRemoveBookmark: function() {
                     vm.showRemoveBookmark(true);
@@ -23,7 +26,7 @@
                 baseLayerList: ko.computed(function() {
                     return layerConfig.baseLayerPool.filter(function(e) {
                         if (e.name === 'europa') return false;
-                        return !e.needsToken || (!!e.needsToken && !!application.ndToken());
+                        return !e.needsToken || !!e.needsToken && !!application.ndToken();
                     });
                 }),
                 overlayLayerList: layerConfig.overlayLayerPool,
@@ -41,17 +44,26 @@
                     };
                 },
                 setPosition: function (position) {
-                    var coord = ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]);
+                    var coord = ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude], 'EPSG:' + application.filter.EpsgCode());
                     vm.currentLocation = vm.location();
                     vm.currentLocation.x(coord[0]);
                     vm.currentLocation.y(coord[1]);
-                    if (position.coords.accuracy > 40000) { vm.currentLocation.zoom = 10; }     // Todo: check values
-                    else if (position.coords.accuracy > 20000) { vm.currentLocation.zoom = 11; }
-                    else if (position.coords.accuracy > 10000) { vm.currentLocation.zoom = 12; }
-                    else if (position.coords.accuracy > 5000) { vm.currentLocation.zoom = 13; }
-                    else if (position.coords.accuracy > 2500) { vm.currentLocation.zoom = 14; }
-                    else if (position.coords.accuracy > 1000) { vm.currentLocation.zoom = 15; }
-                    else { vm.currentLocation.zoom = 16; }
+                    if (position.coords.accuracy > 40000) {
+                        vm.currentLocation.zoom = 10;
+                    } // Todo: check values
+                    else if (position.coords.accuracy > 20000) {
+                        vm.currentLocation.zoom = 11;
+                    } else if (position.coords.accuracy > 10000) {
+                        vm.currentLocation.zoom = 12;
+                    } else if (position.coords.accuracy > 5000) {
+                        vm.currentLocation.zoom = 13;
+                    } else if (position.coords.accuracy > 2500) {
+                        vm.currentLocation.zoom = 14;
+                    } else if (position.coords.accuracy > 1000) {
+                        vm.currentLocation.zoom = 15;
+                    } else {
+                        vm.currentLocation.zoom = 16;
+                    }
                     vm.zoomToCurrentLocation();
                 },
                 zoomToCurrentLocation: function () {
@@ -59,10 +71,13 @@
                         vpstate.center(vm.currentLocation.x() + "," + vm.currentLocation.y());
                         vpstate.zoom(vm.currentLocation.zoom);
                     } else {
+                        vm.zoomToMyLocation();
+                    }
+                },
+                zoomToMyLocation: function () {
                         if (navigator.geolocation) {
                             navigator.geolocation.getCurrentPosition(vm.setPosition);
                         }
-                    }
                 },
                 setSelectedBaseLayerName: function (layerName) {
                     map.selectedBaseLayer(layerName);
@@ -72,7 +87,7 @@
                 },
                 getPositions: function (searchTerm, oarray) {
                     if (isGBNr(searchTerm)) {
-                        var st = searchTerm.replace(/\//g, "_");
+                        var st = searchTerm.replace(/[\/-]/g, "_");
                         dataServices.getGbnrByTerm(st).then(function (data) {
                             var result = [];
                             data.forEach(function (place) {
@@ -110,7 +125,10 @@
                         canvas.width = application.config.bookmarkThumbSize;
                         canvas.height = application.config.bookmarkThumbSize;
                         var ctx = canvas.getContext("2d");
-                        ctx.fillStyle = "#AA0000";
+                        var my_gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                        my_gradient.addColorStop(0, "black");
+                        my_gradient.addColorStop(1, "#00AA00");
+                        ctx.fillStyle = my_gradient;
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                         image = canvas.toDataURL('image/png');
@@ -183,12 +201,12 @@
                     return result;
                 },
                 dropdowntemplates: {
-                    button: '<button type="button" class="multiselect dropdown-toggle glyphicon glyphicon-align-justify" data-toggle="dropdown"></button>',
+                    button: '<button id="baseLayerButton" type="button" class="btn multiselect dropdown-toggle icon-baselayers-sm" data-toggle="dropdown"></button>',
                     ul: '<ul class="multiselect-container dropdown-menu"></ul>',
                     li: '<li><a href="javascript:void(0);"><label></label></a></li>'
                 },
                 dropdownOverlaytemplates: {
-                    button: '<button type="button" class="multiselect dropdown-toggle glyphicon glyphicon-picture" data-toggle="dropdown"></button>',
+                    button: '<button id="overlayButton" type="button" class="btn multiselect dropdown-toggle icon-picture-sm" data-toggle="dropdown"></button>',
                     ul: '<ul class="multiselect-container dropdown-menu"></ul>',
                     li: '<li><a href="javascript:void(0);"><label></label></a></li>'
                 },
@@ -201,10 +219,16 @@
                     });
                     $('#basisLayerSelect').multiselect({
                         templates: vm.dropdowntemplates,
+                        enableHTML: true,
+                        optionLabel: function (element) {
+                            return '<img src="content/images/layers/' + $(element).attr('value') + '.png"> ' + $(element).text();
+                        },
                         onChange: function (option, checked) {
                             vm.setSelectedBaseLayerName(option.val());
                         }
                     });
+                    $('#baseLayerButton').removeClass('btn-default');
+                    $('#overlayButton').removeClass('btn-default');
                 },
 
                 // bookmarks menu stuff

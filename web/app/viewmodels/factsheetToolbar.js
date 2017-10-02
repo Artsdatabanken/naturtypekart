@@ -32,7 +32,7 @@
                             .multiselect({
                                 templates: {
                                     button:
-                                        '<button type="button" class="glyph-button multiselect dropdown-toggle glyphicon glyphicon-folder-open hidden-xs" data-toggle="dropdown"></button>',
+                                        '<button type="button" class="glyph-button multiselect dropdown-toggle icon-folder_open-sm hidden-xs" data-toggle="dropdown"></button>',
                                     ul: '<ul class="multiselect-container dropdown-menu"></ul>',
                                     li: '<li><a href="javascript:void(0);"><label></label></a></li>'
                                 },
@@ -82,7 +82,7 @@
 
         app.on("currentFeatureChanged:trigger").then(function () {
             if (nav.activeView() === 'factsheet') {
-                vm.localId(application.currFeature.data.UniqueId.LocalId);
+                vm.localId(application.currFeature.data.uniqueId.localId);
                 vm.getHistory();
             }
         });

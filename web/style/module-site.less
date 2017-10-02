@@ -1,17 +1,138 @@
-﻿
+﻿@adbOrange: #de8608;
+
 .artsdatabank-logo {
     display:inline-block;
-    background-image: url('images/logoer/Artdb_logo.gif');
+    background-image: url('images/logoer/Logo_med_tekst_liten.gif');
+    /*background-image: url('images/logoer/Artdb_logo.gif');*/
     background-size:  contain;
-    width: 36px;
-    height: 36px;
+    width: 90px;
+    height: 60px;
+    top: 4px;
+    left: 10px;
+    position: absolute;
+}
+/*.artsdatabank-logo:hover {
+    background-image: url('images/logoer/Artdb_logo_glitters.gif');    
+}*/
+.artsdatabank-logo-on-map {
+    background-image: url('images/logoer/Artdb_logo.gif');
+    width: 30px;
+    height: 0;
+    background-size: cover;
+    padding: 0;
+    padding-bottom: 30px;
+}
+.artsdatabank-logo-on-map:hover {
+    background-image: url('images/logoer/Artdb_logo_glitters.gif');    
 }
 
-@media screen and (min-width: @screen-width-large) {
-    .artsdatabank-logo {
-        background-image: url('images/artsdatabankenartskart.png');
-        width: 193px;
-        height: 103px;
+
+@media screen and (max-width: 481px) {
+    .go-to-position-button {
+        position: absolute; 
+        top: 76px; 
+        left: 21px; 
+        font-weight: 100 !important; 
+        font-size: 1.5em !important;
+    }
+   .menubar-air {
+        width: 25px;
+    }
+    .lang-no {
+        background:url("images/flags-sprite.png") top left no-repeat; 
+        background-position: 4px 1px;
+        height:14px;
+        position: absolute; 
+        right: 10px; 
+        top: 12px; 
+        border: 0;
+    }
+    .lang-en {
+        background:url("images/flags-sprite.png") top left no-repeat; 
+        background-position: -16px 1px;
+        height:14px; 
+        position: absolute; 
+        right: 10px; 
+        top: 28px; 
+        border: 0;
+    }
+    .info-button {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 35px;
+        top: 18px;
+        border: 0;
+        padding: 0;
+    }
+    .toggle-full-bar {
+        top: 0px; 
+        position: fixed; 
+        height: 100%; 
+        width: 12px; 
+        background-color: lightgray;
+    }
+}
+@media screen and (min-width: 800px) {
+    .artsdatabank-logo-on-map {
+        background-image: url('images/logoer/Artdb_logo.gif');
+        width: 67px;
+        height: 0;
+        background-size: cover;
+        padding: 0;
+        padding-bottom: 67px;
+    }
+}
+
+@media screen and (min-width: 481px) {
+    .go-to-position-button {
+        position: absolute; 
+        top: 66px; 
+        left: 21px; 
+        font-weight: 100;
+    }
+    .menubar-air {
+        width: 50px;
+    }
+    .lang-no {
+        background:url("images/flags-sprite.png") top left no-repeat; 
+        background-position: 4px 1px;
+        height:14px;
+        position: fixed; 
+        right: 10px; 
+        top: 24px; 
+        border: 0;
+    }
+    .lang-en {
+        background:url("images/flags-sprite.png") top left no-repeat; 
+        background-position: -16px 1px;
+        height:14px; 
+        position: fixed; 
+        right: 10px; 
+        top: 40px; 
+        border: 0;
+    }
+    .info-button {
+        background-image: url(images/info_brown.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        position: fixed;
+        right: 35px;
+        top: 30px;
+        border: 0;
+        padding: 0;
+    }
+    .toggle-full-bar {
+        top: 10px; 
+        position: fixed; 
+        height: 100%; 
+        width: 12px; 
+        background-color: lightgray;
+    }
+    .help-block {
+        margin-left: 5px;
     }
 }
 
@@ -28,24 +149,9 @@
     }
 }
 
-.btn {
-    .mapIcon {
-        .spriteX("images/Spritelist-map.png"); 
-    }
-    .listIcon {
-        .spriteX("images/Spritelist-list.png"); 
-    }
-    .statisticsIcon {
-        .spriteX("images/Spritelist-statistics.png");
-    }
-    .tableIcon {
-        .spriteX("images/Spritelist-table.png");
-    }
-    .importIcon {
-        .spriteX("images/Spritelist-table.png");
-    }
 
-    & > span { padding-left: 0; }
+.btn-default:hover {
+    color: #de8819 !important;
 }
 
 .btn-icon-label {
@@ -64,9 +170,13 @@ a.icon-btn {
 }
 
 
+
 @media screen and (min-width: 420px) {
     .btn-icon-label {
         display: inline-block;
+    }
+    .mainSelectButton {
+        width: 132px;
     }
 }
 
@@ -111,6 +221,13 @@ a.icon-btn {
     .dropdown-menu-left {
       .dropdown-menu-left();
     }
+
+    .btn-mini-padding {
+        padding: 2px 4px !important;
+    }
+}
+.dropdown {
+    left: 20px;
 }
 
 // override indent in treeview
@@ -206,7 +323,18 @@ a.icon-btn {
 .error{
     color:crimson
 }
+.panel-default > .panel-heading {
+    background-color: #F6F6F6;
+    border-color: #E4E4E3;
+}
+.panel-default > .panel-collapse {
+    background-color: #F6F6F6;
+    border-color: #E4E4E3;
+}
 
+.panel-heading .accordion-toggle {
+    text-decoration:none;
+}
 /* Chevron toggle in in treeview*/
 .panel-heading .accordion-toggle:after {
     /* symbol for "opening" panels */
@@ -247,7 +375,7 @@ a.icon-btn {
 /* Bookmarks */
 
 .bookmarks {
-    width: 330px;
+    max-width: 330px;
     height: 38px;
     overflow: hidden;
 }
@@ -301,4 +429,161 @@ footer div.label {
   display: block;
   margin: 2px;
   white-space: normal;
+}
+
+ol.selectedOptions {
+    display: inline-block;
+    margin: 0;
+    padding: 0
+}
+
+ol.selectedOptions li {
+    float: left;
+    list-style-type: none;
+    margin: 1px 0 0 2px;
+    padding: 0 3px;
+    border: 1px solid #00598a;
+    background-color: #007EC4
+}
+ol.selectedOptions li.bio{
+    background-color: #007E00
+}
+ol.selectedOptions li.dataset{
+    background-color: brown;
+}
+ol.selectedOptions li.collection{
+    background-color: yellowgreen;
+}
+
+ol.selectedOptions li span {
+    display: block;
+    font-size: 11px;
+    padding-right: 13px;
+    line-height: normal;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    background: transparent url("images/icon_close_off.gif") no-repeat right center
+}
+
+ol.selectedOptions li:hover {
+    background-color: #0095D5
+}
+.logo-map {
+    z-index: 10;
+    position: absolute;
+    bottom: 40px;
+    left: 19px;
+    width: 67px;
+}
+.nav-tabs > li > a {
+    border: 1px solid #ddd;
+}
+.menu-nav-tabs > li.active > a,
+.menu-nav-tabs > li.active > a:hover,
+.menu-nav-tabs > li.active > a:focus {
+    //background-color: #de8819 !important;
+    background-color: @adbOrange !important;
+    color: #ffffff !important;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: @adbOrange !important;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: @adbOrange;
+}
+.nav-tabs > li > a
+{
+    color: #4c4a48;
+}
+.noicon {
+    display: none !important;
+}
+
+@icons: baselayers, bookmark, check, forward, info, link, listIcon, mail, mapIcon, menu, paperclip, picture, point, polygon, refresh, remove, repeat, rewind, search, statisticsIcon, target, warning, point, fullscreen, importIcon, print, folder_open;
+.iconize();
+.iconize(@i: length(@icons)) when (@i > 0) {
+    .iconize((@i - 1));
+    @value: extract(@icons, @i); // LESS arrays are 1-based
+    .icon-@{value}-lg       {
+        background:url("ikoner/@{value}_brown.png") top left no-repeat;
+        padding: 20px;
+        background-size: 100%;
+    }
+    .icon-@{value}-sm {
+        background:url("ikoner/@{value}_brown.png") top left no-repeat;
+        padding: 16.5px;
+        background-size: 100%;
+    }
+
+    .icon-@{value}-sm:hover {
+        background:url("ikoner/@{value}_white.png") top left no-repeat;
+        padding: 16.5px;
+        background-size: 100%;
+        background-color: @adbOrange;
+    }
+    .icon-@{value}-sm:focus,
+    .icon-@{value}-sm:active {
+        background:url("ikoner/@{value}_orange.png") top left no-repeat;
+        padding: 16.5px;
+        background-size: 100%;
+    }
+    .icon-@{value}-xs
+    {
+        background:url("ikoner/@{value}_brown.png") top left no-repeat;
+        padding: 10px;
+        background-size: 100%;
+    }
+    .icon-@{value}-xs:hover
+    {
+        background:url("ikoner/@{value}_orange.png") top left no-repeat;
+        padding: 10px;
+        background-size: 100%;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.ui-state-focus {
+    background: #eeeeee !important;
+}
+.ui-widget {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-size: 1.0em !important;
+}
+.whiteback {
+    background-color: #FFFFFF !important;
+}
+.multiselect-container input {
+    display: none
+}
+.form-inline .multiselect-container label.checkbox, 
+.form-inline .multiselect-container label.radio {
+    padding: 3px 2px 3px 4px !important;
+}
+
+.panel-heading-icon-left {
+    left: 4px;
+    top: 4px;
+    position: relative;
+}
+.panel-heading-title {
+    padding-left: 4px;
+}
+.dropdown-menu {
+  min-width: 132px !important;
+}
+
+.ol-rotate {
+    top: 3em !important;
 }

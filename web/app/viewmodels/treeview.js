@@ -1,5 +1,5 @@
-﻿define(['services/logger', "knockout", 'durandal/app', 'services/dataServices', "services/application", "viewmodels/mapOl3", 'viewmodels/nav', 'services/codeLists', "services/knockoutExtensions", "bootstrap-treeview"],
-    function (logger, ko, app, dataServices, application, map, nav, codeLists, jqAutoComplete, treeview) {
+﻿define(['services/logger', "knockout", 'durandal/app', 'services/dataServices', "services/application", "viewmodels/mapOl3", 'viewmodels/nav', 'services/codeLists', "services/knockoutExtensions", "bootstrap-treeview", 'services/resource'],
+    function (logger, ko, app, dataServices, application, map, nav, codeLists, jqAutoComplete, treeview, resource) {
         var title = "treeview",
         $summarytree,
         $gridtree,
@@ -11,6 +11,7 @@
             },
             admAreas: ko.observableArray(),
             conservationAreas: ko.observableArray(),
+            res: resource.res,
             isMapView: ko.computed(function () {
                 return (nav.activeView() === 'map');
             }),

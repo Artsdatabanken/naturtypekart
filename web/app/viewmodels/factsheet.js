@@ -37,6 +37,7 @@
 
         var vm = {
             updateInProgress: ko.observable(true),
+            sortDirection: ko.observable(false),
 
             natureAreaNatureLevel: ko.observable(),
             natureAreaDescriptionVariables: ko.observableArray(),
@@ -103,6 +104,19 @@
                     });
                 });
             }
+        };
+        vm.getSortOrderDirectionValue1 = function() {
+            return vm.sortDirection() ? 1 : -1;
+        };
+        vm.getSortOrderDirectionValue2 = function () {
+            return vm.sortDirection() ? -1 : 1;
+        };
+        vm.orderDescriptionVariablesByColumn = function (col) {
+            vm.sortDirection(!vm.sortDirection());
+            vm.natureAreaDescriptionVariables.sort(function (left, right) {
+                return left[col] === right[col] ? 0 : left[col] < right[col] ? vm.getSortOrderDirectionValue1()
+                        : vm.getSortOrderDirectionValue2();
+            });
         };
 
         var getVector = function(wkt, style) {

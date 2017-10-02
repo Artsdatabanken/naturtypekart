@@ -1,13 +1,16 @@
-﻿define(['services/logger', "knockout", 'services/dataServices', 'services/application', 'viewmodels/shell', 'durandal/app'],
-    function (logger, ko, dataServices, application, shell, app) {
+﻿define(['services/logger', "knockout", 'services/dataServices', 'services/application', 'viewmodels/shell', 'durandal/app', 'services/resource'],
+    function (logger, ko, dataServices, application, shell, app, resource) {
         "use strict";
 
         var vm = {
             title: "List toolbar",
+            resource: resource,
+            res: resource.res,
             activate: function() {
                 application.initBookmarks();
             },
-            totalListItems: ko.observable(0),
+			showAbout: application.showAbout,            
+			totalListItems: ko.observable(0),
             maxExportItems: ko.observable(application.config.maxExportItems),
 
             showSpinner: ko.observable(false),

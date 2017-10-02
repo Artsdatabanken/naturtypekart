@@ -2,75 +2,53 @@
     <h4>Laster data, vent litt! <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></h4>
 </div>
 <div data-bind="visible: !updateInProgress()">
-        <dl class="dl-horizontal">
-            <dt>Fylker</dt>
-            <dd>
-                <div data-bind="foreach: natureAreaFylker">
-                    <span data-bind="text: name"></span>
-                </div>
-            </dd>
-            <dt>Kommuner</dt>
-            <dd>
-                <div data-bind="foreach: natureAreaKommuner">
-                    <span data-bind="text: name"></span>
-                </div>
-            </dd>
-            <dt data-bind="visible: natureAreaConservationAreas().length">Verneområder</dt>
-            <dd data-bind="visible: natureAreaConservationAreas().length">
-                <div data-bind="foreach: natureAreaConservationAreas">
-                    <span data-bind="text: name"></span>
-                </div>
-            </dd> 
-        </dl>
-        <hr />
-
-        <div data-bind="visible: showingHistoric()">
-            <dl class="dl-horizontal">
-                <dt>Beskrivelse</dt>
-                <dd data-bind="text: historicDescription"></dd>
-                <dt>Leveransedato</dt>
-                <dd class="date" data-bind="text: historicDeliveryDate"></dd>
-                <dt data-bind="visible: historicCreated">Opplastet</dt>
-                <dd class="date" data-bind="visible: historicCreated, text: historicCreated"></dd>
-                <dt data-bind="visible: historicExpired">Erstattet</dt>
-                <dd class="date" data-bind="visible: historicExpired, text: historicExpired"></dd>
-            </dl>
-            <hr />
-        </div>
-
-        <dl class="dl-horizontal">
-            <dt>Naturnivå</dt>
-            <dd data-bind="text: natureAreaNatureLevel"></dd>
-            <dt>Id</dt>
-            <dd data-bind="text: natureAreaId"></dd>
-            <dt>Kartleggingsmålestokk</dt>
-            <dd data-bind="text: natureAreaSurveyScale"></dd>
-            <dt>Kartlagt</dt>
-            <dd class="date" data-bind="text: natureAreaSurveyed"></dd>
-        </dl>
-        <hr />
-        <!-- Foreach hovedtypegruppe -->
-        <div data-bind="if: natureAreaDescriptionVariables().length != 0">
-            <div data-bind="foreach: natureAreaDescriptionVariables">
-                <dl class="dl-horizontal">
-                    <dt data-bind="visible: mainTypeGroup">Hovedtypegruppe</dt>
-                    <dd data-bind="visible: mainTypeGroup", text: mainTypeGroup></dd>
-                    <dt data-bind="visible: mainTypeCodeAndDescription">Hovedtype</dt>
-                    <dd data-bind="visible: mainTypeCodeAndDescription, text: mainTypeCodeAndDescription"></dd>
-                    <dt data-bind="visible: grunntype">Grunntype</dt>
-                    <dd data-bind="visible: grunntype, text: grunntype"></dd>
-                    <dt data-bind="visible: kartleggingsEnhet">Kartleggingsenhet</dt>
-                    <dd data-bind="visible: kartleggingsEnhet, text: kartleggingsEnhet"></dd>
-                    <dt>Variabelnavn</dt>
-                    <dd data-bind="text: codeAndDescription"></dd>
-                    <dt>Variabelverdi</dt>
-                    <dd data-bind="text: value"></dd>
-                </dl>
-                <hr />
+    <dl class="dl-horizontal">
+        <dt>Fylker</dt>
+        <dd>
+            <div data-bind="foreach: natureAreaFylker">
+                <span data-bind="text: name"></span>
             </div>
-        </div>
+        </dd>
+        <dt>Kommuner</dt>
+        <dd>
+            <div data-bind="foreach: natureAreaKommuner">
+                <span data-bind="text: name"></span>
+            </div>
+        </dd>
+        <dt data-bind="visible: natureAreaConservationAreas().length">Verneområder</dt>
+        <dd data-bind="visible: natureAreaConservationAreas().length">
+            <div data-bind="foreach: natureAreaConservationAreas">
+                <span data-bind="text: name"></span>
+            </div>
+        </dd>
+    </dl>
+    <hr/>
+
+    <div data-bind="visible: showingHistoric()">
+        <dl class="dl-horizontal">
+            <dt>Beskrivelse</dt>
+            <dd data-bind="text: historicDescription"></dd>
+            <dt>Leveransedato</dt>
+            <dd class="date" data-bind="text: historicDeliveryDate"></dd>
+            <dt data-bind="visible: historicCreated">Opplastet</dt>
+            <dd class="date" data-bind="visible: historicCreated, text: historicCreated"></dd>
+            <dt data-bind="visible: historicExpired">Erstattet</dt>
+            <dd class="date" data-bind="visible: historicExpired, text: historicExpired"></dd>
+        </dl>
+        <hr/>
     </div>
 
+    <dl class="dl-horizontal">
+        <dt>Naturnivå</dt>
+        <dd data-bind="text: natureAreaNatureLevel"></dd>
+        <dt>Id</dt>
+        <dd data-bind="text: natureAreaId"></dd>
+        <dt>Kartleggingsmålestokk</dt>
+        <dd data-bind="text: natureAreaSurveyScale"></dd>
+        <dt>Kartlagt</dt>
+        <dd class="date" data-bind="text: natureAreaSurveyed"></dd>
+    </dl>
+    <hr/>
     <form class="form-horizontal">
         <div data-bind="visible: !updateInProgress()" class="control-group">
             <div class="row">
@@ -85,7 +63,7 @@
     </form>
 
     <div data-bind="visible: !updateInProgress()">
-        <hr />
+        <hr/>
         <dl class="dl-horizontal">
             <dt>Eier</dt>
             <dd data-bind="text: natureAreaSurveyOwnerCompany"></dd>
@@ -99,43 +77,102 @@
             <dd data-bind="text: natureAreaSurveyPurpose"></dd>
         </dl>
 
-        <hr />
+        <hr/>
     </div>
-    <div id="factsheetmap" style="height: 350px"></div>
-    <div data-bind="visible: !updateInProgress()">
-        <img id="mapImage" alt="Kartutsnitt" data-bind="attr: { src: image }" />
-        <div data-bind="if: natureAreaDocuments().length == 0">Ingen dokumenter tilknyttet naturområdet</div>
 
-        <dl data-bind="if: natureAreaDocuments().length > 0" class="dl-horizontal">
-            <dt>Områdedokumenter</dt>
-            <dd>
-                <div data-bind="foreach: natureAreaDocuments">
-                    <div data-bind="if: newWindow">
-                        <div class="glyphicon glyphicon-picture"></div>
-                        <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br />
-                    </div>
-                    <div data-bind="ifnot: newWindow">
-                        <div class="glyphicon glyphicon-file"></div>
-                        <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br />
-                    </div>
-                </div>
-            </dd>
-        </dl>
+    <!-- Foreach hovedtypegruppe -->
+    <!--<div data-bind="if: natureAreaDescriptionVariables().length != 0">-->
+    <!--<div data-bind="foreach: natureAreaDescriptionVariables">-->
+    <!--<dl class="dl-horizontal">-->
+    <!--<dt data-bind="visible: mainTypeGroup">Hovedtypegruppe</dt>-->
+    <!--<dd data-bind="visible: mainTypeGroup", text: mainTypeGroup></dd>-->
+    <!--<dt data-bind="visible: mainTypeCodeAndDescription">Hovedtype</dt>-->
+    <!--<dd data-bind="visible: mainTypeCodeAndDescription, text: mainTypeCodeAndDescription"></dd>-->
+    <!--<dt data-bind="visible: grunntype">Grunntype</dt>-->
+    <!--<dd data-bind="visible: grunntype, text: grunntype"></dd>-->
+    <!--<dt data-bind="visible: kartleggingsEnhet">Kartleggingsenhet</dt>-->
+    <!--<dd data-bind="visible: kartleggingsEnhet, text: kartleggingsEnhet"></dd>-->
+    <!--<dt>Variabelnavn</dt>-->
+    <!--<dd data-bind="text: codeAndDescription"></dd>-->
+    <!--<dt>Variabelverdi</dt>-->
+    <!--<dd data-bind="text: value"></dd>-->
+    <!--</dl>-->
+    <!--<hr />-->
+    <!--</div>-->
+    <!--</div>-->
 
-        <div data-bind="if: natureAreaSurveyDocuments().length == 0">Ingen dokumenter tilknyttet kartleggingen</div>
-        <dl data-bind="if: natureAreaSurveyDocuments().length > 0" class="dl-horizontal">
-            <dt>Kartleggingsdokumenter</dt>
-            <dd>
-                <div data-bind="foreach: natureAreaSurveyDocuments">
-                    <div data-bind="if: newWindow">
-                        <div class="glyphicon glyphicon-picture"></div>
-                        <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br />
-                    </div>
-                    <div data-bind="ifnot: newWindow">
-                        <div class="glyphicon glyphicon-file"></div>
-                        <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br />
-                    </div>
-                </div>
-            </dd>
-        </dl>
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <table class="table-striped stat-table">
+                <thead>
+                <tr>
+                    <th>
+                        <div><span data-bind="text: 'Hovedtype', click: orderDescriptionVariablesByColumn('mainTypeCodeAndDescription')" class="pointerCursor"></span></div>
+                    </th>
+                    <th>
+                        <div><span data-bind="text: 'Grunntype', click: orderDescriptionVariablesByColumn('grunntype')" class="pointerCursor"></span></div>
+                    </th>
+                    <th>
+                        <div><span data-bind="text: 'Kartleggingsenhet', click: orderDescriptionVariablesByColumn('kartleggingsEnhet')" class="pointerCursor"></span></div>
+                    </th>
+                    <th>
+                        <div><span data-bind="text: 'Variabelnavn', click: orderDescriptionVariablesByColumn('codeAndDescription')" class="pointerCursor"></span></div>
+                    </th>
+                    <th>
+                        <div><span class="pull-right" data-bind="text: 'Verdi', click: orderDescriptionVariablesByColumn('value')" class="pointerCursor"></span></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach:natureAreaDescriptionVariables">
+                <tr>
+                    <td data-bind="text: mainTypeCodeAndDescription"></td>
+                    <td data-bind="text: grunntype"></td>
+                    <td data-bind="text: kartleggingsEnhet"></td>
+                    <td data-bind="text: codeAndDescription"></td>
+                    <td class="pull-right" data-bind="text: value"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+</div>
+
+<div id="factsheetmap" style="height: 350px"></div>
+<div data-bind="visible: !updateInProgress()">
+    <img id="mapImage" alt="Kartutsnitt" data-bind="attr: { src: image }"/>
+    <div data-bind="if: natureAreaDocuments().length == 0">Ingen dokumenter tilknyttet naturområdet</div>
+
+    <dl data-bind="if: natureAreaDocuments().length > 0" class="dl-horizontal">
+        <dt>Områdedokumenter</dt>
+        <dd>
+            <div data-bind="foreach: natureAreaDocuments">
+                <div data-bind="if: newWindow">
+                    <div class="glyphicon glyphicon-picture"></div>
+                    <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br/>
+                </div>
+                <div data-bind="ifnot: newWindow">
+                    <div class="glyphicon glyphicon-file"></div>
+                    <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br/>
+                </div>
+            </div>
+        </dd>
+    </dl>
+
+    <div data-bind="if: natureAreaSurveyDocuments().length == 0">Ingen dokumenter tilknyttet kartleggingen</div>
+    <dl data-bind="if: natureAreaSurveyDocuments().length > 0" class="dl-horizontal">
+        <dt>Kartleggingsdokumenter</dt>
+        <dd>
+            <div data-bind="foreach: natureAreaSurveyDocuments">
+                <div data-bind="if: newWindow">
+                    <div class="glyphicon glyphicon-picture"></div>
+                    <a data-bind="text: title, attr: {href: url, title: tooltip, target:'_blank'}"></a><br/>
+                </div>
+                <div data-bind="ifnot: newWindow">
+                    <div class="glyphicon glyphicon-file"></div>
+                    <a data-bind="text: title, attr: {href: url, title: tooltip, download: filename}"></a><br/>
+                </div>
+            </div>
+        </dd>
+    </dl>
+</div>
