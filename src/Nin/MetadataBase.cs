@@ -145,6 +145,8 @@ namespace Nin.Types.MsSql
 
         [JsonIgnore]
         public SqlGeometry Area { get; set; }
+        [JsonProperty("area")]
+        public string AreaWkt { get { return Area?.STAsText().ToSqlString().Value; } }
 
         public Quality Quality { get; set; }
 
