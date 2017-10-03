@@ -38,11 +38,11 @@
             mapTokenStorageKey: 'ADB/NBIC ND token',
 
             // Show centerpoints instead of polygons if zoom < loadCenterPointLimit
-            loadCenterPointLimit: 14, // todo: denne passer fint for naturområder
+            loadCenterPointLimit: 12, // todo: denne passer fint for naturområder
             //loadCenterPointLimit: 10,   // todo: denne er midlertidig siden landskapstyper brukes som naturområder, og passer bedre når polygonene er større
             // Add bounding box to filter if zoom > useBoundingBoxLimit
             gridBoundingBoxLimit: 9,
-            useBoundingBoxLimit: 13,
+            useBoundingBoxLimit: 11,
 
             routeInfo: [
                 { id: 'map', name: "routeMapName", title: "routeMapTitle", moduleId: 'viewmodels/mapOl3', visible: true },
