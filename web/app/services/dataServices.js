@@ -47,7 +47,7 @@
             getDataPromise = function(name, url, filter, type) {
                 var rq = {
                     type: type || 'GET',
-                    contentType: "application/json;charset=utf-8"
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8"
                 };
                 rq.url = url;
                 if (filter !== undefined) {
@@ -178,9 +178,15 @@
                 xhr.send();
             },
 
+            getGeonorgeAdresse = function (searchTerm) {
+                logger.log('getGeonorgeAdresse', null, title, true);
+                var url = 'http://ws.geonorge.no/AdresseWS/adresse/sok?sokestreng=' + searchTerm;
+                return getDataPromise('getGeonorgeAdresse', url);
+            },
             getLocationByTerm = function (searchTerm) {
                 logger.log('getLocationByTerm', null, title, true);
-                var url = config.apiurl + 'geolocationByName?term=' + searchTerm;
+                //var url = config.apiurl + 'geolocationByName?term=' + searchTerm;
+                var url = 'https://ws.geonorge.no/SKWS3Index/ssr/sok?maxAnt=20&eksakteForst=true,&navn=' + searchTerm + '*';
                 return getDataPromise('getLocationByTerm', url);
             },
             //searchMunicipality = function(searchTerm) {
@@ -303,6 +309,7 @@
             services = {
                 promiseKeeper: promiseKeeper,
                 getLocationByTerm: getLocationByTerm,
+                getGeonorgeAdresse: getGeonorgeAdresse,
                 getGbnrByTerm: getGbnrByTerm,
                 getNatureAreasBySearchFilter: getNatureAreasBySearchFilter,
                 getNatureAreaInfosBySearchFilter: getNatureAreaInfosBySearchFilter,

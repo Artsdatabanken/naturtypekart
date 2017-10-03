@@ -8,6 +8,9 @@
             isGBNr = function(searchTerm) {
                 return searchTerm.match(/\d+\/\d+\/\d+/);
             },
+            isAddress = function(searchTerm) {
+                return searchTerm.match(/[^\d]+\s+\d+/);
+            },
             vm = {
                 currentBaseLayer: ko.observable(),
                 title: "Map toolbar",
@@ -96,13 +99,57 @@
                             });
                             oarray(result);
                         });
-                    } else {
+                    } else if (isAddress(searchTerm)) {
+                        dataServices.getGeonorgeAdresse(searchTerm).then(function (data) {
+                            var result = [];
+                            data.adresser.forEach(function (place) {
+                                var desc = place.adressenavn + " " + place.husnr + ", " + place.postnr + " " + place.poststed + ', ' + place.type;
+                                var koords = ol.proj.fromLonLat([place.aust, place.nord], 'EPSG:' + application.filter.EpsgCode())
+                                result.push(vm.location(koords[0], koords[1], desc, 15));
+                            });
+                            oarray(result);
+                        });
+                    }
+                    else {
                         dataServices.getLocationByTerm(searchTerm).then(function (data) {
                             var result = [];
-                            data.forEach(function (place) {
-                                var desc = place.navn + ", " + place.kommunenavn + (place.countyName ? ', ' + place.countyName : '') + ', ' + place.product;
-                                result.push(vm.location(place.koordinat.x, place.koordinat.y, desc, vm.getZoomByType(place.productTypeLevel)));
-                            });
+                            for (var i = 0; i< data.getElementsByTagName("stedsnavn").length; i++) {
+                                var element = data.getElementsByTagName("stedsnavn")[i];
+                                var place = {
+                                    koordinat: {}
+                                };
+                                if (element.childNodes) {
+                                    for (var j = 0; j < element.childNodes.length; j++) {
+                                        var detail = element.childNodes[j];
+                                        if (detail.nodeType === 1) {
+                                            switch (detail.nodeName) {
+                                                case "stedsnavn":
+                                                    place.navn = detail.innerHTML;
+                                                    break;
+                                                case "aust":
+                                                    place.koordinat.x = detail.innerHTML;
+                                                    break;
+                                                case "nord":
+                                                    place.koordinat.y = detail.innerHTML;
+                                                    break;
+                                                case "kommunenavn":
+                                                    place.kommunenavn = detail.innerHTML;
+                                                    break;
+                                                case "fylkesnavn":
+                                                    place.countyName = detail.innerHTML;
+                                                    break;
+                                                case "navnetype":
+                                                    place.product = detail.innerHTML;
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                    if (place.navn) {
+                                        var desc = place.navn + ", " + place.kommunenavn + (place.countyName ? ', ' + place.countyName : '') + ', ' + place.product;
+                                        result.push(vm.location(place.koordinat.x, place.koordinat.y, desc, 15/*vm.getZoomByType(place.productTypeLevel)*/));
+                                    }
+                                }
+                            }
                             oarray(result);
                         });
                     }
