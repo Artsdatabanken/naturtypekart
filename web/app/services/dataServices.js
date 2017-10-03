@@ -180,7 +180,7 @@
 
             getGeonorgeAdresse = function (searchTerm) {
                 logger.log('getGeonorgeAdresse', null, title, true);
-                var url = 'http://ws.geonorge.no/AdresseWS/adresse/sok?sokestreng=' + searchTerm;
+                var url = 'https://ws.geonorge.no/AdresseWS/adresse/sok?sokestreng=' + searchTerm;
                 return getDataPromise('getGeonorgeAdresse', url);
             },
             getLocationByTerm = function (searchTerm) {
