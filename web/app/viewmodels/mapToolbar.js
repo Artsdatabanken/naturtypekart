@@ -103,7 +103,7 @@
                         dataServices.getGeonorgeAdresse(searchTerm).then(function (data) {
                             var result = [];
                             data.adresser.forEach(function (place) {
-                                var desc = place.adressenavn + " " + place.husnr + ", " + place.postnr + " " + place.poststed + ', ' + place.type;
+                                var desc = place.adressenavn + " " + place.husnr + (place.bokstav ? place.bokstav : "") + ", " + place.postnr + " " + place.poststed + ', ' + place.type;
                                 var koords = ol.proj.fromLonLat([place.aust, place.nord], 'EPSG:' + application.filter.EpsgCode())
                                 result.push(vm.location(koords[0], koords[1], desc, 15));
                             });

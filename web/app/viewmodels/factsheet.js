@@ -21,14 +21,16 @@
                 attributions: [
                     new ol.Attribution({
                         html: 'All maps &copy; ' +
-                            '<a href="http://www.openstreetmap.org/">OpenStreetMap</a>'
+                        '<a href="//www.openstreetmap.org/">OpenStreetMap</a>'
                     }),
                     ol.source.OSM.ATTRIBUTION
                 ],
-                url: '//{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                url: '//{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                crossOrigin: 'anonymous'
             })
         });
         var view = new ol.View({
+            projection: 'EPSG:32633',
             center: [0, 0],
             zoom: 1
         });
@@ -393,6 +395,10 @@
                 };
                 vm.natureAreaSurveyDocuments.push(document);
             }
+            vm.natureAreaPolygon(natureArea.area);
+            vm.surveyPolygon(metadata.area);
+            vm.updateMap();
+
 
             vm.makeChart();
             vm.updateInProgress(false);
