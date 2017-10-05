@@ -2200,7 +2200,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             return natureAreas;
         }
 
-        private static Collection<NatureArea> GetNatureAreaInfos(string fromClause, string whereClause,
+        internal static Collection<NatureArea> GetNatureAreaInfos(string fromClause, string whereClause,
             IEnumerable<Tuple<string, SqlDbType, object>> parameters, int indexFrom, int indexTo, int infoLevel,
             out int natureAreaCount)
         {
@@ -2518,7 +2518,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             return documents;
         }
 
-        private static List<Parameter> GetParameters(int natureAreaId, bool addDescriptionVariables)
+        internal static List<Parameter> GetParameters(int natureAreaId, bool addDescriptionVariables)
         {
             var parameters = new List<Parameter>();
 

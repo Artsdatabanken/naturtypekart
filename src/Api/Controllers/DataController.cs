@@ -26,6 +26,7 @@ using Raven.Abstractions.Extensions;
 using Types;
 using Dataleveranse = Nin.Types.RavenDb.Dataleveranse;
 using System.Linq;
+using Nin.Configuration;
 
 namespace Api.Controllers
 {
@@ -139,7 +140,7 @@ namespace Api.Controllers
         [HttpPost]
         public object GetNatureAreaSummary([FromBody] AreaFilterRequest areaFilterRequest)
         {
-            if(areaFilterRequest.Geometry == null && cachedNatureAreaSummary != null)
+            if(string.IsNullOrWhiteSpace(areaFilterRequest.Geometry) && cachedNatureAreaSummary != null)
             {
                 return cachedNatureAreaSummary;
             }
@@ -194,7 +195,7 @@ namespace Api.Controllers
                 RemoveFields(jo.Last.First, "Count", false);
             }
 
-            if (areaFilterRequest.Geometry == null)
+            if (string.IsNullOrWhiteSpace(areaFilterRequest.Geometry))
             {
                 cachedNatureAreaSummary = jo;
             }
@@ -402,6 +403,18 @@ namespace Api.Controllers
             var natureAreas = SqlServer.GetNatureAreasBySearchFilter(searchFilterRequest);
             var r = GeoJsonConverter.NatureAreasToGeoJson(natureAreas, !searchFilterRequest.CenterPoints);
             return r;
+        }
+
+        [HttpPost]
+        public string GetNatureAreasBySearchFilterV2([FromBody] SearchFilterRequest searchFilterRequest)
+        {
+            var search = new Search(Config.Settings.ConnectionString);
+
+            var list = search.GetNatureAreasBySearchFilter(searchFilterRequest);
+
+            var geoJson = GeoJsonConverter.NatureAreasToGeoJson(list, !searchFilterRequest.CenterPoints);
+            
+            return geoJson;
         }
 
         [HttpPost]
