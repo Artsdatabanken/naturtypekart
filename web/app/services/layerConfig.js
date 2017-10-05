@@ -233,33 +233,6 @@
 
         var filtersaken = "";
 
-        var rasterTileLoader = function (imageTile, src) {
-            var test = encodeURIComponent(ko.toJSON(application.urlFilter()));
-            if (filtersaken !== test) {
-                filtersaken = test;
-                rasterTileLayer.getSource().updateParams({ 'LAYERS': 'topp:states', 'TILED': true, adbFilter: test });
-            }
-            imageTile.getImage().src = src;
-            //imageTile.getImage().src = src + "&adbFilter=" + encodeURIComponent(ko.toJSON(application.urlFilter()));
-        };
-
-        application.listFilterChanged.subscribe(function () {
-            rasterTileLayer.getSource().updateParams({ 'LAYERS': 'topp:states', 'TILED': true, adbFilter: encodeURIComponent(ko.toJSON(application.urlFilter())) });
-        });
-        var rasterTileLayer = new ol.layer.Tile({
-            //extent: [-13884991, 2870341, -7455066, 6338219],
-            source: new ol.source.TileWMS({
-                url: config.apiwmsUrl,
-                //cacheSize: 0,
-                params: { 'LAYERS': 'topp:states', 'TILED': true, adbFilter: encodeURIComponent(ko.toJSON(application.urlFilter())) }//,
-                //tileLoadFunction: rasterTileLoader
-                //serverType: 'geoserver'
-            })
-        });
-
-        rasterTileLayer.name = "testRaster";
-        rasterTileLayer.description = "testRasterDescription";
-
         var replaceUrlParameter = function (url, parameter, value) {
             var val = '';
             var tmp = '';
@@ -605,7 +578,7 @@
         var overlayLayerPool = ko.observableArray([]);
         var observationStyleMode = ko.observable("category");
         baseLayerPool.push(nibWmts, openStreetMapLayer, greyMap, terreng, sjokart, europa, topo2, svalbard);
-        overlayLayerPool.push(/*wmsNin, wmsNinLandskap,*/ wmsAdmGrenser, wmsVern, rasterTileLayer);
+        overlayLayerPool.push(/*wmsNin, wmsNinLandskap,*/ wmsAdmGrenser, wmsVern);
 
         var i, ii;
         for (i = 0, ii = bingMapNames.length; i < ii; ++i) {

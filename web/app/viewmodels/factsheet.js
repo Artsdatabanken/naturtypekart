@@ -159,6 +159,7 @@
             }));
             vm.map.setView(view);
 
+            //var polygon = /** @type {ol.geom.SimpleGeometry} */ (surveyVector.getSource().getFeatures()[0].getGeometry());
             var polygon = /** @type {ol.geom.SimpleGeometry} */ (naVector.getSource().getFeatures()[0].getGeometry());
             var size = /** @type {ol.Size} */ (vm.map.getSize());
             view.fit(
