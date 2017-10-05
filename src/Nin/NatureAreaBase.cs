@@ -83,7 +83,7 @@ namespace Nin.Types.RavenDb
 
 namespace Nin.Types.MsSql
 {
-    public class NatureArea : NatureAreaBase
+    public class NatureArea : NatureAreaBase, INatureAreaGeoJson
     {
         public NatureArea() { }
 
@@ -124,6 +124,8 @@ namespace Nin.Types.MsSql
         public List<Parameter> Parameters { get; set; } = new List<Parameter>();
 
         public string Institution { get; set; }
+
+        public int Count { get; set; }
     }
 
     public class NatureAreaLinkedArea

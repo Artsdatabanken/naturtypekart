@@ -1,26 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Common.Rutenett;
+﻿using Common.Rutenett;
 using GeoJSON.Net.CoordinateReferenceSystem;
 using Microsoft.SqlServer.Types;
 using Nin.Områder;
-using Nin.Types.MsSql;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Feature = GeoJSON.Net.Feature.Feature;
 
 namespace Nin.GeoJson
 {
     public static class GeoJsonConverter
     {
-        public static string NatureAreasToGeoJson(Collection<NatureArea> natureAreas, bool addId)
+        public static string NatureAreasToGeoJson(IEnumerable<INatureAreaGeoJson> natureAreas, bool addId)
         {
             int featureCollectionEpsg = -1;
 
-            if (natureAreas.Count > 0)
-                featureCollectionEpsg = natureAreas[0].Area.STSrid.Value;
+            if (natureAreas.Any())
+                featureCollectionEpsg = natureAreas.First().Area.STSrid.Value;
 
-            for (int i = 1; i < natureAreas.Count; ++i)
+            foreach (var natureArea in natureAreas.Skip(1))
             {
-                if (featureCollectionEpsg == natureAreas[i].Area.STSrid.Value) continue;
+                if (featureCollectionEpsg == natureArea.Area.STSrid.Value) continue;
 
                 featureCollectionEpsg = -1;
                 break;
@@ -31,6 +31,12 @@ namespace Nin.GeoJson
             foreach (var natureArea in natureAreas)
             {
                 var properties = new Dictionary<string, object>();
+
+                if (natureArea.Count > 0)
+                {
+                    properties["Count"] = natureArea.Count;
+                }
+
                 if (natureArea.Parameters.Count == 1)
                     properties["ColorCode"] = natureArea.Parameters[0].Code;
                 else if (natureArea.Parameters.Count > 1)
@@ -105,7 +111,7 @@ namespace Nin.GeoJson
             {
                 if (addGridLayer)
                 {
-                    properties = new Dictionary<string, object> {{"value", cell.Value}};
+                    properties = new Dictionary<string, object> { { "value", cell.Value } };
                 }
 
                 var feature = CreateFeature(cell.Geometry, properties, cell.CellId, featureCollectionEpsg);
