@@ -80,46 +80,25 @@
         <hr/>
     </div>
 
-    <!-- Foreach hovedtypegruppe -->
-    <!--<div data-bind="if: natureAreaDescriptionVariables().length != 0">-->
-    <!--<div data-bind="foreach: natureAreaDescriptionVariables">-->
-    <!--<dl class="dl-horizontal">-->
-    <!--<dt data-bind="visible: mainTypeGroup">Hovedtypegruppe</dt>-->
-    <!--<dd data-bind="visible: mainTypeGroup", text: mainTypeGroup></dd>-->
-    <!--<dt data-bind="visible: mainTypeCodeAndDescription">Hovedtype</dt>-->
-    <!--<dd data-bind="visible: mainTypeCodeAndDescription, text: mainTypeCodeAndDescription"></dd>-->
-    <!--<dt data-bind="visible: grunntype">Grunntype</dt>-->
-    <!--<dd data-bind="visible: grunntype, text: grunntype"></dd>-->
-    <!--<dt data-bind="visible: kartleggingsEnhet">Kartleggingsenhet</dt>-->
-    <!--<dd data-bind="visible: kartleggingsEnhet, text: kartleggingsEnhet"></dd>-->
-    <!--<dt>Variabelnavn</dt>-->
-    <!--<dd data-bind="text: codeAndDescription"></dd>-->
-    <!--<dt>Variabelverdi</dt>-->
-    <!--<dd data-bind="text: value"></dd>-->
-    <!--</dl>-->
-    <!--<hr />-->
-    <!--</div>-->
-    <!--</div>-->
-
     <div class="row" data-bind="visible: natureAreaDescriptionVariables().length">
-        <div class="col-xs-12 col-md-8">
-            <table class="table-striped stat-table">
+        <div class="col-xs-12 col-md-10">
+            <table>
                 <thead>
                 <tr>
                     <th>
-                        <div><span data-bind="text: 'Hovedtype', click: orderDescriptionVariablesByColumn('mainTypeCodeAndDescription')" class="pointerCursor"></span></div>
+                        <span data-bind="text: 'Hovedtype', click: orderDescriptionVariablesByColumn('mainTypeCodeAndDescription')" class="pointerCursor"></span>
                     </th>
                     <th>
-                        <div><span data-bind="text: 'Grunntype', click: orderDescriptionVariablesByColumn('grunntype')" class="pointerCursor"></span></div>
+                        <span data-bind="text: 'Grunntype', click: orderDescriptionVariablesByColumn('grunntype')" class="pointerCursor"></span>
                     </th>
                     <th>
-                        <div><span data-bind="text: 'Kartleggingsenhet', click: orderDescriptionVariablesByColumn('kartleggingsEnhet')" class="pointerCursor"></span></div>
+                        <span data-bind="text: 'Kartleggingsenhet', click: orderDescriptionVariablesByColumn('kartleggingsEnhet')" class="pointerCursor"></span>
                     </th>
                     <th>
-                        <div><span data-bind="text: 'Variabelnavn', click: orderDescriptionVariablesByColumn('codeAndDescription')" class="pointerCursor"></span></div>
+                        <span data-bind="text: 'Variabelnavn', click: orderDescriptionVariablesByColumn('codeAndDescription')" class="pointerCursor"></span>
                     </th>
                     <th>
-                        <div><span class="pull-right" data-bind="text: 'Verdi', click: orderDescriptionVariablesByColumn('value')" class="pointerCursor"></span></div>
+                        <span class="pull-right" data-bind="text: 'Verdi', click: orderDescriptionVariablesByColumn('value')" class="pointerCursor"></span>
                     </th>
                 </tr>
                 </thead>
