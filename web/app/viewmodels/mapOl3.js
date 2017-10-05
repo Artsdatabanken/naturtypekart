@@ -8,6 +8,7 @@
             mapViewPortSetDfd = $.Deferred(),
             mapViewPortSet = mapViewPortSetDfd.promise(),
             vm,
+            areaDisplayLayerSource = new ol.source.Vector({wrapX: false}),
             selectionLayerSource = new ol.source.Vector({ wrapX: false }),
             polygonLayerSource = new ol.source.Vector({ wrapX: false }),
             polygonLayerClusterSource = new ol.source.Vector({ wrapX: false }),
@@ -20,6 +21,14 @@
                             .range(["lightblue", "blue", "black"]),
 
             polygonLayerCluster = new ol.source.Cluster({
+                geometryFunction: function (feature) {
+                    var geometry = feature.getGeometry();
+                    if (geometry instanceof ol.geom.Point)
+                        return geometry;
+                    if (geometry instanceof ol.geom.Polygon)
+                        return geometry.getInteriorPoint();    // find center for polygons
+                    return null; // Ignore unless known geometrytype
+                },
                 distance: clusterDistance, // formula to set cluster distance
                 source: polygonLayerClusterSource
             }),
@@ -107,8 +116,29 @@
                 vm.polygonClusterLayer = new ol.layer.Vector({
                     source: polygonLayerCluster,
                     style: function (feature, resolution) {
-                        var nFeatures = feature.get('features').length;
-                        var style = styleCache[nFeatures];   // get from cache if it has already been created
+                        var serverClustering = false;
+                        var featureArray = feature.get('features');
+                        if (featureArray && featureArray.length > 0) {
+                            if (featureArray[0].get('Count')) {
+                                serverClustering = true;
+                            }
+                        }
+                        var nFeatures = 0;
+                        if (serverClustering) {
+                            featureArray.forEach(function (f) {
+                                nFeatures = nFeatures + f.get('Count');
+                            });
+                        } else {
+                            nFeatures = featureArray.length;
+                        }
+                        var clusterText = nFeatures.toString();
+                        if (nFeatures >= 1000 /*&&  nFeatures < 1000000*/) {
+                            clusterText = Math.floor(nFeatures / 1000) + "'";
+                        }
+                        //if (nFeatures >= 1000000) {
+                        //    clusterText = Math.floor(nFeatures/1000000) + "''";
+                        //}
+                        var style = styleCache[clusterText];   // get from cache if it has already been created
 
                         if (!style) {
 
@@ -124,13 +154,13 @@
                                     })
                                 }),
                                 text: new ol.style.Text({
-                                    text: nFeatures.toString(),
+                                    text: clusterText,
                                     fill: new ol.style.Fill({
                                         color: '#fff'
                                     })
                                 })
                             })];
-                            styleCache[nFeatures] = style;   // Cache each different style created
+                            styleCache[clusterText] = style;   // Cache each different style created
                         }
                         return style;
                     }
@@ -149,6 +179,21 @@
                         })
                     })
                 });
+
+                // areaLayer - polygons that should be displayed, but not added to filter
+                vm.areaLayer = new ol.layer.Vector({
+                    source: areaDisplayLayerSource,
+                    style: new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: '#00f',
+                            width: 1.0
+                        }),
+                        fill: new ol.style.Fill({
+                            color: [51, 153, 204, 0.02] // note transparency for polygon, almost transparent.
+                        })
+                    })
+                });
+
                 application.viewportState.background.subscribe(function (value) {
                     vm.selectedBaseLayer(value);
                 });
@@ -297,7 +342,7 @@
                         })
                     ]),
                     // europakart alltid underst
-                    layers: [layerConfig.baseLayerPool[5], layerConfig.baseLayerPool[0], vm.gridLayer, vm.selectionLayer, vm.polygonLayer, vm.polygonClusterLayer],
+                    layers: [layerConfig.baseLayerPool[5], layerConfig.baseLayerPool[0], vm.gridLayer, vm.selectionLayer, vm.areaLayer, vm.polygonLayer, vm.polygonClusterLayer],
                     overlays: [vm.overlay, vm.gridPopupOverlay],
                     target: document.getElementById('map'),
                     view: new ol.View({
@@ -535,6 +580,7 @@
             selectedBaseLayer: ko.observable(),
             loadedBounds: ko.observable(),
             selectionLayer: undefined,
+            areaLayer: undefined,
             polygonLayer: undefined,
             features: undefined,
             hasChanged: true,
@@ -719,6 +765,12 @@
             removePolygon: function () {
                 selectionLayerSource.clear();
             },
+            removeAreas: function () {
+                while (areaDisplayLayerSource.getFeatures().length > 1) {
+                    areaDisplayLayerSource.removeFeature(areaDisplayLayerSource.getFeatures()[0]);
+                }
+                areaDisplayLayerSource.clear();
+            },
             activateDrawPolygon: function () {
                 vm.map.addInteraction(draw);
                 vm.drawing(true);
@@ -744,14 +796,42 @@
                 vm.fitSelectionPolygon();
 
             },
+            extendExtent: function (initial, extension) {
+                var result = [
+                    Math.min(initial[0], extension[0]),
+                    Math.min(initial[1], extension[1]),
+                    Math.max(initial[2], extension[2]),
+                    Math.max(initial[3], extension[3])];
+                return result;
+            },
             fitSelectionPolygon: function () {
-                vm.map.getView().fit(
-                    selectionLayerSource.getFeatures()[0].getGeometry(),
-                    vm.map.getSize(),
+                var geom;
+                var values = false;
+                var extent = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY,
+                    Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY];
+                if (areaDisplayLayerSource && areaDisplayLayerSource.getFeatures()) {
+                    areaDisplayLayerSource.getFeatures().forEach(function (f) {
+                        geom = f.getGeometry();
+                        var myExtent = geom.getExtent();
+                        extent = vm.extendExtent(extent, myExtent);
+                        values = true;
+                    });
+                }
+                if (selectionLayerSource && selectionLayerSource.getFeatures()) {
+                    selectionLayerSource.getFeatures().forEach(function (f) {
+                        geom = f.getGeometry();
+                        var myExtent = geom.getExtent();
+                        extent = vm.extendExtent(extent, myExtent);
+                        values = true;
+                    });
+                }
+                if (values) {
+                    vm.map.getView().fit(extent, vm.map.getSize(),
                     {
                         padding: [100, 150, 100, 150], //  top, right, bottom and left padding
                         nearest: true
                     });
+				}
             }
 
         };

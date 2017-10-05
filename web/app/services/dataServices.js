@@ -186,7 +186,7 @@
             getLocationByTerm = function (searchTerm) {
                 logger.log('getLocationByTerm', null, title, true);
                 //var url = config.apiurl + 'geolocationByName?term=' + searchTerm;
-                var url = 'https://ws.geonorge.no/SKWS3Index/ssr/sok?maxAnt=20&eksakteForst=true,&navn=' + searchTerm + '*';
+                var url = 'https://ws.geonorge.no/SKWS3Index/ssr/sok?maxAnt=20&eksakteForst=true,&navn=' + searchTerm.trim() + '*';
                 return getDataPromise('getLocationByTerm', url);
             },
             //searchMunicipality = function(searchTerm) {
