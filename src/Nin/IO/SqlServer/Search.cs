@@ -443,7 +443,7 @@ namespace Nin.IO.SqlServer
 
                 if (idsAndCounts != null && idsAndCounts.Count > 0)
                 {
-                    natureArea.Count = idsAndCounts.First(iac => iac.id == natureArea.Id).id;
+                    natureArea.Count = idsAndCounts.First(iac => iac.id == natureArea.Id).count;
                 }
 
                 natureAreas.Add(natureArea);
