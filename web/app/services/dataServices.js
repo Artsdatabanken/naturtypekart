@@ -273,7 +273,7 @@
             },
             getNatureAreasBySearchFilter = function(filter) {
                 logger.log('getNatureAreasBySearchFilter', null, title, true);
-                var url = config.dataAdmApiUrl + 'GetNatureAreasBySearchFilter?';
+                var url = config.dataAdmApiUrl + 'GetNatureAreasBySearchFilterV2?';
                 return postDataPromise('getNatureAreasBySearchFilter', url, filter);
             },
             getNatureAreaInfosBySearchFilter = function (filter) {
