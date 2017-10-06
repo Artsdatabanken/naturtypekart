@@ -387,13 +387,14 @@
                     }
                     dataServices.getNatureAreasBySearchFilter(filter).then(function (geojsonObject) {
 
-                            if (filter.CenterPoints() === false) {
-                                if (keepOld && addBounds && addBounds.length > 0) {
+                        //if (filter.CenterPoints() === false) {
+                        if (application.filter.BoundingBox() !== "") {
+                                if (keepOld && addBounds && addBounds.length > 0 && filter.CenterPoints() === vm.loadedBounds.center()) {
                                     // increase record of loaded bounds
                                     var minX = addBounds[0], minY = addBounds[1], maxX = addBounds[2], maxY = addBounds[3];
-                                    var lminX = vm.loadedBounds()[0], lminY = vm.loadedBounds()[1], lmaxX = vm.loadedBounds()[2], lmaxY = vm.loadedBounds()[3];
+                                    var lminX = vm.loadedBounds.bounds()[0], lminY = vm.loadedBounds.bounds()[1], lmaxX = vm.loadedBounds.bounds()[2], lmaxY = vm.loadedBounds.bounds()[3];
 
-                                    vm.loadedBounds(
+                                    vm.loadedBounds.bounds(
                                         [Math.min(minX, lminX),
                                             Math.min(minY, lminY),
                                             Math.max(maxX, lmaxX),
@@ -402,11 +403,13 @@
                                     );
                                 } else {
                                     // store bounds for fetched if correct grouping
-                                    vm.loadedBounds(vm.getBounds());
+                                    vm.loadedBounds.bounds(vm.getBounds());
+                                    vm.loadedBounds.center(filter.CenterPoints());
                                 }
-                            } else {
-                                vm.loadedBounds(undefined);
-                            }
+                           } else {
+                            vm.loadedBounds.bounds(undefined);
+                            vm.loadedBounds.center(undefined);
+                           }
 
                             if (!keepOld) {
                                 polygonLayerSource.clear();
@@ -464,11 +467,11 @@
                 });
 
                 application.filterChanged.subscribe(function (value) {
-                    if (application.filter.CenterPoints() === false) {
-                        if (application.filter.BoundingBox() != "" && vm.loadedBounds() != undefined) {
+                    //if (application.filter.CenterPoints() === false) {
+                        if (application.filter.BoundingBox() != "" && vm.loadedBounds.bounds() !== undefined) {
                             var bounds = vm.getBounds();
                             var minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3];
-                            var lminX = vm.loadedBounds()[0], lminY = vm.loadedBounds()[1], lmaxX = vm.loadedBounds()[2], lmaxY = vm.loadedBounds()[3];
+                            var lminX = vm.loadedBounds.bounds()[0], lminY = vm.loadedBounds.bounds()[1], lmaxX = vm.loadedBounds.bounds()[2], lmaxY = vm.loadedBounds.bounds()[3];
                             var addBounds = [];
                             if (minX >= lminX && minY >= lminY && maxX <= lmaxX && maxY <= lmaxY) {
                                 // New bounds completely inside old bounds, do not need to fetch.
@@ -559,7 +562,7 @@
                             vm.startReloadAreas();
                             //application.filter.ForceRefreshToggle(!application.filter.ForceRefreshToggle());
                         }
-                    }
+                    //}
                 });
 
                 mapLoadedDfd.resolve();
@@ -578,7 +581,10 @@
             isLoadingGrid: ko.observable(false),
             drawing: ko.observable(false),
             selectedBaseLayer: ko.observable(),
-            loadedBounds: ko.observable(),
+            loadedBounds: {
+                bounds: ko.observable(),
+                center: ko.observable()
+            },
             selectionLayer: undefined,
             areaLayer: undefined,
             polygonLayer: undefined,
