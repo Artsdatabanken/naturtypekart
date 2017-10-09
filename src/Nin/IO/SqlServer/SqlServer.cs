@@ -538,7 +538,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             return gridSummary;
         }
 
-        public static Collection<NatureArea> GetNatureAreasBySearchFilter(SearchFilterRequest searchFilterRequest)
+        public static IEnumerable<NatureArea> GetNatureAreasBySearchFilter(SearchFilterRequest searchFilterRequest)
         {
             int natureAreaCount;
             var natureAreas = GetNatureAreasBySearchFilter(
@@ -561,7 +561,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             return natureAreas;
         }
 
-        public static Collection<NatureArea> GetNatureAreasBySearchFilter(
+        public static IEnumerable<NatureArea> GetNatureAreasBySearchFilter(
             Collection<NatureLevel> natureLevels,
             Collection<string> natureAreaTypeCodes,
             Collection<string> descriptionVariableCodes,
@@ -608,14 +608,14 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
 
             if (infoLevel == 0)
             {
-                natureAreas = GetNatureAreaGeometries(fromClause, whereClause, parameters, centerPoints);
-                natureAreaCount = natureAreas.Count;
+                var toReturn = GetNatureAreaGeometries(fromClause, whereClause, parameters, centerPoints);
+                natureAreaCount = toReturn.Count;
+                return toReturn;
             }
             else
-                natureAreas = GetNatureAreaInfos(fromClause, whereClause, parameters, indexFrom, indexTo, infoLevel,
-                    out natureAreaCount);
-
-            return natureAreas;
+            {
+                return GetNatureAreaInfos(fromClause, whereClause, parameters, indexFrom, indexTo, infoLevel, out natureAreaCount);
+            }
         }
 
         public static Collection<Metadata> GetMetadatasByNatureAreaLocalIds(Collection<string> localIds, bool addNatureAreas)
@@ -2200,13 +2200,13 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             return natureAreas;
         }
 
-        internal static Collection<NatureArea> GetNatureAreaInfos(string fromClause, string whereClause,
+        internal static IEnumerable<NatureArea> GetNatureAreaInfos(string fromClause, string whereClause,
             IEnumerable<Tuple<string, SqlDbType, object>> parameters, int indexFrom, int indexTo, int infoLevel,
             out int natureAreaCount)
         {
             var processedNatureAreaIdCount = 0;
             var processedNatureAreaIds = new HashSet<int>();
-            var natureAreas = new Collection<NatureArea>();
+            var natureAreas = new List<NatureArea>();
             var sql =
                 "SELECT " +
                 "na.id, " +
@@ -2260,59 +2260,72 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 }
             }
 
-            switch (infoLevel)
+            if (infoLevel == 1)
             {
-                case 1:
-                    if (ReturnStatisticsCache(whereClause, natureAreas.Count))
-                        natureAreas = _natureAreaCache;
-                    else
-                    {
-                        var natureAreaIds = new Collection<int>();
-                        foreach (var natureArea in natureAreas)
-                            natureAreaIds.Add(natureArea.Id);
-                        var natureAreaTypes = GetNatureAreaTypes(natureAreaIds);
-                        var i = 0;
-                        foreach (var natureArea in natureAreas)
-                        {
-                            while (i != natureAreaTypes.Count && natureAreaTypes[i].NatureAreaId == natureArea.Id)
-                            {
-                                natureArea.Parameters.Add(natureAreaTypes[i]);
-                                ++i;
-                            }
-                        }
-
-                        SaveStatisticsCache(whereClause, natureAreas);
-                    }
-                    break;
-                case 2:
-                    foreach (var natureArea in natureAreas)
-                    {
-                        natureArea.Parameters = GetParameters(natureArea.Id, true);
-                        if (natureArea.Surveyer != null)
-                            natureArea.Surveyer = GetContact(natureArea.Surveyer.Id);
-                        var metadata =
-                            GetMetadatasByNatureAreaLocalIds(
-                                new Collection<string> { natureArea.UniqueId.LocalId.ToString() }, false);
-                        if (metadata.Count != 1) continue;
-                        ((NatureAreaExport)natureArea).MetadataSurveyScale = metadata[0].SurveyScale;
-                        ((NatureAreaExport)natureArea).MetadataProgram = metadata[0].Program;
-                        ((NatureAreaExport)natureArea).MetadataContractor = metadata[0].Contractor.Company;
-                    }
-                    break;
+                natureAreas = SetParameters(string.IsNullOrWhiteSpace(whereClause), natureAreas.ToList()).ToList();
+            }
+            else if (infoLevel == 2)
+            {
+                SetMetadata(natureAreas);
             }
 
             natureAreaCount = processedNatureAreaIdCount;
             return natureAreas;
         }
 
-        private static bool ReturnStatisticsCache(string whereClause, int natureAreaCount)
+        internal static void SetMetadata(IEnumerable<NatureArea> natureAreas)
         {
-            return whereClause.Equals("") && _natureAreaCache != null && natureAreaCount == _natureAreaCache.Count;
+            foreach (var natureArea in natureAreas)
+            {
+                natureArea.Parameters = GetParameters(natureArea.Id, true);
+                if (natureArea.Surveyer != null)
+                    natureArea.Surveyer = GetContact(natureArea.Surveyer.Id);
+                var metadata =
+                    GetMetadatasByNatureAreaLocalIds(
+                        new Collection<string> { natureArea.UniqueId.LocalId.ToString() }, false);
+                if (metadata.Count != 1) continue;
+                ((NatureAreaExport)natureArea).MetadataSurveyScale = metadata[0].SurveyScale;
+                ((NatureAreaExport)natureArea).MetadataProgram = metadata[0].Program;
+                ((NatureAreaExport)natureArea).MetadataContractor = metadata[0].Contractor.Company;
+            }
         }
 
-        private static void SaveStatisticsCache(string whereClause, Collection<NatureArea> natureAreas)
+        internal static IEnumerable<NatureArea> SetParameters(bool isWhereClauseEmpty, IEnumerable<NatureArea> natureAreas)
         {
-            if (whereClause.Equals("") && _natureAreaCache == null)
+            if (ReturnStatisticsCache(isWhereClauseEmpty, natureAreas.Count()))
+            {
+                return _natureAreaCache;
+            }
+            else
+            {
+                var natureAreaIds = new Collection<int>();
+                foreach (var natureArea in natureAreas)
+                    natureAreaIds.Add(natureArea.Id);
+                var natureAreaTypes = GetNatureAreaTypes(natureAreaIds);
+                var i = 0;
+                foreach (var natureArea in natureAreas)
+                {
+                    while (i != natureAreaTypes.Count && natureAreaTypes[i].NatureAreaId == natureArea.Id)
+                    {
+                        natureArea.Parameters.Add(natureAreaTypes[i]);
+                        ++i;
+                    }
+                }
+
+                SaveStatisticsCache(isWhereClauseEmpty, natureAreas);
+            }
+
+            return natureAreas;
+        }
+
+        private static bool ReturnStatisticsCache(bool isWhereClauseEmpty, int natureAreaCount)
+        {
+            return isWhereClauseEmpty && _natureAreaCache != null && natureAreaCount == _natureAreaCache.Count();
+        }
+
+        private static void SaveStatisticsCache(bool isWhereClauseEmpty, IEnumerable<NatureArea> natureAreas)
+        {
+            if (isWhereClauseEmpty && _natureAreaCache == null)
                 _natureAreaCache = natureAreas;
         }
 
@@ -2933,7 +2946,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             }
         }
 
-        private static Collection<NatureArea> _natureAreaCache;
+        private static IEnumerable<NatureArea> _natureAreaCache;
 
         public static int QueryRecordCount(string tableName)
         {

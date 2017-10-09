@@ -17,6 +17,8 @@
   <ItemGroup>
     <PackageReference Include="Artsdatabanken.SystemIntegrasjon2" Version="1.0.0" />
     <PackageReference Include="ClosedXML" Version="0.87.1" />
+    <PackageReference Include="Dapper" Version="1.50.4-alpha1-00070" />
+    <PackageReference Include="Dapper.SqlBuilder" Version="1.50.4-alpha1-00070" />
     <PackageReference Include="DotSpatial.Data" Version="1.9.0" />
     <PackageReference Include="DotSpatial.GeoAPI" Version="1.7.4.3" />
     <PackageReference Include="DotSpatial.Mono" Version="1.9.0" />
@@ -69,9 +71,6 @@
     </Reference>
     <Reference Include="DotSpatial.Topology">
       <HintPath>..\..\..\..\Users\b\.nuget\packages\dotspatial.topology\1.9.0\lib\net40-Client\DotSpatial.Topology.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Types">
-      <HintPath>..\..\..\..\WINDOWS\assembly\GAC_MSIL\Microsoft.SqlServer.Types\11.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Users\b\.nuget\packages\newtonsoft.json\9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>

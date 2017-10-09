@@ -408,7 +408,7 @@ namespace Api.Controllers
         [HttpPost]
         public string GetNatureAreasBySearchFilterV2([FromBody] SearchFilterRequest searchFilterRequest)
         {
-            var search = new Search(Config.Settings.ConnectionString);
+            var search = new SearchV2(Config.Settings.ConnectionString);
 
             var list = search.GetNatureAreasBySearchFilter(searchFilterRequest);
 
