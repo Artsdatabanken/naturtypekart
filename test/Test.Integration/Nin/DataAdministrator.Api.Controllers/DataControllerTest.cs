@@ -1,8 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using Nin.IO;
+﻿using Nin.IO;
 using Nin.IO.SqlServer;
-using Nin.Types.MsSql;
 using NUnit.Framework;
+using System.Linq;
 using Test.Integration.Nin.Common;
 
 namespace Test.Integration.Nin.DataAdministrator.Api.Controllers
@@ -12,7 +11,7 @@ namespace Test.Integration.Nin.DataAdministrator.Api.Controllers
     {
         public DataControllerTest()
         {
-            var dataDelivery = TestDataDelivery.Create(@"Data\Area\ar5\mgk_ar5_nin.shp", 25833, 0,10);
+            var dataDelivery = TestDataDelivery.Create(@"Data\Area\ar5\mgk_ar5_nin.shp", 25833, 0, 10);
             SqlServer.LagreDataleveranse(dataDelivery);
         }
 
@@ -20,8 +19,8 @@ namespace Test.Integration.Nin.DataAdministrator.Api.Controllers
         public void GetNatureAreasBySearchFilter()
         {
             var request = new SearchFilterRequest { CenterPoints = true };
-            Collection<NatureArea> r = SqlServer.GetNatureAreasBySearchFilter(request);
-            Assert.True(r[0].Area.InstanceOf("POINT").IsTrue);
+            var r = SqlServer.GetNatureAreasBySearchFilter(request);
+            Assert.True(r.First().Area.InstanceOf("POINT").IsTrue);
         }
 
         [Test]
