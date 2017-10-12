@@ -31,6 +31,8 @@ namespace Nin.IO.SqlServer
                 searchFilterRequest.Counties,
                 searchFilterRequest.ConservationAreas,
                 searchFilterRequest.Institutions,
+                searchFilterRequest.RedlistAssessmentnUnits,
+                searchFilterRequest.RedlistCategories,
                 searchFilterRequest.Geometry,
                 searchFilterRequest.BoundingBox,
                 searchFilterRequest.EpsgCode,
@@ -51,6 +53,8 @@ namespace Nin.IO.SqlServer
             Collection<int> counties,
             Collection<int> conservationAreas,
             Collection<string> institutions,
+            IEnumerable<int> redlistAssessmentUnits,
+            IEnumerable<int> redlistCategories,
             string geometry,
             string boundingBox,
             int espgCode,
@@ -98,6 +102,8 @@ namespace Nin.IO.SqlServer
 
             FilterOnGeographicalAreas(municipalities, counties, conservationAreas, builder);
 
+            FilterOnRedlists(redlistAssessmentUnits, redlistCategories, builder);
+
             var nonEmptyGeometry = FilterOnGeometry(builder, geometry, boundingBox, espgCode);
 
             if (!nonEmptyGeometry)
@@ -135,6 +141,19 @@ namespace Nin.IO.SqlServer
             }
 
             return natureAreas;
+        }
+
+        private static void FilterOnRedlists(IEnumerable<int> redlistAssessmentUnits, IEnumerable<int> redlistCategories, SqlBuilder builder)
+        {
+            if (redlistAssessmentUnits != null && redlistAssessmentUnits.Count() > 0)
+            {
+                builder.Where("EXISTS (SELECT 1 FROM Rødlistekategori rlk WHERE rlk.naturområde_id = na.id AND rlk.rødlistevurderingsenhet_id IN @RedlistAssessmentUnitIds)", new { RedlistAssessmentUnitIds = redlistAssessmentUnits.ToArray() });
+            }
+
+            if (redlistCategories != null && redlistCategories.Count() > 0)
+            {
+                builder.Where("EXISTS (SELECT 1 FROM Rødlistekategori rlk WHERE rlk.naturområde_id = na.id AND rlk.kategori_id IN @RedlistCategoryIds)", new { RedlistCategoryIds = redlistCategories.ToArray() });
+            }
         }
 
         private static void PopulateNatureAreas(IList<INatureAreaGeoJson> natureAreas, string sql, object parameters, SqlConnection conn)
