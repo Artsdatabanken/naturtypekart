@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
-using Api.Responses;
+﻿using Api.Responses;
 using Common;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,6 +7,7 @@ using Nin;
 using Nin.Api.Requests;
 using Nin.Api.Responses;
 using Nin.Aspnet;
+using Nin.Configuration;
 using Nin.Dataleveranser.Rutenett;
 using Nin.GeoJson;
 using Nin.IO;
@@ -23,10 +19,14 @@ using Nin.Naturtyper;
 using Nin.Områder;
 using Nin.Types.MsSql;
 using Raven.Abstractions.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Types;
 using Dataleveranse = Nin.Types.RavenDb.Dataleveranse;
-using System.Linq;
-using Nin.Configuration;
 
 namespace Api.Controllers
 {
@@ -135,12 +135,52 @@ namespace Api.Controllers
             return gridSummaryItems;
         }
 
+        [HttpGet]
+        public JsonResult GetNatureAreaCountsByCategory()
+        {
+            return GetNatureAreaCountsByCategory(null);
+        }
+
+        [HttpPost]
+        public JsonResult GetNatureAreaCountsByCategory([FromBody] AreaFilterRequest areaFilterRequest)
+        {
+            var counts = GetRedlistStore().GetNatureAreaCountsByCategory(areaFilterRequest?.Geometry, GetEpsg(areaFilterRequest));
+
+            return new JsonResult(counts);
+        }
+
+        [HttpGet]
+        public JsonResult GetNatureAreaCountsByTheme()
+        {
+            return GetNatureAreaCountsByTheme(null);
+        }
+
+        [HttpPost]
+        public JsonResult GetNatureAreaCountsByTheme([FromBody] AreaFilterRequest areaFilterRequest)
+        {
+            var counts = GetRedlistStore().GetNatureAreaCountsByTheme(areaFilterRequest?.Geometry, GetEpsg(areaFilterRequest));
+
+            return new JsonResult(counts);
+        }
+
+        private static int GetEpsg(AreaFilterRequest areaFilterRequest)
+        {
+            return !string.IsNullOrWhiteSpace(areaFilterRequest?.EpsgCode)
+                    ? int.Parse(areaFilterRequest.EpsgCode)
+                    : Config.Settings.Map.SpatialReferenceSystemIdentifier;
+        }
+
+        private static RedlistStore GetRedlistStore()
+        {
+            return new RedlistStore(Config.Settings.ConnectionString);
+        }
+
         private static object cachedNatureAreaSummary = null;
 
         [HttpPost]
         public object GetNatureAreaSummary([FromBody] AreaFilterRequest areaFilterRequest)
         {
-            if(string.IsNullOrWhiteSpace(areaFilterRequest.Geometry) && cachedNatureAreaSummary != null)
+            if (string.IsNullOrWhiteSpace(areaFilterRequest.Geometry) && cachedNatureAreaSummary != null)
             {
                 return cachedNatureAreaSummary;
             }
@@ -259,7 +299,6 @@ namespace Api.Controllers
                 ConservationAreaCount = SqlServer.GetAreaSummaryCount(AreaType.Verneområde, geometry, epsgCode)
             };
 
-
             foreach (var areaSummaryItem in areaSummary)
                 if (areaSummaryItem.Item4 == AreaType.Fylke)
                     r.Areas.Add(areaSummaryItem.Item1,
@@ -333,47 +372,61 @@ namespace Api.Controllers
                 case "Undefined":
                     gridType = RutenettType.Undefined;
                     break;
+
                 case "SSB0250M":
                     gridType = RutenettType.SSB0250M;
                     break;
+
                 case "SSB0500M":
                     gridType = RutenettType.SSB0500M;
                     break;
+
                 case "SSB001KM":
                     gridType = RutenettType.SSB001KM;
                     break;
+
                 case "SSB002KM":
                     gridType = RutenettType.SSB002KM;
                     break;
+
                 case "SSB005KM":
                     gridType = RutenettType.SSB005KM;
                     break;
+
                 case "SSB010KM":
                     gridType = RutenettType.SSB010KM;
                     break;
+
                 case "SSB025KM":
                     gridType = RutenettType.SSB025KM;
                     break;
+
                 case "SSB050KM":
                     gridType = RutenettType.SSB050KM;
                     break;
+
                 case "SSB100KM":
                     gridType = RutenettType.SSB100KM;
                     break;
+
                 case "SSB250KM":
                     gridType = RutenettType.SSB250KM;
                     break;
+
                 case "SSB500KM":
                     gridType = RutenettType.SSB500KM;
                     break;
+
                 case "Kommune":
                     areaType = AreaType.Kommune;
                     areaRequest = true;
                     break;
+
                 case "Fylke":
                     areaType = AreaType.Fylke;
                     areaRequest = true;
                     break;
+
                 default:
                     throw new Exception("Ukjent rutenett '" + gridFilterRequest.GridType + "'.");
             }
@@ -413,7 +466,7 @@ namespace Api.Controllers
             var list = search.GetNatureAreasBySearchFilter(searchFilterRequest);
 
             var geoJson = GeoJsonConverter.NatureAreasToGeoJson(list, !searchFilterRequest.CenterPoints);
-            
+
             return geoJson;
         }
 
@@ -921,12 +974,12 @@ namespace Api.Controllers
         }
     }
 
-internal class CodeIds : Dictionary<string, HashSet<int>>
+    internal class CodeIds : Dictionary<string, HashSet<int>>
     {
         public void Add(NatureAreaType natureAreaType, NatureArea natureArea)
         {
             if (!ContainsKey(natureAreaType.Code))
-                this[natureAreaType.Code] = new HashSet<int> {natureArea.Id};
+                this[natureAreaType.Code] = new HashSet<int> { natureArea.Id };
             else
                 this[natureAreaType.Code].Add(natureArea.Id);
         }

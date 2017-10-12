@@ -15,6 +15,8 @@ namespace Nin.IO
         public Collection<int> Counties { get; set; } = new BindingList<int>();
         public Collection<int> ConservationAreas { get; set; } = new BindingList<int>();
         public Collection<string> Institutions { get; set; }  = new BindingList<string>();
+        public IEnumerable<int> RedlistCategories { get; set; } = new List<int>();
+        public IEnumerable<int> RedlistAssessmentnUnits { get; set; } = new List<int>();
 
         public string Geometry { get; set; }
         public string BoundingBox { get; set; }
