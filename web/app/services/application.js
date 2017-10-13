@@ -87,6 +87,8 @@ function (ko, _, conf) {
         Counties: ko.observableArray([]),
         ConservationAreas: ko.observableArray([]),
         Institutions: ko.observableArray([]),
+        RedlistCategories: ko.observableArray([]),
+        RedlistAssessmentUnits: ko.observableArray([]),
         Geometry: ko.observable(""),
         BoundingBox: ko.observable(""),
         EpsgCode: ko.observable("32633"),
@@ -105,6 +107,8 @@ function (ko, _, conf) {
             Counties: filter.Counties,
             ConservationAreas: filter.ConservationAreas,
             Institutions: filter.Institutions,
+            RedlistCategories: filter.RedlistCategories,
+            RedlistAssessmentUnits: filter.RedlistAssessmentUnits,
             Geometry: filter.Geometry,
             BoundingBox: filter.BoundingBox,
             EpsgCode: filter.EpsgCode
@@ -120,6 +124,8 @@ function (ko, _, conf) {
             Counties: filter.Counties,
             ConservationAreas: filter.ConservationAreas,
             Institutions: filter.Institutions,
+            RedlistCategories: filter.RedlistCategories,
+            RedlistAssessmentUnits: filter.RedlistAssessmentUnits,
             Geometry: filter.Geometry,
             EpsgCode: filter.EpsgCode
         };
@@ -350,6 +356,9 @@ function (ko, _, conf) {
         if (!_.isEqual(filter.Counties(), bmFilter.Counties)) filter.Counties(bmFilter.Counties || []);
         if (!_.isEqual(filter.ConservationAreas(), bmFilter.ConservationAreas)) filter.ConservationAreas(bmFilter.ConservationAreas || []);
         if (!_.isEqual(filter.Institutions(), bmFilter.Institutions)) filter.Institutions(bmFilter.Institutions || []);
+        if (!_.isEqual(filter.RedlistCategories(), bmFilter.RedlistCategories)) filter.RedlistCategories(bmFilter.RedlistCategories || []);
+        if (!_.isEqual(filter.RedlistAssessmentUnits(), bmFilter.RedlistAssessmentUnits)) filter.RedlistAssessmentUnits(bmFilter.RedlistAssessmentUnits || []);
+
         if (!_.isEqual(filter.Geometry(), bmFilter.Geometry)) filter.Geometry(bmFilter.Geometry);
         if (!_.isEqual(filter.BoundingBox(), bmFilter.BoundingBox)) filter.BoundingBox(bmFilter.BoundingBox);
         if (!_.isEqual(filter.EpsgCode(), bmFilter.EpsgCode)) filter.EpsgCode(bmFilter.EpsgCode || 0);
