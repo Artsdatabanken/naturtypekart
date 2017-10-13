@@ -234,7 +234,16 @@
                 var url = config.dataAdmApiUrl + 'getGridSummary';
                 return getDataPromise('getGridSummary', url);
             },
-
+            getNatureAreaCountsByCategory = function (filter) {
+                logger.log('getNatureAreaCountsByCategory', null, title, true);
+                var url = config.dataAdmApiUrl + 'GetNatureAreaCountsByCategory';
+                return postDataPromise('getNatureAreaCountsByCategory', url, filter);
+            },
+            getNatureAreaCountsByTheme = function (filter) {
+                logger.log('getNatureAreaCountsByTheme', null, title, true);
+                var url = config.dataAdmApiUrl + 'GetNatureAreaCountsByTheme';
+                return postDataPromise('getNatureAreaCountsByTheme', url, filter);
+            },
             getAreas = function(type, nr) {
                 logger.log('getArea', null, title, true);
                 var url = config.dataAdmApiUrl + 'GetAreas/?areatype=' + type + '&number=' + nr;
@@ -321,6 +330,8 @@
                 getNatureAreaSummary: getNatureAreaSummary,
                 getAreaSummary: getAreaSummary,
                 getGridSummary: getGridSummary,
+                getNatureAreaCountsByCategory: getNatureAreaCountsByCategory,
+                getNatureAreaCountsByTheme: getNatureAreaCountsByTheme,
                 getAreas: getAreas,
                 searchAreas: searchAreas,
                 hentOmraadeForMatrikkelenhet: hentOmraadeForMatrikkelenhet,
