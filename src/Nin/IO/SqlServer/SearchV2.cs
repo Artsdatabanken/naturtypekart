@@ -31,7 +31,7 @@ namespace Nin.IO.SqlServer
                 searchFilterRequest.Counties,
                 searchFilterRequest.ConservationAreas,
                 searchFilterRequest.Institutions,
-                searchFilterRequest.RedlistAssessmentnUnits,
+                searchFilterRequest.RedlistAssessmentUnits,
                 searchFilterRequest.RedlistCategories,
                 searchFilterRequest.Geometry,
                 searchFilterRequest.BoundingBox,
