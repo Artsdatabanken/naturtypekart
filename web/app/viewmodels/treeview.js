@@ -290,238 +290,290 @@
                 .then(function(areaResult) {
                     dataServices.getNatureAreaSummary(filter)
                         .then(function(result) {
-
-                            function makeRootNode(text, type, url, count) {
-                                return {
-                                    text: text,
-                                    selectable: false,
-                                    href: url || "javascript:void(0);",
-                                    state: {
-                                        expanded: false
-                                    },
-                                    nodes: [],
-                                    tags: [count || 0],
-                                    base: type
-                                };
-                            }
-
-                            function makeNode(text, type, key, url, count) {
-                                var subnode = {
-                                    text: text,
-                                    selectable: false,
-                                    href: url,
-                                    tags: [count],
-                                    type: type,
-                                    code: key,
-                                    state: {
-                                        checked: application.filter[type].indexOf(key) >= 0
+                            dataServices.getNatureAreaCountsByCategory(filter)
+                                .then(function(redlistResult) {
+                                    dataServices.getNatureAreaCountsByTheme(filter)
+                                        .then(function(themeResult) {
+                                    function makeRootNode(text, type, url, count) {
+                                        return {
+                                            text: text,
+                                            selectable: false,
+                                            href: url || "javascript:void(0);",
+                                            state: {
+                                                expanded: false
+                                            },
+                                            nodes: [],
+                                            tags: [count || 0],
+                                            base: type
+                                        };
                                     }
-                                };
-                                return subnode;
-                            }
 
-                            function wikiUrl(topic) {
-                                return 'javascript:window.open("https:\/\/no.wikipedia.org\/wiki\/' +
-                                    topic +
-                                    '", "_blank");void(0);';
-                            }
+                                    function makeNode(text, type, key, url, count) {
+                                        var subnode = {
+                                            text: text,
+                                            selectable: false,
+                                            href: url,
+                                            tags: [count],
+                                            type: type,
+                                            code: key,
+                                            state: {
+                                                checked: application.filter[type].indexOf(key) >= 0
+                                            }
+                                        };
+                                        return subnode;
+                                    }
 
-                            function openUrl(url) {
-                                return url
-                                    ? 'javascript:window.open("' + url + '", "_blank");void(0);'
-                                    : "javascript:void(0);";
-                            }
+                                    function wikiUrl(topic) {
+                                        return 'javascript:window.open("https:\/\/no.wikipedia.org\/wiki\/' +
+                                            topic +
+                                            '", "_blank");void(0);';
+                                    }
 
-                            function conservationAreaFactSheetUrl(id) {
-                                var padId = application.pad(id, 8);
-                                return 'javascript:window.open("http:\/\/faktaark.naturbase.no\/Vern\/?id=VV' +
-                                    padId +
-                                    '", "_blank");void(0);';
-                            }
+                                    function openUrl(url) {
+                                        return url
+                                            ? 'javascript:window.open("' + url + '", "_blank");void(0);'
+                                            : "javascript:void(0);";
+                                    }
 
-                            function buildAreaTreeRecursive(node, list, key) {
-                                node.nodes = [];
-                                _.each(list[key].Areas,
-                                    function(value, key, list) {
-                                        var type = "Municipalities";
-                                        var url = wikiUrl(value.Name);
-                                        var subnode = makeNode(value.Name, type, key, url, value.NatureAreaCount);
+                                    function conservationAreaFactSheetUrl(id) {
+                                        var padId = application.pad(id, 8);
+                                        return 'javascript:window.open("http:\/\/faktaark.naturbase.no\/Vern\/?id=VV' +
+                                            padId +
+                                            '", "_blank");void(0);';
+                                    }
 
-                                        if (!$.isEmptyObject(list[key].Areas)) {
-                                            buildAreaTreeRecursive(subnode, list, key);
+                                    function buildAreaTreeRecursive(node, list, key) {
+                                        node.nodes = [];
+                                        _.each(list[key].Areas,
+                                            function (value, key, list) {
+                                                var type = "Municipalities";
+                                                var url = wikiUrl(value.Name);
+                                                var subnode = makeNode(value.Name, type, key, url, value.NatureAreaCount);
+
+                                                if (!$.isEmptyObject(list[key].Areas)) {
+                                                    buildAreaTreeRecursive(subnode, list, key);
+                                                }
+                                                node.nodes.push(subnode);
+                                            });
+                                    }
+
+                                    function buildConservationAreaTreeRecursive(node, list, key) {
+                                        node.nodes = [];
+                                        _.each(list[key].Areas,
+                                            function (value, key, list) {
+                                                var type = "ConservationAreas";
+                                                var url = conservationAreaFactSheetUrl(key);
+                                                var subnode = makeNode(value.Name, type, key, url, value.NatureAreaCount);
+
+                                                if (!$.isEmptyObject(list[key].Areas)) {
+                                                    buildConservationAreaTreeRecursive(subnode, list, key);
+                                                }
+                                                node.nodes.push(subnode);
+                                            });
+                                    }
+
+                                    var fylker = makeRootNode("Administrative områder", "adm");
+                                    _.each(areaResult.Areas,
+                                        function (value, key, list) {
+                                            var type = "Counties";
+                                            var url = wikiUrl(value.Name);
+
+                                            var county = makeNode(value.Name, type, key, url, value.NatureAreaCount);
+
+                                            if (!$.isEmptyObject(list[key].Areas)) {
+                                                buildAreaTreeRecursive(county, list, key);
+                                            }
+                                            fylker.nodes.push(county);
+                                        });
+                                    fylker.tags[0] = areaResult.AreaCount;
+                                    tree.push(fylker);
+
+                                    var conservationAreas = makeRootNode("Verneområder", "conservation");
+                                    _.each(areaResult.ConservationAreas,
+                                        function (value, key, list) {
+                                            var type = "conservationCategory";
+                                            var url = wikiUrl(value.Name);
+                                            var node = makeRootNode(value.Name, type, url, value.NatureAreaCount);
+
+                                            if (!$.isEmptyObject(list[key].Areas)) {
+                                                buildConservationAreaTreeRecursive(node, list, key);
+                                            }
+
+                                            conservationAreas.nodes.push(node);
+                                        });
+                                    conservationAreas.tags[0] = areaResult.ConservationAreaCount;
+                                    tree.push(conservationAreas);
+
+                                    function buildTreeRecursive(node, list, key, type) {
+                                        node.nodes = [];
+                                        _.each(list[key].Codes,
+                                            function (value, key, list) {
+                                                var url = openUrl(value.Url);
+                                                var subnode = makeNode(value.Name, type, key, url, value.Count);
+
+                                                if (!$.isEmptyObject(list[key].Codes)) {
+                                                    buildTreeRecursive(subnode, list, key, type);
+                                                }
+                                                node.nodes.push(subnode);
+                                            });
+                                    }
+
+                                            function buildTreeRecursive2(node, list, key, type) {
+                                                node.nodes = [];
+                                                if (list instanceof Array) {
+                                                    _.each(list[key].countsByAssessmentUnit,
+                                                        function (value, key, list) {
+                                                            var url = openUrl(value.url);
+                                                            var subnode = makeNode(value.name, type, key, url, value.count);
+
+                                                            if (!$.isEmptyObject(list[key].countsByAssessmentUnit)) {
+                                                                buildTreeRecursive2(subnode, list, key, type);
+                                                            }
+                                                            node.nodes.push(subnode);
+                                                        });
+
+                                                }
+                                            }
+
+                                    var nin = makeRootNode("Naturområdetyper", "nature");
+                                    _.each(result.NatureAreaTypes.Codes,
+                                        function (value, key, list) {
+                                            var type = "NatureAreaTypeCodes";
+                                            var url = openUrl(value.Url);
+                                            var root = makeNode(value.Name, type, key, url, value.Count);
+
+                                            if (!$.isEmptyObject(list[key].Codes)) {
+                                                buildTreeRecursive(root, list, key, "NatureAreaTypeCodes");
+                                            }
+                                            nin.nodes.push(root);
+                                            nin.tags[0] = nin.tags[0] + value.Count;
+                                        });
+                                    tree.push(nin);
+
+                                    var descriptionVariables = makeRootNode("Miljøvariabler", "variables");
+                                    _.each(result.DescriptionVariables.Codes,
+                                        function (value, key, list) {
+                                            var type = "DescriptionVariableCodes";
+                                            var url = openUrl(value.Url);
+                                            var root = makeNode(value.Name, type, key, url, value.Count);
+
+                                            if (!$.isEmptyObject(list[key].Codes)) {
+                                                buildTreeRecursive(root, list, key, type);
+                                            }
+                                            descriptionVariables.nodes.push(root);
+                                            descriptionVariables.tags[0] = descriptionVariables.tags[0] + value.Count;
+                                        });
+                                    if (descriptionVariables.tags[0] > 0) {
+                                        tree.push(descriptionVariables);
+                                    }
+
+
+                                    var redlist = makeRootNode("Rødlistekategorier", "redlist");
+                                    _.each(redlistResult,
+                                        function (value, key, list) {
+                                            var type = "RedlistCategories";
+                                            var url = openUrl('todo');
+                                            var root = makeNode(value.name, type, key, url, value.count);
+
+                                            redlist.nodes.push(root);
+                                            redlist.tags[0] = redlist.tags[0] + value.count;
+                                        });
+                                    if (redlist.tags[0] > 0) {
+                                        tree.push(redlist);
+                                    }
+
+                                            var themes = makeRootNode("Tema", "theme");
+                                            _.each(themeResult,
+                                                function (value, key, list) {
+                                                    var type = "RedlistAssessmentUnits";
+                                                    var url = openUrl('todo');
+                                                    var root = makeNode(value.name, type, key, url, value.count);
+
+                                                    if (!$.isEmptyObject(list[key].countsByAssessmentUnit)) {
+                                                        buildTreeRecursive2(root, list, key, type);
+                                                    }
+                                                    themes.nodes.push(root);
+                                                    themes.tags[0] = themes.tags[0] + value.count;
+                                                });
+                                            if (themes.tags[0] > 0) {
+                                                tree.push(themes);
+                                            }
+
+                                    function findRootNode(node) {
+                                        var root = node;
+                                        while (root.parentId !== undefined) {
+                                            root = $('#summarytree').treeview(true).getNode(root.parentId);
                                         }
-                                        node.nodes.push(subnode);
-                                    });
-                            }
+                                        return root;
+                                    }
 
-                            function buildConservationAreaTreeRecursive(node, list, key) {
-                                node.nodes = [];
-                                _.each(list[key].Areas,
-                                    function(value, key, list) {
-                                        var type = "ConservationAreas";
-                                        var url = conservationAreaFactSheetUrl(key);
-                                        var subnode = makeNode(value.Name, type, key, url, value.NatureAreaCount);
-
-                                        if (!$.isEmptyObject(list[key].Areas)) {
-                                            buildConservationAreaTreeRecursive(subnode, list, key);
+                                    function recursiveAddToFilter(node) {
+                                        for (var i in node.nodes) {
+                                            if (node.nodes.hasOwnProperty(i)) {
+                                                var child = node.nodes[i];
+                                                recursiveAddToFilter(child);
+                                            }
                                         }
-                                        node.nodes.push(subnode);
-                                    });
-                            }
-
-                            var fylker = makeRootNode("Administrative områder", "adm");
-                            _.each(areaResult.Areas,
-                                function(value, key, list) {
-                                    var type = "Counties";
-                                    var url = wikiUrl(value.Name);
-
-                                    var county = makeNode(value.Name, type, key, url, value.NatureAreaCount);
-
-                                    if (!$.isEmptyObject(list[key].Areas)) {
-                                        buildAreaTreeRecursive(county, list, key);
-                                    }
-                                    fylker.nodes.push(county);
-                                });
-                            fylker.tags[0] = areaResult.AreaCount;
-                            tree.push(fylker);
-
-                            var conservationAreas = makeRootNode("Verneområder", "conservation");
-                            _.each(areaResult.ConservationAreas,
-                                function(value, key, list) {
-                                    var type = "conservationCategory";
-                                    var url = wikiUrl(value.Name);
-                                    var node = makeRootNode(value.Name, type, url, value.NatureAreaCount);
-
-                                    if (!$.isEmptyObject(list[key].Areas)) {
-                                        buildConservationAreaTreeRecursive(node, list, key);
+                                        application.updateFilterNoDupe(true, node.type, node.code);
                                     }
 
-                                    conservationAreas.nodes.push(node);
-                                });
-                            conservationAreas.tags[0] = areaResult.ConservationAreaCount;
-                            tree.push(conservationAreas);
-
-                            function buildTreeRecursive(node, list, key, type) {
-                                node.nodes = [];
-                                _.each(list[key].Codes,
-                                    function(value, key, list) {
-                                        var url = openUrl(value.Url);
-                                        var subnode = makeNode(value.Name, type, key, url, value.Count);
-
-                                        if (!$.isEmptyObject(list[key].Codes)) {
-                                            buildTreeRecursive(subnode, list, key, type);
+                                    function recursiveCountNodes(node) {
+                                        var count = 0;
+                                        for (var i in node.nodes) {
+                                            if (node.nodes.hasOwnProperty(i)) {
+                                                var child = node.nodes[i];
+                                                count = count + recursiveCountNodes(child);
+                                            }
                                         }
-                                        node.nodes.push(subnode);
-                                    });
-                            }
-
-                            var nin = makeRootNode("Naturområdetyper", "nature");
-                            _.each(result.NatureAreaTypes.Codes,
-                                function(value, key, list) {
-                                    var type = "NatureAreaTypeCodes";
-                                    var url = openUrl(value.Url);
-                                    var root = makeNode(value.Name, type, key, url, value.Count);
-
-                                    if (!$.isEmptyObject(list[key].Codes)) {
-                                        buildTreeRecursive(root, list, key, "NatureAreaTypeCodes");
+                                        count++; // include self
+                                        return count;
                                     }
-                                    nin.nodes.push(root);
-                                    nin.tags[0] = nin.tags[0] + value.Count;
-                                });
-                            tree.push(nin);
 
-                            var descriptionVariables = makeRootNode("Miljøvariabler", "variables");
-                            _.each(result.DescriptionVariables.Codes,
-                                function(value, key, list) {
-                                    var type = "DescriptionVariableCodes";
-                                    var url = openUrl(value.Url);
-                                    var root = makeNode(value.Name, type, key, url, value.Count);
-
-                                    if (!$.isEmptyObject(list[key].Codes)) {
-                                        buildTreeRecursive(root, list, key, type);
-                                    }
-                                    descriptionVariables.nodes.push(root);
-                                    descriptionVariables.tags[0] = descriptionVariables.tags[0] + value.Count;
-                                });
-                            if (descriptionVariables.tags[0] > 0) {
-                                tree.push(descriptionVariables);
-                            }
-
-
-                            function findRootNode(node) {
-                                var root = node;
-                                while (root.parentId !== undefined) {
-                                    root = $('#summarytree').treeview(true).getNode(root.parentId);
-                                }
-                                return root;
-                            }
-
-                            function recursiveAddToFilter(node) {
-                                for (var i in node.nodes) {
-                                    if (node.nodes.hasOwnProperty(i)) {
-                                        var child = node.nodes[i];
-                                        recursiveAddToFilter(child);
-                                    }
-                                }
-                                application.updateFilterNoDupe(true, node.type, node.code);
-                            }
-
-                            function recursiveCountNodes(node) {
-                                var count = 0;
-                                for (var i in node.nodes) {
-                                    if (node.nodes.hasOwnProperty(i)) {
-                                        var child = node.nodes[i];
-                                        count = count + recursiveCountNodes(child);
-                                    }
-                                }
-                                count++; // include self
-                                return count;
-                            }
-
-                            function recursiveCountSelectedNodes(node) {
-                                var count = 0;
-                                for (var i in node.nodes) {
-                                    if (node.nodes.hasOwnProperty(i)) {
-                                        var child = node.nodes[i];
-                                        if (child.state.checked) {
-                                            count = count + recursiveCountSelectedNodes(child);
-                                        }
-                                    }
-                                }
-                                if (node.state.checked) {
-                                    count++; // include self if checked
-                                }
-                                return count;
-                            }
-
-                            function recursiveRecreateFilter(node) {
-                                var rootChecked = node.state.checked;
-
-                                if (node.nodes) {
-
-                                    var childNodesCount = recursiveCountNodes(node) - 1; // exclude self
-                                    var childNodesChecked = recursiveCountSelectedNodes(node) - 1; // exclude self
-
-                                    if ((rootChecked && (childNodesChecked === 0)) ||
-                                        childNodesChecked === childNodesCount) {
-                                        // Add all Sub-nodes to filter
-                                        // enable to not send municipalities when all/none in a county selected
-                                        //if ((node.type !== "Counties") && (node.base !== "adm") /*&& (node.base !== "conservation")*/) {
-                                        recursiveAddToFilter(node);
-                                        //}
-                                    } else if (childNodesChecked > 0) {
+                                    function recursiveCountSelectedNodes(node) {
+                                        var count = 0;
                                         for (var i in node.nodes) {
                                             if (node.nodes.hasOwnProperty(i)) {
                                                 var child = node.nodes[i];
                                                 if (child.state.checked) {
-                                                    application.updateFilterNoDupe(true, child.type, child.code);
-                                                    recursiveRecreateFilter(child);
+                                                    count = count + recursiveCountSelectedNodes(child);
+                                                }
+                                            }
+                                        }
+                                        if (node.state.checked) {
+                                            count++; // include self if checked
+                                        }
+                                        return count;
+                                    }
+
+                                    function recursiveRecreateFilter(node) {
+                                        var rootChecked = node.state.checked;
+
+                                        if (node.nodes) {
+
+                                            var childNodesCount = recursiveCountNodes(node) - 1; // exclude self
+                                            var childNodesChecked = recursiveCountSelectedNodes(node) - 1; // exclude self
+
+                                            if ((rootChecked && (childNodesChecked === 0)) ||
+                                                childNodesChecked === childNodesCount) {
+                                                // Add all Sub-nodes to filter
+                                                // enable to not send municipalities when all/none in a county selected
+                                                //if ((node.type !== "Counties") && (node.base !== "adm") /*&& (node.base !== "conservation")*/) {
+                                                recursiveAddToFilter(node);
+                                                //}
+                                            } else if (childNodesChecked > 0) {
+                                                for (var i in node.nodes) {
+                                                    if (node.nodes.hasOwnProperty(i)) {
+                                                        var child = node.nodes[i];
+                                                        if (child.state.checked) {
+                                                            application.updateFilterNoDupe(true, child.type, child.code);
+                                                            recursiveRecreateFilter(child);
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                            }
+
 
                             function clearFilterByType(type) {
                                 switch (type) {
@@ -615,6 +667,8 @@
                                         recursiveRecreateFilter(root);
                                     }
                         });
+                                });
+                                });
                         });
                 });
         };
