@@ -21,7 +21,7 @@ namespace Nin.IO.SqlServer
             var builder = new SqlBuilder();
 
             var template = builder.AddTemplate(
- @"SELECT rlk.kategori_id AS Id, rlkt.verdi AS Navn, COUNT(*) AS Count
+ @"SELECT rlk.kategori_id AS Id, rlkt.verdi AS Name, COUNT(*) AS Count
 FROM Rødlistekategori rlk
 /**join**/
 /**where**/
