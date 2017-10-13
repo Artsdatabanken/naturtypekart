@@ -475,8 +475,10 @@ namespace Api.Controllers
         {
             var natureLevels = request.AnalyzeSearchFilterRequest();
 
+            var search = new SearchV2(Config.Settings.ConnectionString);
+
             int natureAreaCount;
-            var natureAreas = SqlServer.GetNatureAreasBySearchFilter(
+            var natureAreas = search.GetNatureAreasBySearchFilter(
                 natureLevels,
                 request.NatureAreaTypeCodes,
                 request.DescriptionVariableCodes,
@@ -484,6 +486,8 @@ namespace Api.Controllers
                 request.Counties,
                 request.ConservationAreas,
                 request.Institutions,
+                request.RedlistAssessmentUnits,
+                request.RedlistCategories,
                 request.Geometry,
                 "",
                 request.EpsgCode,
@@ -535,9 +539,11 @@ namespace Api.Controllers
         public object GetNatureAreaStatisticsBySearchFilter([FromBody] SearchFilterRequest request)
         {
             var natureLevels = request.AnalyzeSearchFilterRequest();
-
             int natureAreaCount;
-            var natureAreas = SqlServer.GetNatureAreasBySearchFilter(
+
+            var search = new SearchV2(Config.Settings.ConnectionString);
+            
+            var natureAreas = search.GetNatureAreasBySearchFilter(
                 natureLevels,
                 request.NatureAreaTypeCodes,
                 request.DescriptionVariableCodes,
@@ -545,6 +551,8 @@ namespace Api.Controllers
                 request.Counties,
                 request.ConservationAreas,
                 request.Institutions,
+                request.RedlistAssessmentUnits,
+                request.RedlistCategories,
                 request.Geometry,
                 "",
                 request.EpsgCode,
@@ -558,7 +566,9 @@ namespace Api.Controllers
             var institutions = new Dictionary<string, int>();
             var surveyedYears = new Dictionary<int, int>();
 
-            foreach (var natureArea in natureAreas)
+            var typecastedNatureAreas = natureAreas.Select(na => (NatureArea)na);
+
+            foreach (var natureArea in typecastedNatureAreas)
             {
                 if (institutions.ContainsKey(natureArea.Institution))
                     institutions[natureArea.Institution]++;
@@ -573,7 +583,7 @@ namespace Api.Controllers
 
             var natureAreaTypeHash = new CodeIds();
 
-            foreach (var natureArea in natureAreas)
+            foreach (var natureArea in typecastedNatureAreas)
                 foreach (var parameter in natureArea.Parameters)
                 {
                     var natureAreaType = parameter as NatureAreaType;

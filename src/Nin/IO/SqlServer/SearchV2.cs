@@ -68,15 +68,18 @@ namespace Nin.IO.SqlServer
 
             var builder = new SqlBuilder();
 
-            string templateStr = "SELECT /**select**/ FROM Naturområde na /**join**/ /**where**/ /**groupby**/";
+            string dataTemplateStr = "SELECT /**select**/ FROM Naturområde na /**join**/ /**where**/ /**groupby**/ /**orderby**/";
 
-            if (skip != 0 || take != int.MaxValue)
+            bool isPaging = skip != 0 || take != int.MaxValue;
+
+            if (isPaging)
             {
-                templateStr += " OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
-                builder.AddParameters(new { Skip = skip, Take = take });
+                dataTemplateStr += " OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
+                builder.AddParameters(new { Skip = (skip - 1), Take = take });
             }
 
-            var template = builder.AddTemplate(templateStr);
+            var dataTemplate = builder.AddTemplate(dataTemplateStr);
+            var countTemplate = builder.AddTemplate("SELECT COUNT(*) FROM Naturområde na /**join**/ /**where**/ /**groupby**/");
 
             bool groupByKommuner = centerPoints && string.IsNullOrWhiteSpace(boundingBox) && infoLevel == 0;
 
@@ -86,10 +89,12 @@ namespace Nin.IO.SqlServer
                 builder.Join("OmrådeLink ol ON na.id = ol.naturområde_id");
                 builder.Join("Område o ON o.id = ol.geometri_id AND o.geometriType_id = 1");
                 builder.GroupBy("o.id");
+                builder.OrderBy("o.id");
             }
             else
             {
                 builder.Select("na.id AS Id, na.localId AS LocalId, " + (centerPoints ? "na.geometriSenterpunkt" : "na.geometri") + " AS Geometry");
+                builder.OrderBy("na.id");
             }
 
             FilterOnNatureLevels(natureLevels, builder);
@@ -112,15 +117,14 @@ namespace Nin.IO.SqlServer
                 return natureAreas;
             }
 
-            string sql = template.RawSql;
-            var parameters = template.Parameters;
+            string sql = dataTemplate.RawSql;
+            var parameters = dataTemplate.Parameters;
 
-            if (infoLevel == 0)
+            using (var conn = new SqlConnection(_connectionString))
             {
-                using (var conn = new SqlConnection(_connectionString))
+                conn.Open();
+                if (infoLevel == 0)
                 {
-                    conn.Open();
-
                     if (groupByKommuner)
                     {
                         GroupByKommuner(natureAreas, sql, parameters, conn);
@@ -128,16 +132,31 @@ namespace Nin.IO.SqlServer
                     else
                     {
                         PopulateNatureAreas(natureAreas, sql, parameters, conn);
+
+                        if (!centerPoints)
+                        {
+                            foreach (var natureArea in natureAreas)
+                            {
+                                natureArea.Parameters = SqlServer.GetParameters(natureArea.Id, false);
+                            }
+                        }
                     }
                 }
+                else
+                {
+                    natureAreas = GetNatureAreaInfos(conn, builder, dataTemplate, infoLevel)
+                        .Select(n => (INatureAreaGeoJson)n)
+                        .ToList();
+                }
 
-                natureAreaCount = natureAreas.Count();
-            }
-            else
-            {
-                natureAreas = GetNatureAreaInfos(builder, template, infoLevel, out natureAreaCount)
-                    .Select(n => (INatureAreaGeoJson)n)
-                    .ToList();
+                if (isPaging)
+                {
+                    natureAreaCount = conn.ExecuteScalar<int>(countTemplate.RawSql, countTemplate.Parameters);
+                }
+                else
+                {
+                    natureAreaCount = natureAreas.Count();
+                }
             }
 
             return natureAreas;
@@ -248,40 +267,33 @@ namespace Nin.IO.SqlServer
             }
         }
 
-        private List<NatureArea> GetNatureAreaInfos(SqlBuilder builder, SqlBuilder.Template template, int infoLevel, out int natureAreaCount)
+        private List<NatureArea> GetNatureAreaInfos(SqlConnection sqlConnection, SqlBuilder builder, SqlBuilder.Template template, int infoLevel)
         {
             var natureAreas = new List<NatureArea>();
 
             builder.Select("na.id AS Id, na.localId AS LocalId, na.naturnivå_id AS NaturnivaId, na.kartlagt AS Kartlagt, na.institusjon AS Institusjon" + (infoLevel == 2 ? ", na.kartlegger_id AS KartleggerId" : string.Empty));
 
-            builder.OrderBy("na.id");
-
             string sql = template.RawSql;
 
-            using (var conn = new SqlConnection(_connectionString))
+            var infos = sqlConnection.Query<NatureAreaInfoDto>(sql, template.Parameters).ToList();
+
+            foreach (var info in infos)
             {
-                conn.Open();
-
-                var infos = conn.Query<NatureAreaInfoDto>(sql, template.Parameters).ToList();
-
-                foreach (var info in infos)
+                var natureArea = new NatureAreaExport
                 {
-                    var natureArea = new NatureAreaExport
-                    {
-                        Id = info.Id,
-                        UniqueId = new Identification { LocalId = info.LocalId },
-                        Nivå = (NatureLevel)info.NaturnivaId,
-                        Surveyed = info.Kartlagt,
-                        Institution = info.Institusjon
-                    };
+                    Id = info.Id,
+                    UniqueId = new Identification { LocalId = info.LocalId },
+                    Nivå = (NatureLevel)info.NaturnivaId,
+                    Surveyed = info.Kartlagt,
+                    Institution = info.Institusjon
+                };
 
-                    if (infoLevel == 2 && info.KartleggerId.HasValue)
-                    {
-                        natureArea.Surveyer = new Contact { Id = info.KartleggerId.Value };
-                    }
-
-                    natureAreas.Add(natureArea);
+                if (infoLevel == 2 && info.KartleggerId.HasValue)
+                {
+                    natureArea.Surveyer = new Contact { Id = info.KartleggerId.Value };
                 }
+
+                natureAreas.Add(natureArea);
             }
 
             if (infoLevel == 1)
@@ -293,7 +305,6 @@ namespace Nin.IO.SqlServer
                 SqlServer.SetMetadata(natureAreas);
             }
 
-            natureAreaCount = natureAreas.Count;
             return natureAreas;
         }
 
