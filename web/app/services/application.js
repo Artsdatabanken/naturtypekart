@@ -139,6 +139,8 @@ function (ko, _, conf) {
             Counties: filter.Counties,
             ConservationAreas: filter.ConservationAreas,
             Institutions: filter.Institutions,
+            RedlistCategories: filter.RedlistCategories,
+            RedlistAssessmentUnits: filter.RedlistAssessmentUnits,
             Geometry: filter.Geometry,
             EpsgCode: filter.EpsgCode,
             ForceRefreshToggle: filter.ForceRefreshToggle
