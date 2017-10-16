@@ -2431,7 +2431,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 if (natureArea.Surveyer != null)
                     natureArea.Surveyer = GetContact(natureArea.Surveyer.Id);
 
-                natureArea.Parameters = GetParameters(natureArea.Id, true);
+                natureArea.Parameters = GetParameters(natureArea.Id, true, true);
                 natureArea.Documents = GetDocuments(0, natureArea.Id);
             }
 
@@ -2531,15 +2531,73 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             return documents;
         }
 
-        internal static List<Parameter> GetParameters(int natureAreaId, bool addDescriptionVariables)
+        internal static List<Parameter> GetParameters(int natureAreaId, bool addDescriptionVariables, bool addRødlisteKategori = false)
         {
             var parameters = new List<Parameter>();
 
             if (addDescriptionVariables)
                 parameters.AddRange(GetDescriptionVariables(natureAreaId));
-            parameters.AddRange(GetNatureAreaTypes(natureAreaId));
 
+            if(addRødlisteKategori)
+                parameters.AddRange(GetRødlisteKategori(natureAreaId));
+
+            parameters.AddRange(GetNatureAreaTypes(natureAreaId));
+            
             return parameters;
+        }
+
+        private static IEnumerable<RødlisteKategori> GetRødlisteKategori(int natureAreaId)
+        {
+            if (natureAreaId == 0) throw new Exception("No natureAreaId given");
+
+            const string sql = 
+                    @"SELECT 
+                            k.id,
+                            k.verdi, 
+                            t.id,
+                            t.verdi, 
+                            rv.id,
+                            rv.verdi
+                        FROM
+                            Rødlistekategori rk,
+                            RødlisteVurderingsenhetSet rv,
+                            KategoriSet k,
+                            TemaSet t
+                        WHERE
+                            rk.rødlistevurderingsenhet_id = rv.id
+                        AND 
+                            rv.Kategori_Id = k.Id 
+                        AND 
+                            rv.Tema_Id = t.Id
+                        AND
+                            rk.naturområde_id = @natureArea_id";
+
+            using (var cmd = SqlStatement(sql))
+            {
+                cmd.AddParameter("@natureArea_id", natureAreaId);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        yield return new RødlisteKategori
+                        {
+                            Id = reader.GetInt32(0),
+                            Code = reader.GetString(1),
+                            Vurderingsenhet = new RødlisteVurderingsenhet
+                            {
+                                Id = reader.GetInt32(4),
+                                Code = reader.GetString(5),
+                                Theme = new VurderingsenhetTema
+                                {
+                                    Id = reader.GetInt32(2),
+                                    Code = reader.GetString(3)
+                                }
+                            }
+                        };
+                    }
+                }
+            }
         }
 
         private static Collection<DescriptionVariable> GetDescriptionVariables(int natureAreaId = 0, int natureAreaTypeId = 0)
@@ -3045,6 +3103,23 @@ WHERE a.nummer = @number AND a.geometriType_id = @areaType";
                 return BulkStoreAreaLayer((AreaLayer)layer);
             throw new Exception($"Ukjent type lag '{layer.GetType().Name}'.");
         }
+    }
+
+    internal class RødlisteVurderingsenhet : Parameter
+    {
+        public int Id { get; set; }
+        public VurderingsenhetTema Theme { get; set; }
+    }
+
+    internal class VurderingsenhetTema : Parameter
+    {
+        public int Id { get; set; }
+    }
+
+    internal class RødlisteKategori : Parameter
+    {
+        public int Id { get; set; }
+        public RødlisteVurderingsenhet Vurderingsenhet { get; set; }
     }
 
     public class AreaLayerValues : List<AreaLayerValue>
