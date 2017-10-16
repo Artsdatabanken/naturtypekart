@@ -16,19 +16,19 @@
             showSpinner: ko.observable(false),
             exportGml: function() {
                 vm.showSpinner(true);
-                dataServices.exportNatureAreasAsGmlBySearchFilter(application.filter)
-                    .then(function(exportFile) {
-                        dataServices.downloadFile(exportFile, 'text/xml', 'data.gml', false);
-                        vm.showSpinner(false);
-                    });
+                dataServices.exportNatureAreasAsGmlBySearchFilter(application.filter);
+                    // .then(function(exportFile) {
+                    //     dataServices.downloadFile(exportFile, 'text/xml', 'data.gml', false);
+                    //     vm.showSpinner(false);
+                    // });
             },
             exportXml: function() {
                 vm.showSpinner(true);
-                dataServices.exportNatureAreasBySearchFilter(application.filter)
-                    .then(function(exportFile) {
-                        dataServices.downloadFile(exportFile, 'text/xml', 'data.xml', false);
-                        vm.showSpinner(false);
-                    });
+                dataServices.exportNatureAreasBySearchFilter(application.filter);
+                    // .then(function(exportFile) {
+                    //     dataServices.downloadFile(exportFile, 'text/xml', 'data.xml', false);
+                    //     vm.showSpinner(false);
+                    // });
             },
             exportShape: function() {
                 vm.showSpinner(true);
