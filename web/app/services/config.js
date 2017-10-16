@@ -54,6 +54,8 @@
                 //,{ id: 'bookmark', name: "routeBookmarkName", title: "routeBookmarkTitle", moduleId: 'viewmodels/bookmark', visible: false, specialRouteParameters: bokmarkRouteParameters }
             ],
 
+            categoryNameMapping: ['Ukjent', 'Regionalt utdødd (RE)', 'Kritisk truet (CR)', 'Sterkt truet (EN)', 'Sårbar (VU)','Nær truet (NT)', 'Datamangel (DD)', 'Livskraftig (LC)', 'Ikke egnet (NA)', 'Ikke vurdert (NE)'],
+
             // Polygon style definitions:
             //"colors": [array of rgba-colors],
             //"style": "solid"|"squares"|"stripes",

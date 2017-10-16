@@ -1,5 +1,5 @@
-﻿define(['services/logger', "knockout", 'durandal/app', 'services/dataServices', "services/application", "viewmodels/mapOl3", 'viewmodels/nav', 'services/codeLists', "services/knockoutExtensions", "bootstrap-treeview", 'services/resource'],
-    function (logger, ko, app, dataServices, application, map, nav, codeLists, jqAutoComplete, treeview, resource) {
+﻿define(['services/logger', "knockout", 'durandal/app', 'services/dataServices', "services/application", "viewmodels/mapOl3", 'viewmodels/nav', 'services/codeLists', "services/knockoutExtensions", "bootstrap-treeview", 'services/resource', 'services/config'],
+    function (logger, ko, app, dataServices, application, map, nav, codeLists, jqAutoComplete, treeview, resource, config) {
         var title = "treeview",
             $summarytree,
             $gridtree,
@@ -479,7 +479,7 @@
                                                 function (value, key, list) {
                                                     var type = "RedlistCategories";
                                                     var url = openUrl('todo');
-                                                    var root = makeNode(value.name, type, value.id, url, value.count);
+                                                    var root = makeNode(config.categoryNameMapping[value.id], type, value.id, url, value.count);
 
                                                     redlist.nodes.push(root);
                                                     redlist.tags[0] = redlist.tags[0] + value.count;
