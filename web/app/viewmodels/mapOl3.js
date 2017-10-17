@@ -381,17 +381,18 @@
                 vm.reloadLocations = function (keepOld, addBounds) {
                     var filter = application.filter;
 
-                    if (keepOld && addBounds && addBounds.length > 0) {
+                    if (keepOld && addBounds.bounds && addBounds.bounds.length > 0) {
                         filter = application.noBoundingBoxFilter();
                         filter.BoundingBox = vm.boundsToWkt(addBounds);
                     }
+
                     dataServices.getNatureAreasBySearchFilter(filter).then(function (geojsonObject) {
 
                         //if (filter.CenterPoints() === false) {
                         if (application.filter.BoundingBox() !== "") {
-                                if (keepOld && addBounds && addBounds.length > 0 && filter.CenterPoints() === vm.loadedBounds.center()) {
+                                if (keepOld && addBounds.bounds && addBounds.bounds.length > 0 && filter.CenterPoints() === vm.loadedBounds.center()) {
                                     // increase record of loaded bounds
-                                    var minX = addBounds[0], minY = addBounds[1], maxX = addBounds[2], maxY = addBounds[3];
+                                    var minX = addBounds.bounds[0], minY = addBounds.bounds[1], maxX = addBounds.bounds[2], maxY = addBounds.bounds[3];
                                     var lminX = vm.loadedBounds.bounds()[0], lminY = vm.loadedBounds.bounds()[1], lmaxX = vm.loadedBounds.bounds()[2], lmaxY = vm.loadedBounds.bounds()[3];
 
                                     vm.loadedBounds.bounds(
@@ -472,7 +473,10 @@
                             var bounds = vm.getBounds();
                             var minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3];
                             var lminX = vm.loadedBounds.bounds()[0], lminY = vm.loadedBounds.bounds()[1], lmaxX = vm.loadedBounds.bounds()[2], lmaxY = vm.loadedBounds.bounds()[3];
-                            var addBounds = [];
+                            var addBounds = {
+                                direction: "",
+                                bounds: []
+                            };
                             if (minX >= lminX && minY >= lminY && maxX <= lmaxX && maxY <= lmaxY) {
                                 // New bounds completely inside old bounds, do not need to fetch.
                                 console.debug("Bruker cachede områder:)");
@@ -483,7 +487,7 @@
                                 //  ..\\\..
                                 //  //XXX//
                                 //  ///////
-                                addBounds = [lminX, lmaxY, lmaxX, maxY];
+                                addBounds.bounds = [lminX, lmaxY, lmaxX, maxY];
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX >= lminX && minY >= lminY && maxX >= lmaxX && maxY <= lmaxY) {
                                 console.debug("Laster flere observasjoner i øst");
@@ -492,7 +496,7 @@
                                 //  ////XXX\\
                                 //  ////XXX\\
                                 //  ///////..
-                                addBounds = [lmaxX, lminY, maxX, lmaxY];
+                                addBounds.bounds = [lmaxX, lminY, maxX, lmaxY];
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX >= lminX && minY <= lminY && maxX <= lmaxX && maxY <= lmaxY) {
                                 console.debug("Laster flere områder i sør");
@@ -500,7 +504,7 @@
                                 //  ///////
                                 //  //XXX//
                                 //  ..\\\..
-                                addBounds = [lminX, minY, lmaxX, lmaxY];
+                                addBounds.bounds = [lminX, minY, lmaxX, lmaxY];
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX <= lminX && minY >= lminY && maxX <= lmaxX && maxY <= lmaxY) {
                                 console.debug("Laster flere områder i vest");
@@ -509,7 +513,7 @@
                                 //  \\XXX////
                                 //  \\XXX////
                                 //  ..///////
-                                addBounds = [minX, lminY, lminX, lmaxY];
+                                addBounds.bounds = [minX, lminY, lminX, lmaxY];
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX >= lminX && minY <= lminY && maxX >= lmaxX && maxY <= lmaxY) {
                                 console.debug("Laster flere områder i sør-øst");
@@ -518,7 +522,8 @@
                                 //  ////////.
                                 //  //////XX\
                                 //  ......\\\
-                                addBounds = [minX, minY, maxX, lmaxY, lmaxX, lminY];
+                                addBounds.bounds = [minX, minY, maxX, lmaxY, lmaxX, lminY];
+                                addBounds.direction = "se";
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX <= lminX && minY >= lminY && maxX <= lmaxX && maxY >= lmaxY) {
                                 console.debug("Laster flere områder i nord-vest");
@@ -527,7 +532,8 @@
                                 //  \XX//////
                                 //  .////////
                                 //  .////////
-                                addBounds = [minX, lminY, lmaxX, maxY, lminX, lmaxY];
+                                addBounds.bounds = [minX, lminY, lmaxX, maxY, lminX, lmaxY];
+                                addBounds.direction = "nw";
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX >= lminX && minY >= lminY && maxX >= lmaxX && maxY >= lmaxY) {
                                 console.debug("Laster flere områder i nord-øst");
@@ -536,7 +542,8 @@
                                 //  //////XX\
                                 //  ////////.
                                 //  ////////.
-                                addBounds = [lminX, maxY, maxX, lminY, lmaxX, lmaxY];
+                                addBounds.bounds = [lminX, maxY, maxX, lminY, lmaxX, lmaxY];
+                                addBounds.direction = "ne";
                                 vm.startReloadAreas(true, addBounds);
                             } else if (minX <= lminX && minY <= lminY && maxX <= lmaxX && maxY <= lmaxY) {
                                 console.debug("Laster flere områder i sør-vest");
@@ -545,7 +552,8 @@
                                 //  .////////
                                 //  \\XX/////
                                 //  \\\\.....
-                                addBounds = [minX, lmaxY, lmaxX, minY, lminX, lminY];
+                                addBounds.bounds = [minX, lmaxY, lmaxX, minY, lminX, lminY];
+                                addBounds.direction = "sw";
                                 vm.startReloadAreas(true, addBounds);
                                 // todo: sør-vest
                             } else {
@@ -613,11 +621,14 @@
                     });
                     feature.fid = -1;
                     selectionLayerSource.addFeatures([feature]);
+
                 }
             },
 
-            boundsToWkt: function (bounds) {
+            boundsToWkt: function (addbounds) {
                 var minX, minY, maxX, maxY, centerX, centerY;
+
+                var bounds = addbounds.bounds ? addbounds.bounds : addbounds;
                 switch (bounds.length) {
                     case 4:
                         minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3];
@@ -630,14 +641,29 @@
                     case 6:
                         minX = bounds[0], minY = bounds[1], maxX = bounds[2], maxY = bounds[3],
                             centerX = bounds[4], centerY = bounds[5];
-                        return "POLYGON ((" +
-                            minX + " " + minY + "," +
-                            maxX + " " + minY + "," +
-                            maxX + " " + maxY + "," +
-                            centerX + " " + maxY + "," +
-                            centerX + " " + centerY + "," +
-                            minX + " " + centerY + "," +
-                            minX + " " + minY + "))";
+                        switch (addbounds.direction) {
+                            case "nw":
+                            case "sw":
+                                return "POLYGON ((" +
+                                    minX + " " + minY + "," +
+                                    minX + " " + maxY + "," +
+                                    maxX + " " + maxY + "," +
+                                    maxX + " " + centerY + "," +
+                                    centerX + " " + centerY + "," +
+                                    centerX + " " + minY + "," +
+                                    minX + " " + minY + "))";
+                            case "ne":
+                            case "se":
+                                return "POLYGON ((" +
+                                    minX + " " + minY + "," +
+                                    maxX + " " + minY + "," +
+                                    maxX + " " + maxY + "," +
+                                    centerX + " " + maxY + "," +
+                                    centerX + " " + centerY + "," +
+                                    minX + " " + centerY + "," +
+                                    minX + " " + minY + "))";
+
+                        }
                     default:
                         return "POLYGON EMPTY";
                 }

@@ -488,7 +488,7 @@
                                                 tree.push(redlist);
                                             }
 
-                                            var themes = makeRootNode("Tema", "theme");
+                                            var themes = makeRootNode("Tema/Vurderingsenhet", "theme");
                                             _.each(themeResult,
                                                 function (value, key, list) {
                                                     var type = "RedlistAssessmentUnits";
