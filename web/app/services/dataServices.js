@@ -263,7 +263,7 @@
             exportNatureAreasBySearchFilter = function (filter) {
                 logger.log('exportNatureAreasBySearchFilter', null, title, true);
                 var url = config.dataAdmApiUrl + 'ExportNatureAreasBySearchFilter';
-                return postDataPromise('exportNatureAreasBySearchFilter', url, filter);
+                return postBinaryRequest(url, filter, 'application/zip', 'data.zip');//postDataPromise('exportNatureAreasBySearchFilter', url, filter);
             },
             exportNatureAreasAsShapeBySearchFilter = function (filter) {
                 logger.log('exportNatureAreasAsShapeBySearchFilter', null, title, true);
@@ -273,7 +273,7 @@
             exportNatureAreasAsGmlBySearchFilter = function (filter) {
                 logger.log('exportNatureAreasAsGmlBySearchFilter', null, title, true);
                 var url = config.dataAdmApiUrl + 'ExportNatureAreasAsGmlBySearchFilter';
-                return postBinaryRequest(url, filter, 'application/xml', 'data.xml');
+                return postBinaryRequest(url, filter, 'application/zip', 'data.zip');
             },
             exportNatureAreasAsXlsxBySearchFilter = function (filter) {
                 logger.log('exportNatureAreasAsXlsxBySearchFilter', null, title, true);

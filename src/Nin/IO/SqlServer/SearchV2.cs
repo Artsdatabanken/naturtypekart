@@ -60,22 +60,36 @@ namespace Nin.IO.SqlServer
             int espgCode,
             bool centerPoints,
             int infoLevel,
-            int skip,
-            int take,
+            int fromRow,
+            int toRow,
             out int natureAreaCount)
         {
             IList<INatureAreaGeoJson> natureAreas = new List<INatureAreaGeoJson>();
 
             var builder = new SqlBuilder();
 
+            bool nonEmptyGeometry =
+                ConstructBuilder(
+                    natureLevels, natureAreaTypeCodes, descriptionVariableCodes, municipalities, counties,
+                    conservationAreas, institutions, redlistAssessmentUnits, redlistCategories, geometry,
+                    boundingBox, espgCode, builder);
+
+            if (!nonEmptyGeometry)
+            {
+                natureAreaCount = 0;
+                return natureAreas;
+            }
+
             string dataTemplateStr = "SELECT /**select**/ FROM Naturområde na /**join**/ /**where**/ /**groupby**/ /**orderby**/";
 
-            bool isPaging = skip != 0 || take != int.MaxValue;
+            bool isPaging = fromRow != 0 || toRow != int.MaxValue;
 
             if (isPaging)
             {
+                int skip = fromRow - 1;
+                int take = toRow - skip;
                 dataTemplateStr += " OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY";
-                builder.AddParameters(new { Skip = (skip - 1), Take = take });
+                builder.AddParameters(new { Skip = skip, Take = take });
             }
 
             var dataTemplate = builder.AddTemplate(dataTemplateStr);
@@ -95,26 +109,6 @@ namespace Nin.IO.SqlServer
             {
                 builder.Select("na.id AS Id, na.localId AS LocalId, " + (centerPoints ? "na.geometriSenterpunkt" : "na.geometri") + " AS Geometry");
                 builder.OrderBy("na.id");
-            }
-
-            FilterOnNatureLevels(natureLevels, builder);
-
-            FilterOnInstitutions(institutions, builder);
-
-            FilterOnNatureAreaTypeCodes(natureAreaTypeCodes, builder);
-
-            FilterOnDescriptionVariables(descriptionVariableCodes, builder);
-
-            FilterOnGeographicalAreas(municipalities, counties, conservationAreas, builder);
-
-            FilterOnRedlists(redlistAssessmentUnits, redlistCategories, builder);
-
-            var nonEmptyGeometry = FilterOnGeometry(builder, geometry, boundingBox, espgCode);
-
-            if (!nonEmptyGeometry)
-            {
-                natureAreaCount = 0;
-                return natureAreas;
             }
 
             string sql = dataTemplate.RawSql;
@@ -160,6 +154,71 @@ namespace Nin.IO.SqlServer
             }
 
             return natureAreas;
+        }
+
+        private static bool ConstructBuilder(
+            Collection<NatureLevel> natureLevels, Collection<string> natureAreaTypeCodes, Collection<string> descriptionVariableCodes,
+            Collection<int> municipalities, Collection<int> counties, Collection<int> conservationAreas, Collection<string> institutions,
+            IEnumerable<int> redlistAssessmentUnits, IEnumerable<int> redlistCategories, string geometry, string boundingBox, int espgCode, SqlBuilder builder)
+        {
+            FilterOnNatureLevels(natureLevels, builder);
+
+            FilterOnInstitutions(institutions, builder);
+
+            FilterOnNatureAreaTypeCodes(natureAreaTypeCodes, builder);
+
+            FilterOnDescriptionVariables(descriptionVariableCodes, builder);
+
+            FilterOnGeographicalAreas(municipalities, counties, conservationAreas, builder);
+
+            FilterOnRedlists(redlistAssessmentUnits, redlistCategories, builder);
+
+            return FilterOnGeometry(builder, geometry, boundingBox, espgCode);
+        }
+
+        public Collection<Metadata> GetMetadatasBySearchFilter(
+            Collection<NatureLevel> natureLevels,
+            Collection<string> natureAreaTypeCodes,
+            Collection<string> descriptionVariableCodes,
+            Collection<int> municipalities,
+            Collection<int> counties,
+            Collection<int> conservationAreas,
+            Collection<string> institutions,
+            IEnumerable<int> redlistAssessmentUnits,
+            IEnumerable<int> redlistCategories,
+            string geometry,
+            string boundingBox,
+            int espgCode)
+        {
+            var metadatas = new Collection<Metadata>();
+
+            var builder = new SqlBuilder();
+
+            bool nonEmptyGeometry =
+                ConstructBuilder(
+                    natureLevels, natureAreaTypeCodes, descriptionVariableCodes, municipalities, counties,
+                    conservationAreas, institutions, redlistAssessmentUnits, redlistCategories, geometry,
+                    boundingBox, espgCode, builder);
+
+            if (!nonEmptyGeometry)
+            {
+                return metadatas;
+            }
+
+            var template = builder.AddTemplate("SELECT /**select**/ FROM Naturområde na /**join**/ /**where**/");
+
+            builder.Select("DISTINCT na.localId");
+
+            List<Guid> localIds = null;
+
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                localIds = conn.Query<Guid>(template.RawSql, template.Parameters).ToList();
+            }
+
+            return SqlServer.GetMetadatasByNatureAreaLocalIds(localIds.Select(lid => lid.ToString()).ToList(), true);
         }
 
         private static void FilterOnRedlists(IEnumerable<int> redlistAssessmentUnits, IEnumerable<int> redlistCategories, SqlBuilder builder)

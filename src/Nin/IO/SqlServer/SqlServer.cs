@@ -618,7 +618,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
             }
         }
 
-        public static Collection<Metadata> GetMetadatasByNatureAreaLocalIds(Collection<string> localIds, bool addNatureAreas)
+        public static Collection<Metadata> GetMetadatasByNatureAreaLocalIds(List<string> localIds, bool addNatureAreas)
         {
             var metadatas = new Collection<Metadata>();
             if (localIds.Count == 0)
@@ -738,7 +738,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                         localIds.Add(reader.GetGuid(0).ToString());
                         Log.w("GMBSF", reader.GetGuid(0).ToString());
                     }
-                return GetMetadatasByNatureAreaLocalIds(localIds, true);
+                return GetMetadatasByNatureAreaLocalIds(localIds.ToList(), true);
             }
         }
 
@@ -2282,7 +2282,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                     natureArea.Surveyer = GetContact(natureArea.Surveyer.Id);
                 var metadata =
                     GetMetadatasByNatureAreaLocalIds(
-                        new Collection<string> { natureArea.UniqueId.LocalId.ToString() }, false);
+                        new List<string> { natureArea.UniqueId.LocalId.ToString() }, false);
                 if (metadata.Count != 1) continue;
                 ((NatureAreaExport)natureArea).MetadataSurveyScale = metadata[0].SurveyScale;
                 ((NatureAreaExport)natureArea).MetadataProgram = metadata[0].Program;
@@ -2329,7 +2329,7 @@ VALUES (@doc_guid,@name, @codeRegister, @codeVersion, @code, @minValue,@maxValue
                 _natureAreaCache = natureAreas;
         }
 
-        private static Collection<NatureArea> GetNatureAreasByMetadataId(int metadataId, Collection<string> localIds)
+        private static Collection<NatureArea> GetNatureAreasByMetadataId(int metadataId, List<string> localIds)
         {
             var whereClause = "kartlagtOmråde_id = @metadata_id";
 

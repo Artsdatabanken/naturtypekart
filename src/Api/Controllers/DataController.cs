@@ -23,14 +23,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using Types;
 using Dataleveranse = Nin.Types.RavenDb.Dataleveranse;
 
 namespace Api.Controllers
 {
-    public class DataController
+    public class DataController : Controller
     {
         private readonly GmlWriter gmlWriter = new GmlWriter();
         private readonly JsonSerializerSettings jsonSerializerSettings;
@@ -631,7 +631,7 @@ namespace Api.Controllers
         [HttpGet]
         public object GetMetadataByNatureAreaLocalId(string id)
         {
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> { id }, false);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new List<string> { id }, false);
 
             if (metadatas.Count > 0)
             {
@@ -643,7 +643,7 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult GetMetadatasByNatureAreaLocalIds([FromBody] LocalIdRequest localIdRequest)
         {
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(localIdRequest.LocalIds, true);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(localIdRequest.LocalIds.ToList(), true);
 
             var metadatasJson = JsonConvert.SerializeObject(metadatas, jsonSerializerSettings);
             var contentResult = new NinJsonResult(metadatasJson);
@@ -653,7 +653,7 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult GetExpiredMetadatasByNatureAreaLocalId(string localId)
         {
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new Collection<string> { localId }, false);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(new List<string> { localId }, false);
 
             var dataDeliveriesWithNatureArea = new List<Dataleveranse>();
 
@@ -687,7 +687,7 @@ namespace Api.Controllers
         [HttpGet]
         public FileStreamResult ExportNatureAreasByLocalIds([FromBody] LocalIdRequest localIdRequest)
         {
-            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(localIdRequest.LocalIds, true);
+            var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(localIdRequest.LocalIds.ToList(), true);
             var xDocument = xmlConverter.ToXml(metadatas);
 
             Stream xmlStream = new MemoryStream();
@@ -703,11 +703,9 @@ namespace Api.Controllers
             var metadatas = FindMetadatasBySearchFilter(searchFilterRequest);
 
             var xDocument = xmlConverter.ToXml(metadatas);
-            Stream xmlStream = new MemoryStream();
-            xDocument.Save(xmlStream);
-            xmlStream.Position = 0;
 
-            return new FileStreamResult(xmlStream, "application/xml");
+            return ToZippedFileStreamResult(xDocument);
+
         }
 
         [HttpPost]
@@ -723,22 +721,33 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public string ExportNatureAreasAsGmlBySearchFilter([FromBody] SearchFilterRequest searchFilterRequest)
+        public FileStreamResult ExportNatureAreasAsGmlBySearchFilter([FromBody] SearchFilterRequest searchFilterRequest)
         {
             int epsgCode;
             var natureAreas = FindNatureAreasBySearchFilter(searchFilterRequest, out epsgCode);
 
             var xDocument = gmlWriter.ConvertToGml(natureAreas);
-            var builder = new StringBuilder();
-            using (TextWriter writer = new StringWriter(builder))
+            
+            return ToZippedFileStreamResult(xDocument);
+        }
+
+        private static FileStreamResult ToZippedFileStreamResult(System.Xml.Linq.XDocument xDocument)
+        {
+            var memoryStream = new MemoryStream();
+            
+            using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
             {
-                xDocument.Save(writer);
+                var data = archive.CreateEntry("data.xml");
+
+                using (var entryStream = data.Open())
+                {
+                    xDocument.Save(entryStream);
+                }
             }
-            return builder.ToString();
-            //Stream xmlStream = new MemoryStream();
-            //xDocument.Save(xmlStream);
-            //xmlStream.Position = 0;
-            //return new DownloadFileResult("natur.xml", xmlStream, "application/xml");
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            return new FileStreamResult(memoryStream, "application/zip");
         }
 
         [HttpPost]
@@ -765,7 +774,7 @@ namespace Api.Controllers
             if (natureAreaType.CustomVariables.Count <= 0) return;
 
             var metadatas = SqlServer.GetMetadatasByNatureAreaLocalIds(
-                new Collection<string> { natureAreaLocalId.ToString() },
+                new List<string> { natureAreaLocalId.ToString() },
                 false);
             if (metadatas.Count <= 0) return;
             for (var i = 0; i < natureAreaType.CustomVariables.Count; ++i)
@@ -898,7 +907,9 @@ namespace Api.Controllers
         {
             var natureLevels = searchFilterRequest.AnalyzeSearchFilterRequest();
 
-            return SqlServer.GetMetadatasBySearchFilter(
+            var search = new SearchV2(Config.Settings.ConnectionString);
+
+            return search.GetMetadatasBySearchFilter(
                 natureLevels,
                 searchFilterRequest.NatureAreaTypeCodes,
                 searchFilterRequest.DescriptionVariableCodes,
@@ -906,8 +917,10 @@ namespace Api.Controllers
                 searchFilterRequest.Counties,
                 searchFilterRequest.ConservationAreas,
                 searchFilterRequest.Institutions,
+                searchFilterRequest.RedlistAssessmentUnits,
+                searchFilterRequest.RedlistCategories,
                 searchFilterRequest.Geometry,
-                "",
+                string.Empty,
                 searchFilterRequest.EpsgCode
             );
         }

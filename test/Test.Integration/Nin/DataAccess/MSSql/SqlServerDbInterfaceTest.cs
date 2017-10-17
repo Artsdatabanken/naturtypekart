@@ -19,6 +19,7 @@ using NatureArea = Nin.Types.MsSql.NatureArea;
 using NatureAreaType = Nin.Types.MsSql.NatureAreaType;
 using Quality = Nin.Types.MsSql.Quality;
 using NinStandardVariabel = Nin.Types.MsSql.NinStandardVariabel;
+using System.Collections.Generic;
 
 namespace Test.Integration.Nin.DataAccess.MSSql
 {
@@ -228,7 +229,7 @@ namespace Test.Integration.Nin.DataAccess.MSSql
         [Test][Ignore("Database dependent unit test, used only during development.")]
         public void GetMetadatasByNatureAreaLocalIdsTest()
         {
-            var localIds = new Collection<string>
+            var localIds = new List<string>
             {
                 "aaaaaaaa-bbbb-cccc-dddd-100000000001",
                 "aaaaaaaa-bbbb-cccc-dddd-100000000002"
