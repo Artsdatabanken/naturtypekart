@@ -14,8 +14,10 @@ namespace Nin.Common.Map.Geometric.Grids
             var grid = new Grid(rutenettType);
 
             Shapefile shapeFile = Shapefile.OpenFile(shapeFilePath);
-            foreach (var feature in shapeFile.Features)
+            var numFeatures = shapeFile.NumRows();
+            for (var i = 0; i < numFeatures; i++)
             {
+                var feature = shapeFile.GetFeature(i);
                 var cell = new GridCell();
                 cell.CellId = feature.DataRow[0].ToString();
                 var text = new SqlChars(feature.BasicGeometry.ToString());
