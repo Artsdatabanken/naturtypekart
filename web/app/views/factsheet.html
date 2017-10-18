@@ -48,6 +48,15 @@
         <dt>Kartlagt</dt>
         <dd class="date" data-bind="text: natureAreaSurveyed"></dd>
     </dl>
+    <dl class="dl-horizontal" data-bind="foreach: redlistcategories">
+        <dt>Rødlistekategori</dt>
+        <dd data-bind="text: name"></dd>
+        <dt>Tema</dt>
+        <dd data-bind="text: tema"></dd>
+        <dt>Vurderingsenhet</dt>
+        <dd data-bind="text: vurderingsenhet"></dd>
+    </dl>
+
     <hr/>
     <form class="form-horizontal">
         <div data-bind="visible: !updateInProgress()" class="control-group">
@@ -79,6 +88,7 @@
 
         <hr/>
     </div>
+
 
     <div class="row" data-bind="visible: natureAreaDescriptionVariables().length">
         <div class="col-xs-12 col-md-10">
