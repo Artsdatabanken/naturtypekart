@@ -19,6 +19,7 @@
         var vm = {
             natureAreaNatureLevel: ko.observable(),
             natureAreaDescriptionVariables: ko.observableArray(),
+            redlistcategories: ko.observableArray(),
             natureAreaId: ko.observable(),
             natureAreaVersion: ko.observable(),
             natureAreaSurveyed: ko.observable(),
@@ -79,6 +80,7 @@
             natureTypes = [];
             natureTypeShares = [];
 
+            vm.redlistcategories([]);
             vm.natureAreaDescriptionVariables([]);
 
             vm.natureAreaNatureLevel("Naturnivå: " + codelists.natureLevelNames[natureArea.nivå]);
@@ -93,7 +95,7 @@
                     natureTypeShares.push({
                         "value": natureArea.parameters[i].share
                     });
-                } else {
+                } else  {
                     vm.natureAreaDescriptionVariables.push({
                         "codeAndValue": natureArea.parameters[i].codeDescription + " (" + natureArea.parameters[i].code + "), verdi: " + natureArea.parameters[i].value,
                         "description": natureArea.parameters[i].description,
@@ -120,6 +122,15 @@
                         });
                     }
                 }
+            }
+            if (natureArea.rødlisteKategori !== undefined) {
+                vm.redlistcategories.push({
+                    "category":  natureArea.rødlisteKategori.code,
+                    "name": config.categoryNameMapping[natureArea.rødlisteKategori.id],
+                    "vurderingsenhet": natureArea.rødlisteKategori.vurderingsenhet ? natureArea.rødlisteKategori.vurderingsenhet.code : "",
+                    "tema": natureArea.rødlisteKategori.vurderingsenhet ? natureArea.rødlisteKategori.vurderingsenhet.tema.code : "",
+                    "url": "https://www.artsdatabanken.no/rodlistefornaturtyper"
+                });
             }
             vm.natureAreaDescriptionVariables(
                 vm.natureAreaDescriptionVariables().sort(function (a, b) {

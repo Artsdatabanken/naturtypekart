@@ -26,6 +26,14 @@
                                 <span id="natureAreaChart"></span>
                             </div>
                         </div>
+                        <div data-bind="if: redlistcategories().length != 0">
+                            <label class="control-label">Rødlistekategorier:</label>
+                        </div>
+                        <div data-bind="foreach: redlistcategories">
+                            <a class="accordion-toggle" data-bind="text: name, attr: {href: url, target:'_blank', title: 'Info om rødlistede naturtyper'}">
+                            </a> <span data-bind="text: tema"></span> / <span data-bind="text: vurderingsenhet"></span>
+                            <br/>
+                        </div>
                         <div data-bind="if: natureAreaDescriptionVariables().length != 0">
                             <label class="control-label">Beskrivelsesvariabler:</label>
                         </div>
