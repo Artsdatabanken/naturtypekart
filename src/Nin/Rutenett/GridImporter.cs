@@ -2,6 +2,7 @@ using Common.Rutenett;
 using Nin.Common.Map.Geometric.Grids;
 using Nin.Configuration;
 using Nin.Dataleveranser.Rutenett;
+using Raven.Abstractions.Extensions;
 
 namespace Nin.Rutenett
 {
@@ -9,17 +10,24 @@ namespace Nin.Rutenett
     {
         public static Grid ImportGrid(int sourceEpsgCode, RutenettType rutenettType, string fullPath)
         {
-            MapProjection reproject = new MapProjection(Config.Settings.Map.SpatialReferenceSystemIdentifier);
-
             var grid = Grid2.FromShapeFile(fullPath, rutenettType, sourceEpsgCode);
             Grid importGrid = new Grid(rutenettType);
-            foreach (var cell in grid.Cells)
+            if (sourceEpsgCode != Config.Settings.Map.SpatialReferenceSystemIdentifier)
             {
-                if (!reproject.IsInsideBounds(cell.Geometry)) continue; // TODO: What do we do?
+                MapProjection reproject = new MapProjection(Config.Settings.Map.SpatialReferenceSystemIdentifier);
 
-                cell.Geometry = reproject.Reproject(cell.Geometry);
-                importGrid.Cells.Add(cell);
+                foreach (var cell in grid.Cells)
+                {
+                    if (!reproject.IsInsideBounds(cell.Geometry)) continue; // TODO: What do we do?
+
+                    cell.Geometry = reproject.Reproject(cell.Geometry);
+
+                    importGrid.Cells.Add(cell);
+                }
             }
+
+            else importGrid.Cells.AddRange(grid.Cells);
+
             return importGrid;
         }
 
