@@ -19,6 +19,7 @@
         var vm = {
             natureAreaNatureLevel: ko.observable(),
             natureAreaDescriptionVariables: ko.observableArray(),
+            redlistcategories: ko.observableArray(),
             natureAreaId: ko.observable(),
             natureAreaVersion: ko.observable(),
             natureAreaSurveyed: ko.observable(),
@@ -79,6 +80,7 @@
             natureTypes = [];
             natureTypeShares = [];
 
+            vm.redlistcategories([]);
             vm.natureAreaDescriptionVariables([]);
 
             vm.natureAreaNatureLevel("Naturnivå: " + codelists.natureLevelNames[natureArea.nivå]);
@@ -92,6 +94,14 @@
 
                     natureTypeShares.push({
                         "value": natureArea.parameters[i].share
+                    });
+                } else if (natureArea.parameters[i].vurderingsenhet !== undefined) {
+                    vm.redlistcategories.push({
+                        "category":  natureArea.parameters[i].code,
+                        "name": config.categoryNameMapping[natureArea.parameters[i].id],
+                        "vurderingsenhet": natureArea.parameters[i].vurderingsenhet.code,
+                        "tema": natureArea.parameters[i].vurderingsenhet.theme.code,
+                        "url": "https://www.artsdatabanken.no/rodlistefornaturtyper"
                     });
                 } else {
                     vm.natureAreaDescriptionVariables.push({
