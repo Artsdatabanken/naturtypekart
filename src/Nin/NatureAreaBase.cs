@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data.SqlTypes;
 using Microsoft.SqlServer.Types;
 using Newtonsoft.Json;
+using Nin.IO.SqlServer;
 using Nin.Områder;
 using Types;
 
@@ -59,6 +60,8 @@ namespace Nin.Types.RavenDb
 
         public Collection<Document> Documents { get; set; } = new Collection<Document>();
         public Collection<Parameter> Parameters { get; set; } = new Collection<Parameter>();
+
+        public RødlisteKategori RødlisteKategori { get; set; } = new RødlisteKategori{ Id = 7, Code = "LC"};
     }
 
     public class NatureAreaExport : NatureArea
@@ -122,6 +125,8 @@ namespace Nin.Types.MsSql
 
         public Collection<Document> Documents { get; set; } = new Collection<Document>();
         public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public RødlisteKategori RødlisteKategori { get; set; } = new RødlisteKategori { Id = 7, Code = "LC" };
+
 
         public string Institution { get; set; }
 
