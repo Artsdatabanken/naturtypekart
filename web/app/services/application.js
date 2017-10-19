@@ -27,10 +27,10 @@ function (ko, _, conf) {
             var parts = data.split('"');
             var t = {
                 value: parts[1],
-                expires: new Date().getTime() + 30 * 60 * 1000,
+                expires: new Date().getTime() + 60 * 60 * 1000,
                 when: Date.now()
             };
-            ndToken(t);
+            ndToken(t.value);
             window.localStorage.setItem(conf.mapTokenStorageKey, JSON.stringify(t));
             ndWorking = false;
         });
@@ -39,9 +39,10 @@ function (ko, _, conf) {
     var getNdToken = function () {
         var now = Date.now();
         var token = JSON.parse(window.localStorage.getItem(conf.mapTokenStorageKey));
-        //console.debug("token.expires:" + token.expires);
-        console.log(new Date(now + 10 * 60 * 1000));
-        if (token != undefined && token != null){
+        if (token){
+            ndToken(token.value);
+            console.debug("token.expires:" + token.expires);
+            console.log(new Date(now + 10 * 60 * 1000));
             if (token.value && token.expires && token.expires > (now + 10 * 60 * 1000)) {
                 console.log("% Valid token loaded from localstorage: " + JSON.stringify(token));
                 return token;
@@ -53,19 +54,16 @@ function (ko, _, conf) {
         }
         return false; // Return false, because the value will be recomputed when the ajax call is done anyway.
     };
-
-    var ndTokenValue = ko.computed(function () {
-        var token = ndToken(), now = Date.now();
+    var initToken = ko.computed(function () {
+        var token = getNdToken(), now = Date.now();
         console.debug("check if we need fetching token. Token:" + token);
-        if ((token == undefined || token == null) || !token.value && token.expires && token.expires < (now + 10 * 60 * 1000)) {
+        if (!token || !token.value || (token.expires && token.expires < (now + 10 * 60 * 1000))) {
             console.debug("fetching token");
             requestNdToken();
-//            ndToken(token);
         }
         // if(!token) console.error("No valid token");
-        return token != undefined ? token.value : "";
+        return token ? token.value : "";
     });
-    getNdToken();
 
     var currentFeature = function (data, metadata) {
         currFeature.data = data;
@@ -295,7 +293,7 @@ function (ko, _, conf) {
     vm = {
         rebuildTree: ko.observable(false),
         bookmarks: ko.observableArray([]),
-        ndToken: ndTokenValue,
+        ndToken: ndToken,//Value,
 
         setFooterWarning: setFooterWarning,
         footerWarning: footerWarning,

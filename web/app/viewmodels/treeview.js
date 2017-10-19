@@ -303,6 +303,7 @@
                                             function makeRootNode(text, type, url, count) {
                                                 return {
                                                     text: text,
+                                                    title: text,
                                                     selectable: false,
                                                     href: url || "javascript:void(0);",
                                                     state: {
@@ -315,8 +316,10 @@
                                             }
 
                                             function makeNode(text, type, key, url, count) {
+                                                //var maxlength = 17;
                                                 var subnode = {
-                                                    text: text,
+                                                    text: text, //text.length > maxlength ? text.substring(0, maxlength - 1) + '...' : text,
+                                                    title: text,
                                                     selectable: false,
                                                     href: url,
                                                     tags: [count],
