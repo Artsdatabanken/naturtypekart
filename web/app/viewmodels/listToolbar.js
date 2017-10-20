@@ -38,7 +38,6 @@
                 vm.showSpinner(true);
                 dataServices.exportNatureAreasAsXlsxBySearchFilter(application.filter);
             },
-            toggleFullscreen: shell.toggleFullscreen,
 
             bookmarks: application.bookmarks,
 

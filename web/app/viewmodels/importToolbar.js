@@ -4,7 +4,6 @@
 
         var vm = {
             title: "Import toolbar",
-            toggleFullscreen: shell.toggleFullscreen
         };
 
         return vm;
