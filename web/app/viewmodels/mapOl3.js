@@ -79,6 +79,7 @@
                 var gridStyleCache = {};
                 var gridStyleFunc = function(feature, resolution) {
                     var val = feature.getProperties().value;
+                    val = val.replace(',','.');
                     var rgb = colorScale ? d3.rgb(colorScale(val)) : { r: 255, g: 255, b: 255 };
                     //console.debug(val + " - " + rgb);
                     var gridStyle = gridStyleCache[val]; // get from cache if it has already been created

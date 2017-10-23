@@ -308,5 +308,10 @@
             }
         });
 
+        application.viewportStateChanged.subscribe(function (value) {
+            vm.currentBaseLayer(value.background());
+            $('#basisLayerSelect').multiselect('select', value.background());
+        });
+
         return vm;
     });
