@@ -261,7 +261,7 @@
                             Municipalities: application.filter.Municipalities,
                             Counties: application.filter.Counties,
                             Geometry: application.filter.Geometry,
-                            BoundingBox: (vpi.zoom >= application.config.gridBoundingBoxLimit) ? vm.boundsToWkt(vpi.bounds) : "", // Add bounding box to filter if zoom > a limit
+                            BoundingBox: vm.boundsToWkt(vpi.bounds),
                             EpsgCode: application.filter.EpsgCode,
                             GridLayerTypeId: application.grid.GridLayerTypeId
                         };
