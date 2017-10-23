@@ -67,49 +67,49 @@
                                 vm.hasId(true);
                             }
 
-                            vm.code(node.Code);
-                            vm.codeDescription(node.CodeDescription);
+                            vm.code(node.code);
+                            vm.codeDescription(node.codeDescription);
 
-                            vm.codeUrl(node.CodeUrl);
+                            vm.codeUrl(node.codeUrl);
 
-                            if (node.CodeUrl !== null) {
+                            if (node.codeUrl !== null) {
                                 vm.hasCodeUrl(true);
                             }
 
-                            vm.minValue(node.MinValue);
-                            vm.maxValue(node.MaxValue);
+                            vm.minValue(node.minValue);
+                            vm.maxValue(node.maxValue);
 
-                            vm.name(node.Name);
+                            vm.name(node.name);
 
-                            vm.description(node.Description);
+                            vm.description(node.description);
 
-                            vm.gridOwnerCompany(node.Owner.Company);
-                            vm.gridOwnerContactPerson(node.Owner.ContactPerson);
-                            vm.gridOwnerEmail(node.Owner.Email);
-                            vm.gridOwnerPhone(node.Owner.Phone);
+                            vm.gridOwnerCompany(node.owner.company);
+                            vm.gridOwnerContactPerson(node.owner.contactPerson);
+                            vm.gridOwnerEmail(node.owner.email);
+                            vm.gridOwnerPhone(node.owner.phone);
 
                             vm.gridDocuments([]);
-                            for (var i = 0; i < node.Documents.length; ++i) {
+                            for (var i = 0; i < node.documents.length; ++i) {
 
                                 var title;
-                                if (node.Documents[i].Title) title = node.Documents[i].Title;
-                                else title = node.Documents[i].FileName;
+                                if (node.documents[i].title) title = node.documents[i].title;
+                                else title = node.documents[i].fileName;
 
                                 var tooltip = "";
-                                if (node.Documents[i].Description) tooltip = node.Documents[i].Description;
+                                if (node.documents[i].description) tooltip = node.documents[i].description;
 
                                 var document = {
                                     "title": title,
-                                    "url": config.dataDeliveryApiUrl + 'DownloadDocument/' + node.Documents[i].Guid,
+                                    "url": config.dataDeliveryApiUrl + 'DownloadDocument/' + node.documents[i].guid,
                                     "tooltip": tooltip,
-                                    "filename": node.Documents[i].FileName,
-                                    "newWindow": openInNewWindow(findFileExtension(node.Documents[i].FileName))
+                                    "filename": node.documents[i].fileName,
+                                    "newWindow": openInNewWindow(findFileExtension(node.documents[i].fileName))
                                 };
 
                                 vm.gridDocuments.push(document);
                             }
 
-                            vm.docGuid(node.DocGuid);
+                            vm.docGuid(node.docGuid);
                         }
                     });
                 }
