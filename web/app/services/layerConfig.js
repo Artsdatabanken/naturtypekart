@@ -100,6 +100,7 @@
 
         var greyMap = new ol.layer.Tile({
             opacity: 1,
+            extent: [-2500000, 3500000, 3045984, 9045984],
             source: new ol.source.WMTS({
                 url: baatUrl,
                 layer: 'topo2graatone',
@@ -119,6 +120,7 @@
 
         var topo2 = new ol.layer.Tile({
             opacity: 1,
+            extent: [-2500000, 3500000, 3045984, 9045984],
             source: new ol.source.WMTS({
                 url: baatUrl,
                 layer: 'topo2',
@@ -138,6 +140,7 @@
 
         var sjokart = new ol.layer.Tile({
             opacity: 1,
+            extent: [-2500000, 3500000, 3045984, 9045984],
             source: new ol.source.WMTS({
                 url: baatUrl,
                 layer: 'sjokartraster',
@@ -157,6 +160,7 @@
 
         var europa = new ol.layer.Tile({
             opacity: 1,
+            extent: [-2500000, 3500000, 3045984, 9045984],
             source: new ol.source.WMTS({
                 url: baatUrl,
                 layer: 'egk',
@@ -214,6 +218,7 @@
 
         var terreng = new ol.layer.Tile({
             opacity: 1,
+            extent: [-2500000, 3500000, 3045984, 9045984],
             source: new ol.source.WMTS({
                 url: baatUrl,
                 layer: 'terreng_norgeskart',
@@ -264,6 +269,7 @@
         var nibUrl = '//gatekeeper{1-3}.geonorge.no/BaatGatekeeper/gk/gk.nib_utm33_wmts_v2?GKT=';
         var nibWmts =new ol.layer.Tile({
             opacity: 1,
+            extent: [-2500000, 3500000, 3045984, 9045984],
             source: new ol.source.WMTS({
                 url: nibUrl,
                 layer: 'Nibcache_UTM33_EUREF89_v2',
@@ -292,6 +298,7 @@
         var svalbardUrl = "//geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_25833/MapServer/WMTS?";
         var svalbard = new ol.layer.Tile({
             opacity: 1,
+            extent: [368000, 8240000, 875000, 9045984],
             source: new ol.source.WMTS({
                 url: svalbardUrl,
                 layer: 'Basisdata_NP_Basiskart_Svalbard_WMTS_25833',
