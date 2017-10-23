@@ -5,11 +5,12 @@ require.config({
     paths: {
         'text': '../bower_components/requirejs-text/text',
         'durandal': '../bower_components/durandal/js',
+		'd3': '../node_modules/d3/d3',
         'plugins': '../bower_components/durandal/js/plugins',
         'transitions': '../bower_components/durandal/js/transitions',
         "lodash": '../bower_components/lodash/lodash',
-        "bootstrap-treeview": "../bower_components/bootstrap-treeview/src/js/bootstrap-treeview",
-        "d3": "../node_modules/d3/d3"
+        "bootstrap-treeview": "../bower_components/bootstrap-treeview/src/js/bootstrap-treeview"
+        
     }
 });
 
@@ -28,7 +29,7 @@ require(['durandal/app', 'durandal/viewLocator', 'durandal/system'],
         // Enable debug message to show in the console 
         system.debug(true);
 
-        app.title = 'xNaturtyper i Norge';
+        app.title = 'Naturtyper i Norge';
 
         app.configurePlugins({
             router: true,

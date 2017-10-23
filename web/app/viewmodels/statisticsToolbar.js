@@ -9,7 +9,6 @@
             activate: function() {
                 application.initBookmarks();
             },
-            toggleFullscreen: shell.toggleFullscreen,
             bookmarks: application.bookmarks,
             showAbout: application.showAbout,
             openBookmarks: ko.observable(false),

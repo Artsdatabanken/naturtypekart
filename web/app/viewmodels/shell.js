@@ -6,7 +6,6 @@
             resizePollingTimeout = 1750,
             toggleleftmenu = null,
             viewleftmenu = null,
-            toggleFullscreen = null,
             viewnormal = null,
             init = function() {
                 var prevSize = { width: -1, height: -1 },
@@ -72,14 +71,7 @@
                         showleftmenu();
                     }
                 };
-                toggleFullscreen = function() {
-                    dom.toggleClass("viewport", "l-mainfullscreen");
-                    mainResized(true);
-                    app.trigger('app:toggleFullscreen', '');
-
-                };
                 dom.addEvent(window, "resize", mainResized);
-                //dom.addEvent(dom.getElement("main"), "click", toggleFullscreen);
                 window.setInterval(mainResized, resizePollingTimeout);
                 mainResized();
                 showleftmenu();
@@ -100,13 +92,7 @@
                     if (viewnormal) {
                         viewnormal();
                     }
-                },
-                toggleFullscreen: function () {
-                    if (toggleFullscreen) {
-                        toggleFullscreen();
-                    }
                 }
-
     };
 
         return module;

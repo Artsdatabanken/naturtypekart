@@ -230,7 +230,6 @@
                     application.bookmarks.remove(this);
                     window.localStorage.setItem(application.config.bookmarkLocalStorageKey, JSON.stringify(application.bookmarks()));
                 },
-                toggleFullscreen: shell.toggleFullscreen,
                 //toggle3d: function () {
                 //    var ol3D = new olcs.OLCesium({ map: map.map });
                 //    var scene = ol3D.getCesiumScene();

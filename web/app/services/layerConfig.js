@@ -388,6 +388,10 @@
 
         // WMS-layers end
 
+        // WFS layers, stedsnavn:
+        //http://wfs.geonorge.no/skwms1/wfs.stedsnavn50?request=GetCapabilities&service=WFS
+
+
         // var openCycleMapLayer = new ol.layer.Tile({
         //     source: new ol.source.OSM({
         //         attributions: [

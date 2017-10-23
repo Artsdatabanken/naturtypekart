@@ -45,7 +45,6 @@
             attached: attached,
             title: title,
             mainviewSize: mainviewSize,
-            toggleFullscreen: shell.toggleFullscreen,
             toggleleftmenu: shell.toggleleftmenu,
             toolbar: toolbar,
             activeView: nav.activeView,
