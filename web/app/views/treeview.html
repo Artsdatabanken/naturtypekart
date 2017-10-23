@@ -58,8 +58,8 @@
 
         <div class="panel-heading" role="tab" id="headingTwo">
             <p class="panel-title">
-                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" title="Tematisk (faglig) avgrensning av naturområdene utifra typer og variable">
-                    Naturområder
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" data-bind="attr: {title: res().natureAreaTooltip}">
+                    <span data-bind="text: res().natureAreaTitle"></span>
                 </a>
                 <span data-bind="visible: hasNodesSelected, click: clearCheckedNodes" class="accordionIcon pull-right glyphicon glyphicon-remove" title="Nullstill gjeldene naturområde-filter"></span>
             </p>
@@ -88,8 +88,8 @@
     <div data-bind="visible: isNotHideMenuView" class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingSource">
             <p class="panel-title">
-                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSource" aria-expanded="false" aria-controls="collapseSource" title="Filtrer på datakilde">
-                    Datakilde
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSource" aria-expanded="false" aria-controls="collapseSource" data-bind="attr: {title: res().dataSourceTooltip}">
+                    <span data-bind="text: res().dataSourceTitle"></span>
                 </a>
                 <span data-bind="visible: hasSourceFilter, click: clearSourceFilter" class="accordionIcon pull-right glyphicon glyphicon-remove" title="Fjern aktivt filter på datakilde"></span>
             </p>
@@ -115,8 +115,8 @@
     <div data-bind="visible: isMapView" class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingGrid">
             <p class="panel-title">
-                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseGrid" aria-expanded="false" aria-controls="collapseGrid" title="Vis tilgjengelige miljøvariabelkart">
-                    Miljøvariabelkart
+                <a class="accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseGrid" aria-expanded="false" aria-controls="collapseGrid" data-bind="attr: {title: res().dataSourceTooltip}">
+                    <span data-bind="text: res().environmentVariableTitle"></span>
                 </a>
                 <span data-bind="visible: hasGrid, click: clearGrid" class="accordionIcon pull-right glyphicon glyphicon-remove" title="Fjern aktivt miljøvariabelkart"></span>
             </p>

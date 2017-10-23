@@ -41,8 +41,8 @@
             loadCenterPointLimit: 14, // todo: denne passer fint for naturområder
             //loadCenterPointLimit: 10,   // todo: denne er midlertidig siden landskapstyper brukes som naturområder, og passer bedre når polygonene er større
             // Add bounding box to filter if zoom > useBoundingBoxLimit
-            gridBoundingBoxLimit: 9,
-            useBoundingBoxLimit: 9,
+            gridBoundingBoxLimit: 8,
+            useBoundingBoxLimit: 8,
 
             routeInfo: [
                 { id: 'map', name: "routeMapName", title: "routeMapTitle", moduleId: 'viewmodels/mapOl3', visible: true },
