@@ -225,15 +225,15 @@
                 .then(function (data) {
                     function buildGridTreeNodes(node, list, key, type, tag) {
                         node.nodes = [];
-                        _.each(list[key].GridLayers,
+                        _.each(list[key].gridLayers,
                             function (value, key, list) {
                                 var subnode = {
-                                    text: value.Name,
+                                    text: value.name,
                                     tags: [tag],
                                     type: type,
-                                    code: value.Id,
-                                    min: value.MinValue,
-                                    max: value.MaxValue,
+                                    code: value.id,
+                                    min: value.minValue,
+                                    max: value.maxValue,
                                     node: value
                                 };
                                 node.nodes.push(subnode);
@@ -254,7 +254,7 @@
                                 code: "0"
 
                             };
-                            if (!$.isEmptyObject(list[key].GridLayers)) {
+                            if (!$.isEmptyObject(list[key].gridLayers)) {
                                 buildGridTreeNodes(grid, list, key, value.gridType, tag);
                             }
                             tree.push(grid);
