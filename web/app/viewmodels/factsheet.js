@@ -43,6 +43,7 @@
 
             natureAreaNatureLevel: ko.observable(),
             natureAreaDescriptionVariables: ko.observableArray(),
+            redlistcategories: ko.observableArray(),
             natureAreaId: ko.observable(),
             natureAreaVersion: ko.observable(),
             natureAreaSurveyed: ko.observable(),
@@ -226,6 +227,7 @@
             natureTypeShares = [];
 
             vm.natureAreaDescriptionVariables([]);
+            vm.redlistcategories([]);
             vm.natureAreaKommuner([]);
             vm.natureAreaFylker([]);
             vm.natureAreaConservationAreas([]);
@@ -305,6 +307,15 @@
                         });
                     }
                 }
+            }
+            if (natureArea.rødlisteKategori !== undefined) {
+                vm.redlistcategories.push({
+                    "category":  natureArea.rødlisteKategori.code,
+                    "name": config.categoryNameMapping[natureArea.rødlisteKategori.id],
+                    "vurderingsenhet": natureArea.rødlisteKategori.vurderingsenhet ? natureArea.rødlisteKategori.vurderingsenhet.code : "",
+                    "tema": natureArea.rødlisteKategori.vurderingsenhet ? natureArea.rødlisteKategori.vurderingsenhet.tema.code : "",
+                    "url": "https://www.artsdatabanken.no/rodlistefornaturtyper"
+                });
             }
             var areaObj;
             if (natureArea.areas !== undefined) {

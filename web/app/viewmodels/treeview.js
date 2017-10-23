@@ -182,7 +182,6 @@
 
                     $('#btn-checked').on('click', vm.showCheckedNodes);
                     $('#btn-collapse').on('click', vm.collapseNodes);
-                    $('#btn-reset').on('click', vm.clearCheckedNodes);
                 }
             };
         vm.buildSourceTree = function (filter) {
@@ -303,6 +302,7 @@
                                             function makeRootNode(text, type, url, count) {
                                                 return {
                                                     text: text,
+                                                    title: text,
                                                     selectable: false,
                                                     href: url || "javascript:void(0);",
                                                     state: {
@@ -315,8 +315,10 @@
                                             }
 
                                             function makeNode(text, type, key, url, count) {
+                                                //var maxlength = 17;
                                                 var subnode = {
-                                                    text: text,
+                                                    text: text, //text.length > maxlength ? text.substring(0, maxlength - 1) + '...' : text,
+                                                    title: text,
                                                     selectable: false,
                                                     href: url,
                                                     tags: [count],
@@ -740,12 +742,18 @@
             vm.hiddenFilterOptions(false);
         };
 
+        vm.toggleShowChecked = ko.observable(true);
         vm.showCheckedNodes = function () {
-            $summarytree.treeview('expandAll', {silent: true});
-            $('#summarytree li.hide').removeClass('hide');
-            $('#summarytree li').not('.node-checked').addClass('hide');
+            if (vm.toggleShowChecked()) {
+                $summarytree.treeview('expandAll', {silent: true});
+                $('#summarytree li.hide').removeClass('hide');
+                $('#summarytree li').not('.node-checked').addClass('hide');
 
-            vm.hiddenFilterOptions(vm.hasNodesSelected() && ($('#summarytree li').not('.hide').length === 0));
+                vm.hiddenFilterOptions(vm.hasNodesSelected() && ($('#summarytree li').not('.hide').length === 0));
+            } else {
+                vm.collapseNodes();
+            }
+            vm.toggleShowChecked(!vm.toggleShowChecked());
         };
         vm.selectedConservationArea.subscribe(function (value) {
             if (value) {

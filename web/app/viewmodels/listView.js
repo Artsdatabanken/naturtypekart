@@ -314,12 +314,6 @@
                 .then(function() {
                     storePopup();
                 });
-            app.on('app:toggleFullscreen')
-                .then(function() {
-                    if (nav.activeView() === 'list') {
-                        storePopup();
-                    }
-                });
         };
         return vm;
     });

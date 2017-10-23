@@ -6359,7 +6359,7 @@ fieldset[disabled] .menubar-default .btn-link:focus {
   display: none;
   min-width: 160px;
   _width: 160px;
-  padding: 4px 0;
+  padding: 4px;
   margin: 2px 0 0 0;
   list-style: none;
   background-color: #ffffff;
@@ -6378,6 +6378,7 @@ fieldset[disabled] .menubar-default .btn-link:focus {
   background-clip: padding-box;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
+  cursor: pointer;
 }
 .ui-autocomplete .ui-menu-item > a.ui-corner-all {
   display: block;

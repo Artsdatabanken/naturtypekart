@@ -4,7 +4,6 @@
 
         var vm = {
             title: "Fact sheet toolbar",
-            toggleFullscreen: shell.toggleFullscreen,
             historyList: ko.observableArray([]),
             localId: ko.observable(),
             getHistory: function() {
