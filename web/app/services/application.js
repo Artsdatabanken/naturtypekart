@@ -1,5 +1,5 @@
-﻿define(['knockout', 'lodash', 'services/config'],
-function (ko, _, conf) {
+﻿define(['knockout', 'lodash', 'services/config', 'durandal/app'],
+function (ko, _, conf, app) {
     "use strict";
 
     var currFeature =

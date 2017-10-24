@@ -464,7 +464,7 @@ define(["knockout", 'durandal/app'],
                 olRotateReset: "Reset rotation",
                 // leftpanel.html
                 mainUrl: "//www.biodiversity.no/",
-                mainTitle: "NiN - Nature in Norway",
+                mainTitle: "NiN-map beta",
                 notificationsTooltip: "Antall nye nyhetssaker siste 14 dager er ",
                 tabAboutTitle: "About",
                 tabSearchTitle: "Search",
