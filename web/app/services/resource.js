@@ -164,7 +164,7 @@ define(["knockout", 'durandal/app'],
                 olRotateReset: "Tilbakestill rotasjon",
                 // leftpanel.html
                 mainUrl: "http://www.artsdatabanken.no",
-                mainTitle: "NiN - Naturtyper i Norge",
+                mainTitle: "NiN-kart beta",
                 notificationsTooltip: "Antall nye nyhetssaker siste 14 dager er ",
                 tabAboutTitle: "Om",
                 tabSearchTitle: "Søk",
