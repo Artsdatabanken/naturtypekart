@@ -62,7 +62,8 @@ namespace Nin.IO.SqlServer
             int infoLevel,
             int fromRow,
             int toRow,
-            out int natureAreaCount)
+            out int natureAreaCount,
+            int overrideKommuneGroupingThreshold = 1000)
         {
             IList<INatureAreaGeoJson> natureAreas = new List<INatureAreaGeoJson>();
 
@@ -95,28 +96,39 @@ namespace Nin.IO.SqlServer
             var dataTemplate = builder.AddTemplate(dataTemplateStr);
             var countTemplate = builder.AddTemplate("SELECT COUNT(*) FROM Naturområde na /**join**/ /**where**/ /**groupby**/");
 
-            bool groupByKommuner = centerPoints && string.IsNullOrWhiteSpace(boundingBox) && infoLevel == 0;
-
-            if (groupByKommuner)
-            {
-                builder.Select("o.id AS Id, COUNT(*) AS Count");
-                builder.Join("OmrådeLink ol ON na.id = ol.naturområde_id");
-                builder.Join("Område o ON o.id = ol.geometri_id AND o.geometriType_id = 1");
-                builder.GroupBy("o.id");
-                builder.OrderBy("o.id");
-            }
-            else
-            {
-                builder.Select("na.id AS Id, na.localId AS LocalId, " + (centerPoints ? "na.geometriSenterpunkt" : "na.geometri") + " AS Geometry");
-                builder.OrderBy("na.id");
-            }
-
-            string sql = dataTemplate.RawSql;
-            var parameters = dataTemplate.Parameters;
-
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
+
+                bool groupByKommuner = centerPoints && string.IsNullOrWhiteSpace(boundingBox) && infoLevel == 0;
+
+                if (groupByKommuner)
+                {
+                    int totalCount = conn.ExecuteScalar<int>(countTemplate.RawSql, countTemplate.Parameters);
+
+                    if (totalCount <= overrideKommuneGroupingThreshold)
+                    {
+                        groupByKommuner = false;
+                    }
+                }
+
+                if (groupByKommuner)
+                {
+                    builder.Select("o.id AS Id, COUNT(*) AS Count");
+                    builder.Join("OmrådeLink ol ON na.id = ol.naturområde_id");
+                    builder.Join("Område o ON o.id = ol.geometri_id AND o.geometriType_id = 1");
+                    builder.GroupBy("o.id");
+                    builder.OrderBy("o.id");
+                }
+                else
+                {
+                    builder.Select("na.id AS Id, na.localId AS LocalId, " + (centerPoints ? "na.geometriSenterpunkt" : "na.geometri") + " AS Geometry");
+                    builder.OrderBy("na.id");
+                }
+
+                string sql = dataTemplate.RawSql;
+                var parameters = dataTemplate.Parameters;
+
                 if (infoLevel == 0)
                 {
                     if (groupByKommuner)
