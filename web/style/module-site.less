@@ -26,6 +26,9 @@
     background-image: url('images/logoer/Artdb_logo_glitters.gif');    
 }
 
+.info-button {
+    display: none; /* Gjem info-knappen inntil videre, har ikke noe å vise..*/
+}
 
 @media screen and (max-width: 481px) {
     .go-to-position-button {
@@ -506,7 +509,7 @@ ol.selectedOptions li:hover {
     display: none !important;
 }
 
-@icons: baselayers, bookmark, check, forward, info, link, listIcon, mail, mapIcon, menu, paperclip, picture, point, polygon, refresh, remove, repeat, rewind, search, statisticsIcon, target, warning, point, fullscreen, importIcon, print, folder_open;
+@icons: baselayers, bookmark, check, forward, info, link, listIcon, mail, mapIcon, menu, picture, point, polygon, refresh, remove, repeat, rewind, search, statisticsIcon, target, warning, point, fullscreen, importIcon, print, folder_open, factsheetIcon;
 .iconize();
 .iconize(@i: length(@icons)) when (@i > 0) {
     .iconize((@i - 1));

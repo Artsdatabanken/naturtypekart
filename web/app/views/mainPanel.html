@@ -1,9 +1,13 @@
 ﻿<div class="l-fillparent">
     <nav class="menubar menubar-default  menubar-static-top" role="navigation">
+      
 
-        <button title="Veksle meny" type="button" data-bind="click: toggleleftmenu" class="pull-left glyphicon glyphicon-tasks small-screen-only" style="padding: 0; height: 36px; margin-right: 5px"></button>
-
-
+        <div class="toggle-full-bar" 
+             data-bind="click: toggleleftmenu, attr: {title: res().toggleLeftMenuButtonTitle}" >
+            <span id="toggleLeftMenuButton" data-bind="attr: {title: res().toggleLeftMenuButtonTitle}"
+                    class="pull-left glyphicon glyphicon-menu-left small-screen-only "
+                    style="padding: 0; height: 36px; margin-right: 5px; position: absolute"></span>
+        </div>
         <div class="dropdown pull-left mainSelectButton" data-bind="attr: {title: res().mainDropdownTitle}">
             <a href="#" class="btn btn-default icon-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 <div data-bind="attr: { 'class': ('icon-' + activeNavTab().classname + '-sm btn-icon') }"></div>
