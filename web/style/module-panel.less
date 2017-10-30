@@ -1,4 +1,5 @@
-﻿@toolbar-height: 50px;
+﻿@footer-height: 42px;
+@toolbar-height: 50px;
 @sidebar-menu-height: 50px; // tool-tabs menu
 
 
@@ -33,7 +34,6 @@
     height: @toolbar-height;
     width: 100%;
     overflow: hidden;
-    /*background-color: lightgray;*/
 }
 
 .l-panelcontent {
@@ -42,7 +42,18 @@
     width: 100%;
     position:absolute;
     overflow-x: hidden;
-    //height: 100%;
+    padding-left: 12px;
+
+    /*height: 100%;*/
+}
+
+.l-panelfooter {
+    bottom: 0;
+    height: @footer-height;
+    width: 100%;
+    /*overflow: hidden;*/
+    background-color: white;
+    position: absolute;
 }
 
 .l-vscroll {

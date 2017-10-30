@@ -5885,7 +5885,7 @@ body {
   overflow: hidden;
   width: 100%;
   top: 0px;
-  bottom: 0px;
+  bottom: 42px;
   left: -320px;
   padding-left: 320px;
   /*padding-left: 0;*/
@@ -5907,7 +5907,7 @@ body {
 }
 #footer {
   bottom: 0;
-  height: 0px;
+  height: 42px;
 }
 #leftpanel,
 #main {
@@ -6223,7 +6223,6 @@ fieldset[disabled] .menubar-default .btn-link:focus {
   height: 50px;
   width: 100%;
   overflow: hidden;
-  /*background-color: lightgray;*/
 }
 .l-panelcontent {
   top: 50px;
@@ -6231,6 +6230,16 @@ fieldset[disabled] .menubar-default .btn-link:focus {
   width: 100%;
   position: absolute;
   overflow-x: hidden;
+  padding-left: 12px;
+  /*height: 100%;*/
+}
+.l-panelfooter {
+  bottom: 0;
+  height: 42px;
+  width: 100%;
+  /*overflow: hidden;*/
+  background-color: white;
+  position: absolute;
 }
 .l-vscroll {
   overflow-y: auto;
@@ -6240,10 +6249,11 @@ fieldset[disabled] .menubar-default .btn-link:focus {
   padding-right: 0 !important;
 }
 #map {
-  background-color: honeydew;
+  background-color: #F6F6F6;
   overflow: hidden;
   height: 100%;
   width: 100%;
+  padding-left: 12px;
 }
 .polygonIcon {
   background: url("images/Spriteliste-polygon.png") top left no-repeat;
@@ -6449,6 +6459,10 @@ img.desaturate:hover {
 }
 .artsdatabank-logo-on-map:hover {
   background-image: url('images/logoer/Artdb_logo_glitters.gif');
+}
+.info-button {
+  display: none;
+  /* Gjem info-knappen inntil videre, har ikke noe å vise..*/
 }
 @media screen and (max-width: 481px) {
   .go-to-position-button {
@@ -7212,38 +7226,6 @@ ol.selectedOptions li:hover {
   padding: 10px;
   background-size: 100%;
 }
-.icon-paperclip-lg {
-  background: url("ikoner/paperclip_brown.png") top left no-repeat;
-  padding: 20px;
-  background-size: 100%;
-}
-.icon-paperclip-sm {
-  background: url("ikoner/paperclip_brown.png") top left no-repeat;
-  padding: 16.5px;
-  background-size: 100%;
-}
-.icon-paperclip-sm:hover {
-  background: url("ikoner/paperclip_white.png") top left no-repeat;
-  padding: 16.5px;
-  background-size: 100%;
-  background-color: #de8608;
-}
-.icon-paperclip-sm:focus,
-.icon-paperclip-sm:active {
-  background: url("ikoner/paperclip_orange.png") top left no-repeat;
-  padding: 16.5px;
-  background-size: 100%;
-}
-.icon-paperclip-xs {
-  background: url("ikoner/paperclip_brown.png") top left no-repeat;
-  padding: 10px;
-  background-size: 100%;
-}
-.icon-paperclip-xs:hover {
-  background: url("ikoner/paperclip_orange.png") top left no-repeat;
-  padding: 10px;
-  background-size: 100%;
-}
 .icon-picture-lg {
   background: url("ikoner/picture_brown.png") top left no-repeat;
   padding: 20px;
@@ -7756,6 +7738,38 @@ ol.selectedOptions li:hover {
   padding: 10px;
   background-size: 100%;
 }
+.icon-factsheetIcon-lg {
+  background: url("ikoner/factsheetIcon_brown.png") top left no-repeat;
+  padding: 20px;
+  background-size: 100%;
+}
+.icon-factsheetIcon-sm {
+  background: url("ikoner/factsheetIcon_brown.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-factsheetIcon-sm:hover {
+  background: url("ikoner/factsheetIcon_white.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+  background-color: #de8608;
+}
+.icon-factsheetIcon-sm:focus,
+.icon-factsheetIcon-sm:active {
+  background: url("ikoner/factsheetIcon_orange.png") top left no-repeat;
+  padding: 16.5px;
+  background-size: 100%;
+}
+.icon-factsheetIcon-xs {
+  background: url("ikoner/factsheetIcon_brown.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
+.icon-factsheetIcon-xs:hover {
+  background: url("ikoner/factsheetIcon_orange.png") top left no-repeat;
+  padding: 10px;
+  background-size: 100%;
+}
 .clearfix:after,
 .dl-horizontal dd:after,
 .container:after,
@@ -7806,6 +7820,13 @@ ol.selectedOptions li:hover {
 }
 .ol-rotate {
   top: 3em !important;
+}
+.node-summarytree {
+  height: 50px;
+  border: none;
+}
+.check-icon + a {
+  position: absolute;
 }
 .dummy {
   background-color: aqua;
